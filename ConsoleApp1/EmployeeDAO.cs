@@ -13,15 +13,30 @@ namespace ConsoleApp1
     class EmployeeDAO
     {
         public List<Employee> GetAllEmployees()
-        {
-            //SqlConnection con = new SqlConnection(Properties.Settings.Default.connectionStr);
-            ////////////////////////////////////
-            ConnectionStringSettingsCollection list = ConfigurationManager.ConnectionStrings;
-
+        {            
             ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["myConnectionString"];
-            Console.WriteLine("The connection strings value is : "+ list);
-            using IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString);
-            return db.Query<Employee> ("Select * From Employee").ToList();
+            using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString);
+            return conn.Query<Employee> ("Select * From Employee").ToList();
+        }
+
+        public Employee GetEmployee(string uid)
+        {
+            string sql = "SELECT * FROM Employee WHERE UID = @EmployeeUID; SELECT * FROM EmployeeReview WHERE EmployeeUID = @EmployeeUID ;";
+
+            using (var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString))
+            {
+                connection.Open();
+
+                using (var multi = connection.QueryMultiple(sql, new { EmployeeUID = uid }))
+                {
+                    var employee = multi.Read<Employee>().First();
+                    var employeeReviews = multi.Read<EmployeeReview>().ToList();
+
+                    employee.Reviews = employeeReviews;
+                    return employee;
+                }
+            }
+            //return null;
         }
     }
 }
