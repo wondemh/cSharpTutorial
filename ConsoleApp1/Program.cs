@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Models;
 
 namespace ConsoleApp1
@@ -25,19 +26,30 @@ namespace ConsoleApp1
             //Employee emp = employeeDAO.GetEmployee("4063349E-EB0C-4702-919C-EE63B8C5609D");
             //Console.WriteLine($"Employee is {emp}");
 
-            //WLRCensusReportBuilder builder = new WLRCensusReportBuilder();
-            //builder.buildWorksheet();
+            WLRCensusReportService builder = new WLRCensusReportService();
+            builder.buildWorksheet(4, DateTime.Parse("Oct 1, 2019"), DateTime.Parse("Dec 31, 2019"), "CO");
 
-            Location location = new WLRCensusDAO().GetLocation(4);
-            Console.WriteLine($"Location is {location}");
+            //Location location = new WLRCensusDAO().GetLocation(4);
+            //Console.WriteLine($"Location is {location}");
 
-            //AND B.CensusDate BETWEEN '2018-12-01' AND '2019-12-01'
-            //AND D.FacilityType = 'CO'
-            //AND D.Location = 4
-            DateTime startDate = DateTime.Parse("Jan 1, 2018");
-            DateTime endDate = DateTime.Parse("Dec 31, 2019");
-            List<WLRCensusRecord> list = new WLRCensusDAO().GetWLRCensusRecords(4, startDate, endDate, "CO");
-            Console.WriteLine($"Found {list.Count} records");
+            //DateTime startDate = DateTime.Parse("Oct 1, 2019");
+            //DateTime endDate = DateTime.Parse("Dec 31, 2019");
+            //List<WLRCensusRecord> list = new WLRCensusDAO().GetWLRCensusRecords(4, startDate, endDate, "CO");
+            //Console.WriteLine($"Found {list.Count} records");
+
+            //var recordsGroupedByPayorType = list.GroupBy(record => record.PayorType);
+            //foreach (var group in recordsGroupedByPayorType)
+            //{
+            //    Console.WriteLine("Records with Payor Type: " + group.Key + ":");
+            //    var recordsGroupedByAdmissionStatus = group.GroupBy(item => item.AdmissionStatus);
+            //    foreach (var group2 in recordsGroupedByAdmissionStatus)
+            //    {
+            //        Console.WriteLine("Records with Admission Status: " + group2.Key + ":");
+            //        foreach (var record in group2)
+            //            Console.WriteLine("* " + record.FirstName + " " + record.LastName);
+            //    }
+            //}
+
 
         }
     }
