@@ -52,6 +52,16 @@ namespace Models
         }
     }
 
+    public class AdmissionStatusRecord
+    {
+        public int Location { get; set; }
+        public string FacilityType { get; set; }
+        public string AdmissionStatus { get; set; }
+        public string AdmitCode { get; set; }
+        public string Description { get; set; }
+        public DateTime ModifiedOnDate { get; set; }
+    }
+
     public class WLRCensusRecord
     {
         public string LastName { get; set; }
@@ -61,24 +71,11 @@ namespace Models
         public int AdmissionNumber { get; set; }
         public string PayorType { get; set; }
         public string AdmissionStatus { get; set; }
+        public string AdmissionStatusDescription { get; set; }
         public string DischargeTo { get; set; }
         public string UnitNumber { get; set; }
         public string UnitType { get; set; }
         public string Building { get; set; }
         public string LevelOfCare { get; set; }
-
-        //       A.LastName,
-        //A.FirstName,
-        //A.MidInit,
-        //B.ResidentID,
-        //B.AdmissionNumber,
-        //B.PayorType,
-        //B.AdmissionStatus,
-        //'<<DischargeTo>>',
-        //C.UnitNumber,
-        //C.UnitType,
-        //C.Building AS UnitLocation,
-        //A.LevelOfCare
-        
     }
 }
