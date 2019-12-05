@@ -10,12 +10,12 @@ using Models;
 
 namespace ConsoleApp1
 {
-    class WLRCensusReportService
+    public class WLRCensusReportService
     {
         public void buildWorksheet(int locationId, DateTime startDate, DateTime endDate, string facilityTypeCode)
         {
-            WLRCensusDAO dao = new WLRCensusDAO();
-            Location location = dao.GetLocation(locationId);
+            WLRCensusDAO reportDAO = new WLRCensusDAO();
+            Location location = reportDAO.GetLocation(locationId);
             Console.WriteLine($"Location is {location}");
 
             using (var p = new ExcelPackage())
@@ -25,24 +25,21 @@ namespace ConsoleApp1
                 rowNumber = addColumnHeaders(ws, rowNumber);
                 
 
-                List<WLRCensusRecord> list = dao.GetWLRCensusRecords(4, startDate, endDate, facilityTypeCode);
-                Console.WriteLine($"Found {list.Count} records");
+                List<WLRCensusRecord> listForDateRange = reportDAO.GetWLRCensusRecords(4, startDate, endDate, facilityTypeCode);
+                Console.WriteLine($"Found {listForDateRange.Count} records");
 
-                var recordsByPayorType = list.GroupBy(record => record.PayorType);
+                var recordsByPayorType = listForDateRange.GroupBy(record => record.getPayorTypeCodeAndDescription());
                 foreach (var group in recordsByPayorType)
                 {
-                    //Console.WriteLine("Records with Payor Type: " + group.Key + ":");
                     rowNumber = addPayorTypeHeader(ws, group.Key, rowNumber);
 
                     var recordsByAdmissionStatus = group.GroupBy(item => item.AdmissionStatus);
                     foreach (var group2 in recordsByAdmissionStatus)
                     {
-                        //Console.WriteLine("Records with Admission Status: " + group2.Key + ":");
                         string admissionStatusDescription = null;
                         foreach (WLRCensusRecord record in group2)
                         {
                             rowNumber = addGridRow(ws, record, rowNumber);
-                            //Console.WriteLine("* " + record.FirstName + " " + record.LastName);
                             if(admissionStatusDescription == null)
                             {
                                 admissionStatusDescription = record.AdmissionStatusDescription;
@@ -51,8 +48,23 @@ namespace ConsoleApp1
                         rowNumber = addSubTotalRow(ws, group2.Key, admissionStatusDescription, group2.Count(), rowNumber);
                     }
                 }
+                List<Unit> vacantUnits = reportDAO.GetVacantUnits(startDate);
+                int countOfAllUnits = reportDAO.GetCountOfAllUnits();
+                rowNumber = addCensusStatusTotalsRow(ws, listForDateRange.Count, rowNumber);
+                if(startDate.Date != endDate.Date)
+                {
+                    List<WLRCensusRecord> listForSingleDate = reportDAO.GetWLRCensusRecords(4, startDate, startDate, facilityTypeCode);
+                    rowNumber = addGrandTotalsSection(ws, listForSingleDate, vacantUnits.Count, countOfAllUnits, rowNumber, startDate);
+                }
+                else
+                {
+                    rowNumber = addGrandTotalsSection(ws, listForDateRange, vacantUnits.Count, countOfAllUnits, rowNumber, startDate);
+                }
+                rowNumber = addGrandTotalsSection(ws, listForDateRange, vacantUnits.Count, countOfAllUnits, rowNumber, startDate, endDate);
+                rowNumber = addVacantRoomsSection(ws, vacantUnits, startDate, rowNumber);
+
                 ws.Cells["A:N"].AutoFitColumns();
-                p.SaveAs(new FileInfo(@"C:\Users\wondemh\source\repos\cSharpTutorial\myworkbook.xlsx"));
+                p.SaveAs(new FileInfo(@"C:\Users\wondemh\source\repos\cSharpTutorial\Census Report - WLR - " + facilityTypeCode + ".xlsx"));
             }
         }
 
@@ -60,10 +72,14 @@ namespace ConsoleApp1
         {
             //Columns A and B
             int rowNumber = 1;
-            ExcelRange range = ws.Cells[rowNumber, 1, rowNumber, 2];
+            ExcelRange range = ws.Cells[rowNumber, 1, rowNumber, 4];
             range.Merge = true;
             range.Value = location.Name;
 
+            range = ws.Cells[rowNumber, 8, rowNumber, 14];
+            range.Merge = true;
+            range.Value = DateTime.Now.ToString("MM/dd/yyyy           HH:mm");
+            range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
 
             //Columns A and B
             rowNumber++;
@@ -80,7 +96,7 @@ namespace ConsoleApp1
             range.Style.Font.Bold = true;
             range.Style.Font.UnderLine = true;
             range.Value = "Roster for " + facilityTypeCode + " " + startDate.ToString("MM/dd/yyyy") + " thru " + endDate.ToString("MM/dd/yyyy") + " Sequence - By Payor Type + Census Status - All";
-            ws.View.FreezePanes(3, 15);
+            ws.View.FreezePanes(5, 15);
             return ++rowNumber;
         }
 
@@ -115,7 +131,6 @@ namespace ConsoleApp1
             range.Value = "Payor Type: " + payorTypeCode;
             range.Style.Font.Size = 13;
             range.Style.Font.Bold = true;
-            //range.Style.Font.UnderLine = true;
             range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
 
             return ++rowNumber;
@@ -143,14 +158,181 @@ namespace ConsoleApp1
 
         private int addSubTotalRow(ExcelWorksheet ws, string statusTypeCode, string statusTypeDescription, int numberOfRecords, int rowNumber)
         {
-            ExcelRange range = ws.Cells[rowNumber, 1, rowNumber, 14];
+            ExcelRange range = ws.Cells[rowNumber, 1, rowNumber, 7];
             range.Merge = true;
-            range.Value = "Status Type: " + statusTypeCode + " - " + statusTypeDescription + "\t\t\t\t\t\tSub-Total: " + numberOfRecords;
-            range.Style.Font.Size = 13;
-            range.Style.Font.Bold = true;
-            //range.Style.Font.UnderLine = true;
+            range.Value = "Status Type: " + statusTypeCode + " - " + statusTypeDescription;
+            range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
             range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
 
+            range = ws.Cells[rowNumber, 8, rowNumber, 14];
+            range.Merge = true;
+            range.Value = "Sub-Total:      " + numberOfRecords;
+            range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+
+            return ++rowNumber;
+        }
+
+        private int addCensusStatusTotalsRow(ExcelWorksheet ws, int numberOfRecords, int rowNumber)
+        {
+            ExcelRange range = ws.Cells[rowNumber, 1, rowNumber, 14];
+            range.Merge = true;
+            range.Value = "Census Status Totals for - All: " + numberOfRecords;
+            range.Style.Font.Size = 13;
+            range.Style.Font.Bold = true;
+            range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+
+            return ++rowNumber;
+        }
+
+        private int addGrandTotalsSection(ExcelWorksheet ws, List<WLRCensusRecord> list, int vacantUnitsCount, int allUnitsCount, int rowNumber, DateTime startDate, DateTime? endDate = null)
+        {
+            int admittedCount = list.Where(c => c.Status.Equals("Admitted")).Count();
+            int holdCount = list.Where(c => c.Status.Equals("On Hold")).Count();
+            int leaveCount = list.Where(c => c.Status.Equals("On Leave")).Count();
+            int dischargedCount = list.Where(c => c.Status.Equals("Discharged")).Count();
+            int expiredCount = list.Where(c => c.Status.Equals("Expired")).Count();
+            int totalOccupied = admittedCount + holdCount + leaveCount;
+            string totalOccupiedPercent = (((float)totalOccupied / (float)allUnitsCount) * 100).ToString("0.00");
+            bool sectionIsForDateRange = endDate.HasValue;
+
+            Console.WriteLine($"totalOccupied: {totalOccupied},  allUnitsCount : {allUnitsCount}, occupiedPercent: {totalOccupiedPercent}");
+
+            int initialRowNumber = rowNumber;
+            
+            ExcelRange range = ws.Cells[rowNumber, 1, rowNumber, 14];
+            range.Merge = true;
+            range.Value = "Grand Total for : " + startDate.ToString("MM/dd/yyyy") + (endDate.HasValue ? (" thru " + endDate.Value.ToString("MM/dd/yyyy")) : "");
+            range.Style.Font.Size = 13;
+            range.Style.Font.Bold = true;
+
+            rowNumber++;
+            ws.Cells[rowNumber, 1].Value = "Total Admitted:";
+            ws.Cells[rowNumber, 2].Value = admittedCount;
+            ws.Cells[rowNumber, 2].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+
+            ws.Cells[rowNumber, 3].Value = "Total Discharged Billable:";
+            ws.Cells[rowNumber, 4].Value = dischargedCount;
+            ws.Cells[rowNumber, 4].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+
+            ws.Cells[rowNumber, 5].Value = "Total Discharged Non Billable:";
+            ws.Cells[rowNumber, 6].Value = dischargedCount;
+            ws.Cells[rowNumber, 6].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+
+            ws.Cells[rowNumber, 7].Value = "Total Non Billable:";
+            ws.Cells[rowNumber, 8].Value = "0";
+            ws.Cells[rowNumber, 8].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+
+            rowNumber++;
+            ws.Cells[rowNumber, 1].Value = "Total Hold:";
+            ws.Cells[rowNumber, 2].Value = holdCount;
+            ws.Cells[rowNumber, 2].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+
+            ws.Cells[rowNumber, 3].Value = "Total Expired Billable:";
+            ws.Cells[rowNumber, 4].Value = expiredCount;
+            ws.Cells[rowNumber, 4].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+
+            ws.Cells[rowNumber, 5].Value = "Total Expired Non Billable:";
+            ws.Cells[rowNumber, 6].Value = expiredCount;
+            ws.Cells[rowNumber, 6].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+
+            ws.Cells[rowNumber, 7].Value = "Total Leave:";
+            ws.Cells[rowNumber, 8].Value = leaveCount;
+            ws.Cells[rowNumber, 8].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+
+            rowNumber++;
+            ws.Cells[rowNumber, 1].Value = "Total Vacant:";
+            ws.Cells[rowNumber, 2].Value = vacantUnitsCount;
+            ws.Cells[rowNumber, 2].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+
+            ws.Cells[rowNumber, 3].Value = "Total Percent Occupancy:";
+            ws.Cells[rowNumber, 4].Value = totalOccupiedPercent;
+            ws.Cells[rowNumber, 4].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+
+            if (sectionIsForDateRange)
+            {
+                ws.Cells[rowNumber, 5].Value = "Total # of Units Occupied:";
+                ws.Cells[rowNumber, 6].Value = totalOccupied;
+                ws.Cells[rowNumber, 6].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+
+                ws.Cells[rowNumber, 7].Value = "Total Units:";
+                ws.Cells[rowNumber, 8].Value = allUnitsCount;
+                ws.Cells[rowNumber, 8].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+            }
+            rowNumber++;
+            ws.Cells[rowNumber, 1].Value = "Total # of Residents:";
+            ws.Cells[rowNumber, 2].Value = list.Count;
+            ws.Cells[rowNumber, 2].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+
+            range = ws.Cells[rowNumber, 3, rowNumber, 14];
+            range.Merge = true;
+            range.Value = "Note: Residents with multiple open admissions or multiple units are counted as 1.";
+            ws.Cells[rowNumber, 1, rowNumber, 14].Style.Font.Bold = true;
+
+            if(sectionIsForDateRange)
+            {
+                rowNumber++;
+                range = ws.Cells[rowNumber, 3, rowNumber, 14];
+                range.Merge = true;
+                range.Value = "Recreated Admissions on the same day with the same Fac, Unit#, and LOC + Payor Type are not detailed.";
+                ws.Cells[rowNumber, 1, rowNumber, 14].Style.Font.Bold = true;
+                ws.Cells[rowNumber, 1, rowNumber, 14].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+            }
+
+            rowNumber++;
+            range = ws.Cells[rowNumber, 3, rowNumber, 14];
+            range.Merge = true;
+            range.Value = "Total Units = Total Vacant + Total # Units Occupied";
+            ws.Cells[rowNumber, 1, rowNumber, 14].Style.Font.Bold = true;
+            ws.Cells[rowNumber, 1, rowNumber, 14].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+
+            //Clear all borders for this section
+            ws.Cells[initialRowNumber, 1, rowNumber, 14].Style.Border.BorderAround(ExcelBorderStyle.None);
+
+            //Finally, set bottom border
+            ws.Cells[rowNumber, 1, rowNumber, 14].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+
+            return ++rowNumber;
+        }
+
+        private int addVacantRoomsSection(ExcelWorksheet ws, List<Unit> units, DateTime date, int rowNumber)
+        {
+            ExcelRange range = ws.Cells[rowNumber, 1, rowNumber, 14];
+            range.Merge = true;
+            range.Value = "Vacant Rooms for : " + date.ToString("MM/dd/yyyy");
+            range.Style.Font.Size = 13;
+            range.Style.Font.Bold = true;
+            range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+
+            rowNumber++;
+            ws.Cells[rowNumber, 1].Value = "Unit Number";
+            ws.Cells[rowNumber, 2].Value = "Unit Type";
+            ws.Cells[rowNumber, 3].Value = "Location";
+            ws.Cells[rowNumber, 4].Value = "Medicare Certified";
+            ws.Cells[rowNumber, 5].Value = "Reserved";
+            ws.Cells[rowNumber, 1, rowNumber, 5].Style.Font.Bold = true;
+
+            foreach (Unit unit in units)
+            {
+                rowNumber++;
+                ws.Cells[rowNumber, 1].Value = unit.UnitNumber;
+                ws.Cells[rowNumber, 2].Value = unit.UnitType;
+                ws.Cells[rowNumber, 3].Value = unit.Building;
+                ws.Cells[rowNumber, 4].Value = "";
+                ws.Cells[rowNumber, 5].Value = unit.AvailabilityStart != null && unit.AvailabilityStart > date ? "Yes" : "No";
+            }
+            
+            rowNumber++;
+            range = ws.Cells[rowNumber, 1, rowNumber, 14];
+            range.Merge = true;
+            range.Value = "Total Vacant Rooms: " + units.Count;
+            range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+            
             return ++rowNumber;
         }
     }

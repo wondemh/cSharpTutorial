@@ -15,7 +15,6 @@ namespace ConsoleApp1
         public Location GetLocation(int id)
         {
             string sql = "SELECT * FROM ingLocations WHERE Id = @LocationId";
-
             using (var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString))
             {
                 connection.Open();
@@ -46,45 +45,29 @@ namespace ConsoleApp1
         {
             ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["myConnectionString"];
             using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString);
-            return conn.Query<WLRCensusRecord>(getReportSQL(), new { LocationId = locationId, StartDate = startDate, EndDate = endDate, FacilityTypeCode = facilityTypeCode}).ToList();
+            return conn.Query<WLRCensusRecord>("ing_getWLRCensusRecords", new { LocationId = locationId, StartDate = startDate, EndDate = endDate, FacilityTypeCode = facilityTypeCode }, commandType: CommandType.StoredProcedure).ToList();
         }
 
-        private string getReportSQL()
+        public List<Unit> GetVacantUnits(DateTime date)
         {
-            return new StringBuilder() //
-                .Append("SELECT ") //
-                .Append("   A.LastName, ") //
-                .Append("   A.FirstName, ") //
-                .Append("   A.MidInit, ") //
-                .Append("   B.ResidentID, ") //
-                .Append("   B.AdmissionNumber, ") //
-                .Append("   B.PayorType, ") //
-                .Append("   B.AdmissionStatus, ") //
-                .Append("   E.Description AS AdmissionStatusDescription, ") //
-                .Append("   '' AS DischargeTo, ") //
-                .Append("   C.UnitNumber, ") //
-                .Append("   C.UnitType, ") //
-                .Append("   C.Building AS UnitLocation, ") //
-                .Append("   A.LevelOfCare ") //
-                .Append("FROM ") //
-                .Append("   ingResidents A, ") //
-                .Append("   ingCensus B, ") //
-                .Append("   ingUnits C, ") //
-                .Append("   ingFacilityTypes D, ") //
-                .Append("   ingAdmitCodes E ")
-                .Append("WHERE ") //
-                .Append("   B.ResidentID = A.ResidentID ") //
-                .Append("   AND C.UnitID = B.UnitID ") //
-                .Append("   AND D.Location = c.Location ") //
-                .Append("   AND D.FacilityType = C.FacilityType ") //
-                .Append("   AND E.Location = C.Location ") //
-                .Append("   AND E.FacilityType = C.FacilityType ") //
-                .Append("   AND E.AdmissionStatus = B.AdmissionStatus ") //
-                .Append("   AND B.CensusDate BETWEEN @StartDate AND @EndDate ") //
-                .Append("   AND D.FacilityType = @FacilityTypeCode ") //
-                .Append("   AND D.Location = @LocationId ") //
-                .Append("ORDER BY B.PayorType, B.AdmissionStatus ") //
-            .ToString();
+            ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["myConnectionString"];
+            using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString);
+            return conn.Query<Unit>(getVacantUnitsQuery(), new { DateParam = date }).ToList();
+        }
+
+        public int GetCountOfAllUnits()
+        {
+            ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["myConnectionString"];
+            using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString);
+            return conn.ExecuteScalar<int>("SELECT COUNT(UnitID) FROM ingUnits");
+        }
+
+        private string getVacantUnitsQuery()
+        {
+            return new StringBuilder()
+                .Append("SELECT * FROM ingUnits ") //
+                .Append("WHERE @DateParam BETWEEN ISNULL(AvailabilityStart, @DateParam - 1) AND ISNULL(AvailabilityEnd, @DateParam + 1)")
+                .ToString();
         }
     }
 }

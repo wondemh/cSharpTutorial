@@ -11,6 +11,7 @@
     <PackageReference Include="EPPlus" Version="4.5.3.2" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.6.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.7.0" />
+    <PackageReference Include="System.Runtime" Version="4.3.1" />
   </ItemGroup>
 
 </Project>

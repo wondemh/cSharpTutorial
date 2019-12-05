@@ -3,43 +3,6 @@ using System.Collections.Generic;
 
 namespace Models
 {
-    public class Employee
-    {
-        public Guid UID { get; set; }
-        public int NumberOfYearsEmployed { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public List<EmployeeReview> Reviews { get; set; }
-
-        public override string ToString()
-        {
-            string value = base.ToString() + $"EmployeeId: {UID}\nNumberOfYearsEmployed: {NumberOfYearsEmployed}\nFirstName: {FirstName}\nLastName: {LastName}";
-            if (Reviews != null)
-            {
-                value += "\nReviews: ";
-                foreach (var review in Reviews)
-                {
-                    value += review.ToString() + "\n";
-                }
-            }
-            return value;
-        }
-    }
-
-    public class EmployeeReview
-    {
-        public Guid UID { get; set; }
-        public Guid EmployeeUID { get; set; }
-        public DateTime ReviewDate { get; set; }
-        public string ReviewedBy { get; set; }
-        public string Notes { get; set; }
-
-        public override string ToString()
-        {
-            return base.ToString() + $"UID: {UID}\nEmployeeUID: {EmployeeUID}\nReviewDate: {ReviewDate}\nReviewedBy: {ReviewedBy}\nNotes: {Notes}";
-        }
-    }
-
     public class Location
     {
         public int Id { get; set; }
@@ -70,6 +33,7 @@ namespace Models
         public int ResidentID { get; set; }
         public int AdmissionNumber { get; set; }
         public string PayorType { get; set; }
+        public string PayorTypeDescription { get; set; }
         public string AdmissionStatus { get; set; }
         public string AdmissionStatusDescription { get; set; }
         public string DischargeTo { get; set; }
@@ -77,5 +41,27 @@ namespace Models
         public string UnitType { get; set; }
         public string Building { get; set; }
         public string LevelOfCare { get; set; }
+        public DateTime CensusDate { get; set; }
+        public string Status { get; set; }
+
+        public string getPayorTypeCodeAndDescription()
+        {
+            return this.PayorType + " - " + this.PayorTypeDescription;
+        }
+    }
+
+    public class Unit
+    {
+        public Guid UnitID { get; set; }
+        public int Location { get; set; }
+        public string FactilityType { get; set; }
+        public string UnitNumber { get; set; }
+        public string UnitType { get; set; }
+        public string Building { get; set; }
+        public string Status { get; set; }
+        public DateTime AvailabilityStart { get; set; }
+        public DateTime AvailabilityEnd { get; set; }
+        public DateTime ModifiedOnDate { get; set; }
+
     }
 }
