@@ -16,10 +16,11 @@ namespace ConsoleApp1
         {
             rowNumber = AddPageHeaderSection(ws, location, facilityType, startDate, endDate, rowNumber);
             rowNumber = AddColumnHeaders(ws, rowNumber);
-            foreach(var record in censusHistoryRecords)
+            foreach (var record in censusHistoryRecords)
             {
                 rowNumber = AddGridRow(ws, record, location, startDate, endDate, rowNumber);
             }
+            rowNumber = AddTotalsSection(ws, censusHistoryRecords, rowNumber);
 
             return ++rowNumber;
         }
@@ -110,7 +111,7 @@ namespace ConsoleApp1
 
         private static int AddGridRow(ExcelWorksheet ws, CensusHistoryRecord record, Location location, DateTime startDate, DateTime endDate, int rowNumber)
         {
-            ws.Cells[rowNumber, 1].Value = record.LastName+ ", " + record.FirstName + " " + (record.MidInit ?? "");
+            ws.Cells[rowNumber, 1].Value = record.LastName + ", " + record.FirstName + " " + (record.MidInit ?? "");
             ws.Cells[rowNumber, 2].Value = record.ResidentID;
             ws.Cells[rowNumber, 3].Value = record.ResidentID;
             ws.Cells[rowNumber, 4].Value = startDate.ToString("MM/dd/yyyy");
@@ -128,25 +129,46 @@ namespace ConsoleApp1
             ws.Cells[rowNumber, 16].Value = "N/A"; //Mc/Md
             ws.Cells[rowNumber, 17].Value = record.Status; //Status
             ws.Cells[rowNumber, 18].Value = record.AdmissionNumber; //Adm #
-            ws.Cells[rowNumber, 19].Value = "N/A??"; //Adm Date. Can't use census date because we are aggregating for this report
+            ws.Cells[rowNumber, 19].Value = "N/A"; //Adm Date. Can't use census date because we are aggregating for this report
             ws.Cells[rowNumber, 20].Value = "N/A"; //Skilled Care End Date
 
             return ++rowNumber;
         }
 
-        //private int addCensusStatusTotalsRow(ExcelWorksheet ws, int numberOfRecords, int rowNumber)
-        //{
-        //    ExcelRange range = ws.Cells[rowNumber, 1, rowNumber, 14];
-        //    range.Merge = true;
-        //    range.Value = "Census Status Totals for - All: " + numberOfRecords;
-        //    range.Style.Font.Size = 13;
-        //    range.Style.Font.Bold = true;
-        //    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-        //    range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
-        //    range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+        private static int AddTotalsSection(ExcelWorksheet ws, List<CensusHistoryRecord> records, int rowNumber)
+        {
+            rowNumber++;//add empty row
+            ExcelRange range = ws.Cells[rowNumber, 1, rowNumber, 5];
+            range.Merge = true;
+            range.Value = "Total Number of Days by 1st Payor Type";
+            range.Style.Font.Size = 13;
+            range.Style.Font.Bold = true;
+            range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+            range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
 
-        //    return ++rowNumber;
-        //}
+            rowNumber++;
+            ws.Cells[rowNumber, 1].Value = "";
+            ws.Cells[rowNumber, 2].Value = "";
+            ws.Cells[rowNumber, 3].Value = "Total Billable";
+            ws.Cells[rowNumber, 4].Value = "Total";
+            ws.Cells[rowNumber, 5].Value = "Total Days";
+            ws.Cells[rowNumber, 6].Value = "";
+            ws.Cells[rowNumber, 7].Value = "";
+            ws.Cells[rowNumber, 1, rowNumber, 7].Style.Font.Bold = true;
+
+            var groupsByPayorType = records.GroupBy(item => item.PayorType);
+            foreach (var group in groupsByPayorType)
+            {
+                rowNumber++;
+                ws.Cells[rowNumber, 1].Value = group.Key;
+                ws.Cells[rowNumber, 2].Value = group.First().PayorTypeDescription;
+                ws.Cells[rowNumber, 3].Value = group.Sum(item => item.BillDays);
+                ws.Cells[rowNumber, 4].Value = "N/A";
+                ws.Cells[rowNumber, 5].Value = group.Sum(item => item.BillDays);
+            }
+            return ++rowNumber;
+        }
     }
 
 }

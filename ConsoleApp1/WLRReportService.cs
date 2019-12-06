@@ -12,11 +12,11 @@ namespace ConsoleApp1
 {
     public class WLRReportService
     {
-        private readonly ReportDAO reportDAO;
+        private readonly WLRReportDAO reportDAO;
 
         public WLRReportService()
         {
-            reportDAO = new ReportDAO();
+            reportDAO = new WLRReportDAO();
 
         }
         public void BuildReport(int locationId, DateTime startDate, DateTime endDate, string facilityTypeCode)
@@ -48,7 +48,7 @@ namespace ConsoleApp1
             List<CensusHistoryRecord> censusHistoryRecords = reportDAO.GetCensusHistoryRecords(4, startDate, endDate, facilityTypeCode);
             rowNumber = HistorySectionBuilder.BuildHistorySection(ws, censusHistoryRecords, location, facilityType, startDate, endDate, rowNumber);
 
-            ws.Cells[1,20].AutoFitColumns();
+            ws.Cells["A:T"].AutoFitColumns();
             p.SaveAs(new FileInfo(@"C:\Users\wondemh\source\repos\cSharpTutorial\Census Report - WLR - " + facilityTypeCode + ".xlsx"));
         }
 

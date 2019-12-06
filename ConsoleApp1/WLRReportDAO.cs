@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace ConsoleApp1
 {
-    class ReportDAO
+    class WLRReportDAO
     {
         public Location GetLocation(int id)
         {
