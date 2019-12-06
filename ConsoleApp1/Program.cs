@@ -9,8 +9,8 @@ namespace ConsoleApp1
     {
         static void Main()
         {
-            WLRCensusReportService builder = new WLRCensusReportService();
-            builder.buildWorksheet(4, DateTime.Parse("Oct 1, 2019"), DateTime.Parse("Oct 30, 2019"), "CO");
+            WLRReportService service = new WLRReportService();
+            service.BuildReport(4, DateTime.Parse("Oct 1, 2019"), DateTime.Parse("Oct 3, 2019"), "CO");
 
         }
     }
