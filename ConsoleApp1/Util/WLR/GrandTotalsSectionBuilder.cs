@@ -6,14 +6,14 @@ using OfficeOpenXml;
 using System.IO;
 using OfficeOpenXml.Style;
 
-using Models;
+using ConsoleApp1.Model;
 
 namespace ConsoleApp1
 {
     public class GrandTotalsSectionBuilder
     {
 
-        public static int AddGrandTotalsSection(ExcelWorksheet ws, List<CensusRecord> list, int vacantUnitsCount, int allUnitsCount, int rowNumber, DateTime startDate, DateTime? endDate = null)
+        public static int AddGrandTotalsSection(ExcelWorksheet ws, List<CensusItem> list, int vacantUnitsCount, int allUnitsCount, int rowNumber, DateTime startDate, DateTime? endDate = null)
         {
             int admittedCount = list.Where(c => c.Status.Equals("Admitted")).Count();
             int holdCount = list.Where(c => c.Status.Equals("On Hold")).Count();

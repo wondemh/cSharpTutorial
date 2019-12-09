@@ -6,7 +6,7 @@ using OfficeOpenXml;
 using System.IO;
 using OfficeOpenXml.Style;
 
-using Models;
+using ConsoleApp1.Model;
 
 namespace ConsoleApp1
 {

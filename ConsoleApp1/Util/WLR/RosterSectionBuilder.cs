@@ -6,13 +6,13 @@ using OfficeOpenXml;
 using System.IO;
 using OfficeOpenXml.Style;
 
-using Models;
+using ConsoleApp1.Model;
 
 namespace ConsoleApp1
 {
     public class RosterSectionBuilder
     {
-        public static int BuildRosterSection(ExcelWorksheet ws, string facilityTypeCode, List<CensusRecord> list, Location location, DateTime startDate, DateTime endDate)
+        public static int BuildRosterSection(ExcelWorksheet ws, string facilityTypeCode, List<CensusItem> list, Location location, DateTime startDate, DateTime endDate)
         {
             int rowNumber = AddPageHeaderSection(ws, location, startDate, endDate, facilityTypeCode);
             rowNumber = AddColumnHeaders(ws, rowNumber);
@@ -25,7 +25,7 @@ namespace ConsoleApp1
                 foreach (var group2 in recordsByAdmissionStatus)
                 {
                     string admissionStatusDescription = null;
-                    foreach (CensusRecord record in group2)
+                    foreach (CensusItem record in group2)
                     {
                         rowNumber = AddGridRow(ws, record, rowNumber);
                         if (admissionStatusDescription == null)
@@ -113,7 +113,7 @@ namespace ConsoleApp1
             return ++rowNumber;
         }
 
-        private static int AddGridRow(ExcelWorksheet ws, CensusRecord record, int rowNumber)
+        private static int AddGridRow(ExcelWorksheet ws, CensusItem record, int rowNumber)
         {
             ws.Cells[rowNumber, 1].Value = record.LastName;
             ws.Cells[rowNumber, 2].Value = record.FirstName;

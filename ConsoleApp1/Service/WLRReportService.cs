@@ -6,7 +6,8 @@ using OfficeOpenXml;
 using System.IO;
 using OfficeOpenXml.Style;
 
-using Models;
+using ConsoleApp1.Model;
+using ConsoleApp1.DAO;
 
 namespace ConsoleApp1
 {
@@ -23,7 +24,7 @@ namespace ConsoleApp1
         {
             Location location = reportDAO.GetLocation(locationId);
             FacilityType facilityType = reportDAO.GetFacilityType(locationId, facilityTypeCode);
-            List<CensusRecord> listForDateRange = reportDAO.GetCensusRecords(4, startDate, endDate, facilityTypeCode);
+            List<CensusItem> listForDateRange = reportDAO.GetCensusRecords(4, startDate, endDate, facilityTypeCode);
             //Console.WriteLine($"Found {listForDateRange.Count} records");
             List<Unit> vacantUnits = reportDAO.GetVacantUnits(startDate);
             int countOfAllUnits = reportDAO.GetCountOfAllUnits();
@@ -33,7 +34,7 @@ namespace ConsoleApp1
             int rowNumber = RosterSectionBuilder.BuildRosterSection(ws, facilityTypeCode, listForDateRange, location, startDate, endDate);
             if (startDate.Date != endDate.Date)
             {
-                List<CensusRecord> listForSingleDate = reportDAO.GetCensusRecords(4, startDate, startDate, facilityTypeCode);
+                List<CensusItem> listForSingleDate = reportDAO.GetCensusRecords(4, startDate, startDate, facilityTypeCode);
                 rowNumber = GrandTotalsSectionBuilder.AddGrandTotalsSection(ws, listForSingleDate, vacantUnits.Count, countOfAllUnits, rowNumber, startDate);
                 rowNumber = GrandTotalsSectionBuilder.AddGrandTotalsSection(ws, listForDateRange, vacantUnits.Count, countOfAllUnits, rowNumber, startDate, endDate);
             }
@@ -45,7 +46,7 @@ namespace ConsoleApp1
             rowNumber = VacantRoomsSectionBuilder.AddVacantRoomsSection(ws, vacantUnits, startDate, rowNumber);
 
             rowNumber++;//Add empty row above census history section
-            List<CensusHistoryRecord> censusHistoryRecords = reportDAO.GetCensusHistoryRecords(4, startDate, endDate, facilityTypeCode);
+            List<CensusHistoryItem> censusHistoryRecords = reportDAO.GetCensusHistoryRecords(4, startDate, endDate, facilityTypeCode);
             rowNumber = HistorySectionBuilder.BuildHistorySection(ws, censusHistoryRecords, location, facilityType, startDate, endDate, rowNumber);
 
             ws.Cells["A:T"].AutoFitColumns();

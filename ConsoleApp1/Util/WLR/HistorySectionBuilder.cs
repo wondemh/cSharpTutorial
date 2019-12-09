@@ -6,13 +6,13 @@ using OfficeOpenXml;
 using System.IO;
 using OfficeOpenXml.Style;
 
-using Models;
+using ConsoleApp1.Model;
 
 namespace ConsoleApp1
 {
     public class HistorySectionBuilder
     {
-        public static int BuildHistorySection(ExcelWorksheet ws, List<CensusHistoryRecord> censusHistoryRecords, Location location, FacilityType facilityType, DateTime startDate, DateTime endDate, int rowNumber)
+        public static int BuildHistorySection(ExcelWorksheet ws, List<CensusHistoryItem> censusHistoryRecords, Location location, FacilityType facilityType, DateTime startDate, DateTime endDate, int rowNumber)
         {
             rowNumber = AddPageHeaderSection(ws, location, facilityType, startDate, endDate, rowNumber);
             rowNumber = AddColumnHeaders(ws, rowNumber);
@@ -109,7 +109,7 @@ namespace ConsoleApp1
             return ++rowNumber;
         }
 
-        private static int AddGridRow(ExcelWorksheet ws, CensusHistoryRecord record, Location location, DateTime startDate, DateTime endDate, int rowNumber)
+        private static int AddGridRow(ExcelWorksheet ws, CensusHistoryItem record, Location location, DateTime startDate, DateTime endDate, int rowNumber)
         {
             ws.Cells[rowNumber, 1].Value = record.LastName + ", " + record.FirstName + " " + (record.MidInit ?? "");
             ws.Cells[rowNumber, 2].Value = record.ResidentID;
@@ -135,7 +135,7 @@ namespace ConsoleApp1
             return ++rowNumber;
         }
 
-        private static int AddTotalsSection(ExcelWorksheet ws, List<CensusHistoryRecord> records, int rowNumber)
+        private static int AddTotalsSection(ExcelWorksheet ws, List<CensusHistoryItem> records, int rowNumber)
         {
             rowNumber++;//add empty row
             ExcelRange range = ws.Cells[rowNumber, 1, rowNumber, 5];
