@@ -42,38 +42,30 @@ namespace ConsoleApp1
 
         private static int AddPageHeaderSection(ExcelWorksheet ws, Location location, DateTime startDate, DateTime endDate, string facilityTypeCode)
         {
-            //Columns A and B
-            int rowNumber = 1;
-            ExcelRange range = ws.Cells[rowNumber, 1, rowNumber, 4];
-            range.Merge = true;
-            range.Value = location.Name;
+            StringBuilder leftHeader = new StringBuilder();
+            leftHeader.Append(location.Name).Append("\n");
+            leftHeader.Append("For Facility Type " + facilityTypeCode);
+            leftHeader.Append("    ").Append("For Unit Assignment Code ALL"); 
+            
+            ws.HeaderFooter.EvenHeader.LeftAlignedText = leftHeader.ToString();
+            ws.HeaderFooter.OddHeader.LeftAlignedText = leftHeader.ToString();
 
-            range = ws.Cells[rowNumber, 8, rowNumber, 14];
-            range.Merge = true;
-            range.Value = DateTime.Now.ToString("MM/dd/yyyy           HH:mm");
-            range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
-
-            //Columns A and B
-            rowNumber++;
-            ws.Cells[rowNumber, 1].Value = "For Facility Type " + facilityTypeCode;
-            ws.Cells[rowNumber, 2].Value = "For Unit Assignment Code ALL";
-
-
-            //Colums A to N
-            rowNumber++;
-            range = ws.Cells[rowNumber, 1, rowNumber, 14];
-            range.Merge = true;
-            range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-            range.Style.Font.Size = 17;
-            range.Style.Font.Bold = true;
-            range.Style.Font.UnderLine = true;
-            string dateDescription = startDate.ToString("MM/dd/yyyy");
+            string dateInfo = startDate.ToString("MM/dd/yyyy");
             if (startDate.Date != endDate.Date)
             {
-                dateDescription += (" thru " + endDate.ToString("MM/dd/yyyy"));
+                dateInfo += (" thru " + endDate.ToString("MM/dd/yyyy"));
             }
-            range.Value = "Roster for " + facilityTypeCode + " " + dateDescription + " Sequence - By Payor Type + Census Status - All";
-            //ws.View.FreezePanes(5, 15);
+            //&17 means font size 17
+            //&B means bold
+            string centerHeader = "&17&BRoster for " + facilityTypeCode + " " + dateInfo + " Sequence - By Payor Type + Census Status - All";
+            ws.HeaderFooter.EvenHeader.CenteredText = centerHeader;
+            ws.HeaderFooter.OddHeader.CenteredText = centerHeader;
+
+            string rightHeader = DateTime.Now.ToString("MM/dd/yyyy    HH:mm") + "    Page: &P";
+            ws.HeaderFooter.EvenHeader.RightAlignedText = rightHeader;
+            ws.HeaderFooter.OddHeader.RightAlignedText = rightHeader;
+
+            int rowNumber = 1;
             return ++rowNumber;
         }
 

@@ -52,11 +52,11 @@ namespace ConsoleApp1.DAO
             return conn.Query<CensusItem>("ing_getWLRCensusRecords", new { LocationId = locationId, StartDate = startDate, EndDate = endDate, FacilityTypeCode = facilityTypeCode }, commandType: CommandType.StoredProcedure).ToList();
         }
 
-        public List<Unit> GetVacantUnits(DateTime date)
+        public List<Unit> GetVacantUnits(int locationId, string facilityTypeCode, DateTime date)
         {
             ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["myConnectionString"];
             using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString);
-            return conn.Query<Unit>(GetVacantUnitsQuery(), new { DateParam = date }).ToList();
+            return conn.Query<Unit>(GetVacantUnitsQuery(), new { LocationId = locationId, FacilityTypeCode = facilityTypeCode, DateParam = date }).ToList();
         }
 
         public int GetCountOfAllUnits()
@@ -70,15 +70,11 @@ namespace ConsoleApp1.DAO
         {
             return new StringBuilder()
                 .Append("SELECT * FROM ingUnits ") //
-                .Append("WHERE @DateParam BETWEEN ISNULL(AvailabilityStart, @DateParam - 1) AND ISNULL(AvailabilityEnd, @DateParam + 1)")
+                .Append("WHERE ") //
+                .Append("   Location = @LocationId ") //
+                .Append("   AND FacilityType = @FacilityTypeCode ") //
+                .Append("   AND (@DateParam BETWEEN ISNULL(AvailabilityStart, @DateParam - 1) AND ISNULL(AvailabilityEnd, @DateParam + 1))")
                 .ToString();
-        }
-
-        public List<CensusHistoryItem> GetCensusHistoryRecords(int locationId, DateTime startDate, DateTime endDate, string facilityTypeCode)
-        {
-            ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["myConnectionString"];
-            using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString);
-            return conn.Query<CensusHistoryItem>("ing_getWLRCensusHistoryRecords", new { LocationId = locationId, StartDate = startDate, EndDate = endDate, FacilityTypeCode = facilityTypeCode }, commandType: CommandType.StoredProcedure).ToList();
         }
     }
 }

@@ -25,8 +25,7 @@ namespace ConsoleApp1
             Location location = reportDAO.GetLocation(locationId);
             FacilityType facilityType = reportDAO.GetFacilityType(locationId, facilityTypeCode);
             List<CensusItem> listForDateRange = reportDAO.GetCensusRecords(4, startDate, endDate, facilityTypeCode);
-            //Console.WriteLine($"Found {listForDateRange.Count} records");
-            List<Unit> vacantUnits = reportDAO.GetVacantUnits(startDate);
+            List<Unit> vacantUnits = reportDAO.GetVacantUnits(locationId, facilityTypeCode, startDate);
             int countOfAllUnits = reportDAO.GetCountOfAllUnits();
 
             using var p = new ExcelPackage();
@@ -42,14 +41,26 @@ namespace ConsoleApp1
             {
                 rowNumber = GrandTotalsSectionBuilder.AddGrandTotalsSection(ws, listForDateRange, vacantUnits.Count, countOfAllUnits, rowNumber, startDate);
             }
-            rowNumber++;//Add empty row above vacant rooms section
+
+            //Add page break before vacant rooms section
+            ws.Row(rowNumber).PageBreak = true;
+
+            rowNumber += 4;//Add 4 empty rows above vacant rooms section
             rowNumber = VacantRoomsSectionBuilder.AddVacantRoomsSection(ws, vacantUnits, startDate, rowNumber);
 
-            rowNumber++;//Add empty row above census history section
-            List<CensusHistoryItem> censusHistoryRecords = reportDAO.GetCensusHistoryRecords(4, startDate, endDate, facilityTypeCode);
-            rowNumber = HistorySectionBuilder.BuildHistorySection(ws, censusHistoryRecords, location, facilityType, startDate, endDate, rowNumber);
+            ws.PrinterSettings.PaperSize = ePaperSize.A4;
+            ws.PrinterSettings.Orientation = eOrientation.Portrait;
+            ws.PrinterSettings.HorizontalCentered = true;
+            ws.PrinterSettings.LeftMargin = new decimal(0.5);
+            ws.PrinterSettings.Scale = 200;
+            ws.PrinterSettings.FitToPage = true;
+            ws.PrinterSettings.FitToWidth = 1;
+            ws.PrinterSettings.FitToHeight = 0;
 
-            ws.Cells["A:T"].AutoFitColumns();
+            //Repeat title row on every page
+            //ws.PrinterSettings.RepeatRows = new ExcelAddress("1:1");
+
+            ws.Cells["A:N"].AutoFitColumns();
             p.SaveAs(new FileInfo(@"C:\Users\wondemh\source\repos\cSharpTutorial\Census Report - WLR - " + facilityTypeCode + ".xlsx"));
         }
 

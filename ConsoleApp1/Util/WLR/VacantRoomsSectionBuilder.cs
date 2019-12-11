@@ -20,7 +20,6 @@ namespace ConsoleApp1
             range.Style.Font.Size = 13;
             range.Style.Font.Bold = true;
             range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-            range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
             range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
 
             rowNumber++;
