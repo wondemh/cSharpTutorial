@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ConsoleApp1.Model
+namespace CensusReportApp.Model
 {
     public class CensusItem
     {

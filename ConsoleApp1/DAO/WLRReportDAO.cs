@@ -7,9 +7,9 @@ using System.Data.SqlClient;
 using System.Text;
 using System.Linq;
 
-using ConsoleApp1.Model;
+using CensusReportApp.Model;
 
-namespace ConsoleApp1.DAO
+namespace CensusReportApp.DAO
 {
     class WLRReportDAO
     {

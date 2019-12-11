@@ -6,9 +6,9 @@ using OfficeOpenXml;
 using System.IO;
 using OfficeOpenXml.Style;
 
-using ConsoleApp1.Model;
+using CensusReportApp.Model;
 
-namespace ConsoleApp1
+namespace CensusReportApp
 {
     public class RosterSectionBuilder
     {

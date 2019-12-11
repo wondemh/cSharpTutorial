@@ -6,10 +6,10 @@ using OfficeOpenXml;
 using System.IO;
 using OfficeOpenXml.Style;
 
-using ConsoleApp1.Model;
-using ConsoleApp1.DAO;
+using CensusReportApp.Model;
+using CensusReportApp.DAO;
 
-namespace ConsoleApp1
+namespace CensusReportApp
 {
     public class WLRReportService
     {
