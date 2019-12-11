@@ -11,7 +11,7 @@ using CensusReportApp.Model;
 
 namespace CensusReportApp.DAO
 {
-    class WLRReportDAO
+    class CensusReportDAO
     {
         public Location GetLocation(int id)
         {
@@ -47,21 +47,18 @@ namespace CensusReportApp.DAO
 
         public List<CensusItem> GetCensusRecords(int locationId, DateTime startDate, DateTime endDate, string facilityTypeCode)
         {
-            ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["myConnectionString"];
             using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString);
             return conn.Query<CensusItem>("ing_getWLRCensusRecords", new { LocationId = locationId, StartDate = startDate, EndDate = endDate, FacilityTypeCode = facilityTypeCode }, commandType: CommandType.StoredProcedure).ToList();
         }
 
         public List<Unit> GetVacantUnits(int locationId, string facilityTypeCode, DateTime date)
         {
-            ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["myConnectionString"];
             using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString);
             return conn.Query<Unit>(GetVacantUnitsQuery(), new { LocationId = locationId, FacilityTypeCode = facilityTypeCode, DateParam = date }).ToList();
         }
 
         public int GetCountOfAllUnits()
         {
-            ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["myConnectionString"];
             using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString);
             return conn.ExecuteScalar<int>("SELECT COUNT(UnitID) FROM ingUnits");
         }

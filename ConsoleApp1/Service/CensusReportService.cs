@@ -11,19 +11,18 @@ using CensusReportApp.DAO;
 
 namespace CensusReportApp
 {
-    public class WLRReportService
+    public class CensusReportService
     {
-        private readonly WLRReportDAO reportDAO;
+        private readonly CensusReportDAO reportDAO;
 
-        public WLRReportService()
+        public CensusReportService()
         {
-            reportDAO = new WLRReportDAO();
+            reportDAO = new CensusReportDAO();
 
         }
         public void BuildReport(int locationId, DateTime startDate, DateTime endDate, string facilityTypeCode)
         {
             Location location = reportDAO.GetLocation(locationId);
-            FacilityType facilityType = reportDAO.GetFacilityType(locationId, facilityTypeCode);
             List<CensusItem> listForDateRange = reportDAO.GetCensusRecords(4, startDate, endDate, facilityTypeCode);
             List<Unit> vacantUnits = reportDAO.GetVacantUnits(locationId, facilityTypeCode, startDate);
             int countOfAllUnits = reportDAO.GetCountOfAllUnits();
@@ -46,7 +45,7 @@ namespace CensusReportApp
             ws.Row(rowNumber).PageBreak = true;
 
             rowNumber += 4;//Add 4 empty rows above vacant rooms section
-            rowNumber = VacantRoomsSectionBuilder.AddVacantRoomsSection(ws, vacantUnits, startDate, rowNumber);
+           VacantRoomsSectionBuilder.AddVacantRoomsSection(ws, vacantUnits, startDate, rowNumber);
 
             ws.PrinterSettings.PaperSize = ePaperSize.A4;
             ws.PrinterSettings.Orientation = eOrientation.Portrait;
