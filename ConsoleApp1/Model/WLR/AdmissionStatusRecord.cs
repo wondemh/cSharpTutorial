@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CensusReportApp.Model
+namespace ReportApp.Model
 {
     public class AdmissionStatusRecord
     {

@@ -6,10 +6,10 @@ using OfficeOpenXml;
 using System.IO;
 using OfficeOpenXml.Style;
 
-using CensusReportApp.Model;
-using CensusReportApp.DAO;
+using ReportApp.Model;
+using ReportApp.DAO;
 
-namespace CensusReportApp
+namespace ReportApp
 {
     public class CensusReportService
     {

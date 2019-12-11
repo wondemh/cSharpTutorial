@@ -7,9 +7,9 @@ using System.Data.SqlClient;
 using System.Text;
 using System.Linq;
 
-using CensusReportApp.Model;
+using ReportApp.Model;
 
-namespace CensusReportApp.DAO
+namespace ReportApp.DAO
 {
     class CensusReportDAO
     {
