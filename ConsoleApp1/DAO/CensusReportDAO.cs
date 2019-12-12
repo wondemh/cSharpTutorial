@@ -57,10 +57,11 @@ namespace ReportApp.DAO
             return conn.Query<Unit>(GetVacantUnitsQuery(), new { LocationId = locationId, FacilityTypeCode = facilityTypeCode, DateParam = date }).ToList();
         }
 
-        public int GetCountOfAllUnits()
+        public int GetCountOfAllUnits(int locationId, string facilityTypeCode)
         {
             using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString);
-            return conn.ExecuteScalar<int>("SELECT COUNT(UnitID) FROM ingUnits");
+            return conn.ExecuteScalar<int>("SELECT COUNT(UnitID) FROM ingUnits WHERE Location = @LocationId AND FacilityType = @FacilityTypeCode",
+                new { LocationId = locationId, FacilityTypeCode = facilityTypeCode});
         }
 
         private string GetVacantUnitsQuery()

@@ -25,7 +25,7 @@ namespace ReportApp
             Location location = reportDAO.GetLocation(locationId);
             List<CensusItem> listForDateRange = reportDAO.GetCensusRecords(4, startDate, endDate, facilityTypeCode);
             List<Unit> vacantUnits = reportDAO.GetVacantUnits(locationId, facilityTypeCode, startDate);
-            int countOfAllUnits = reportDAO.GetCountOfAllUnits();
+            int countOfAllUnits = reportDAO.GetCountOfAllUnits(locationId, facilityTypeCode);
 
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Census Report");
