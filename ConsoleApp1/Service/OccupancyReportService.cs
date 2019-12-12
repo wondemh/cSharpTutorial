@@ -1,6 +1,7 @@
 ﻿using OfficeOpenXml;
 using ReportApp.DAO;
 using ReportApp.Model;
+using ReportApp.Model.Occupancy;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,27 +18,48 @@ namespace ReportApp
         }
         public void BuildReport(int locationId, DateTime reportDate)
         {
-            Location location = reportDAO.GetLocation(locationId);
-
-            List<FacilityType> facilityTypes = reportDAO.GetFactilityTypesByLocation(locationId);
-
-            foreach (var facilityType in facilityTypes)
-            {
-                List<OccupancyRecord> occupancyRecords = new List<OccupancyRecord>
-                {
-                    GetUnitsAvailableData(locationId, facilityType.FacilType),
-                    GetBeginningOccupancyData(locationId, facilityType.FacilType, reportDate.Year),
-                    GetMoveInData(locationId, facilityType.FacilType, reportDate.Year),
-                    GetMoveOutData(locationId, facilityType.FacilType, reportDate.Year)
-                };
-            }
-
-
-
-
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Occupancy Report");
 
+            Location location = reportDAO.GetLocation(locationId);
+
+            List<FacilityType> facilityTypes = reportDAO.GetFactilityTypesByLocation(locationId);
+            List<string> independentLivingFacilityTypeCodes = new List<string> { "IL", "AP", "CO", "PS" };
+            bool addedIndependentLivingSection = false;
+            bool addedAssistedLivingSection = false;
+            bool addedMemorySupportSection = false;
+            bool addedSkilledNurseSection = false;
+
+            foreach (var facilityType in facilityTypes)
+            {
+                //If IL, AP, CO, PS,  add Assisted Living section
+                if (independentLivingFacilityTypeCodes.IndexOf(facilityType.FacilType) >= 0 && !addedIndependentLivingSection)
+                {
+                    AddIndependentLivingSection(ws, locationId, reportDate);
+                    addedIndependentLivingSection = true;
+                }
+
+                //If AL, add Assisted Living section
+                if (facilityType.FacilType.Equals("AL") && !addedAssistedLivingSection)
+                {
+                    AddAssistedLivingSection(ws, locationId, reportDate);
+                    addedAssistedLivingSection = true;
+                }
+
+                //If MS, add Memory Support section
+                if (facilityType.FacilType.Equals("MS") && !addedMemorySupportSection)
+                {
+                    AddMemorySupportSection(ws, locationId, reportDate);
+                    addedMemorySupportSection = true;
+                }
+
+                //If MS, add Skilled Nurse section
+                if (facilityType.FacilType.Equals("HC") && !addedSkilledNurseSection)
+                {
+                    AddSkilledNurseSection(ws, locationId, reportDate);
+                    addedSkilledNurseSection = true;
+                }
+            }
 
             ws.PrinterSettings.PaperSize = ePaperSize.A4;
             ws.PrinterSettings.Orientation = eOrientation.Portrait;
@@ -55,90 +77,32 @@ namespace ReportApp
             p.SaveAs(new FileInfo(@"C:\Users\wondemh\source\repos\cSharpTutorial\OccupancyReport.xlsx"));
         }
 
-        private OccupancyRecord GetUnitsAvailableData(int locationId, string facilityTypeCode)
+        private void AddIndependentLivingSection(ExcelWorksheet ws, int locationId, DateTime reportDate)
         {
-            List<OccupancyRecord> unitsAvailable = new List<OccupancyRecord>();
-            int countOfAllUnits = reportDAO.GetCountOfAllUnits(locationId, facilityTypeCode);
-            OccupancyRecord record = new OccupancyRecord
+            List<string> facilityTypeCodes = new List<string> { "IL", "AP", "CO", "PS" };
+            IndependentLivingStats independentLivingStats = new IndependentLivingStats
             {
-                RecordTypeDescription = "Units Available",
-                JanuaryValue = countOfAllUnits,
-                FebruaryValue = countOfAllUnits,
-                MarchValue = countOfAllUnits,
-                AprilValue = countOfAllUnits,
-                MayValue = countOfAllUnits,
-                JuneValue = countOfAllUnits,
-                JulyValue = countOfAllUnits,
-                AugustValue = countOfAllUnits,
-                SeptemberValue = countOfAllUnits,
-                OctoberValue = countOfAllUnits,
-                NovemberValue = countOfAllUnits,
-                DecemberValue = countOfAllUnits
+                UnitsAvailable = reportDAO.GetUnitsAvailableData(locationId, facilityTypeCodes),
+                BeginningOccupancy = reportDAO.GetBeginningOccupancyData(locationId, facilityTypeCodes, reportDate.Year),
+                MoveIns = reportDAO.GetCensusCountsByMonth("Move-ins", locationId, facilityTypeCodes, new List<string> { "A" }, reportDate.Year),
+                MoveOuts = reportDAO.GetCensusCountsByMonth("Move-outs", locationId, facilityTypeCodes, new List<string> { "D", "DH", "L" }, reportDate.Year),
+                Transfers = reportDAO.GetCensusCountsByMonth("Transfer to AL/HC", locationId, facilityTypeCodes, new List<string> { "PT", "TT" }, reportDate.Year)
             };
-            return record;
         }
 
-        private OccupancyRecord GetBeginningOccupancyData(int locationId, string facilityTypeCode, int year)
+        private void AddAssistedLivingSection(ExcelWorksheet ws, int locationId, DateTime reportDate)
         {
-            OccupancyRecord record = new OccupancyRecord
-            {
-                RecordTypeDescription = "Beginning Occupancy",
-                JanuaryValue = reportDAO.GetBeginningOccupancy(locationId, facilityTypeCode, year, 1),
-                FebruaryValue = reportDAO.GetBeginningOccupancy(locationId, facilityTypeCode, year, 2),
-                MarchValue = reportDAO.GetBeginningOccupancy(locationId, facilityTypeCode, year, 3),
-                AprilValue = reportDAO.GetBeginningOccupancy(locationId, facilityTypeCode, year, 4),
-                MayValue = reportDAO.GetBeginningOccupancy(locationId, facilityTypeCode, year, 5),
-                JuneValue = reportDAO.GetBeginningOccupancy(locationId, facilityTypeCode, year, 6),
-                JulyValue = reportDAO.GetBeginningOccupancy(locationId, facilityTypeCode, year, 7),
-                AugustValue = reportDAO.GetBeginningOccupancy(locationId, facilityTypeCode, year, 8),
-                SeptemberValue = reportDAO.GetBeginningOccupancy(locationId, facilityTypeCode, year, 9),
-                OctoberValue = reportDAO.GetBeginningOccupancy(locationId, facilityTypeCode, year, 10),
-                NovemberValue = reportDAO.GetBeginningOccupancy(locationId, facilityTypeCode, year, 11),
-                DecemberValue = reportDAO.GetBeginningOccupancy(locationId, facilityTypeCode, year, 12)
-            };
-            return record;
+
         }
 
-        private OccupancyRecord GetMoveInData(int locationId, string facilityTypeCode, int year)
+        private void AddMemorySupportSection(ExcelWorksheet ws, int locationId, DateTime reportDate)
         {
-            OccupancyRecord record = new OccupancyRecord
-            {
-                RecordTypeDescription = "Move-ins",
-                JanuaryValue = reportDAO.GetCountOfMoveIns(locationId, facilityTypeCode, year, 1),
-                FebruaryValue = reportDAO.GetCountOfMoveIns(locationId, facilityTypeCode, year, 2),
-                MarchValue = reportDAO.GetCountOfMoveIns(locationId, facilityTypeCode, year, 3),
-                AprilValue = reportDAO.GetCountOfMoveIns(locationId, facilityTypeCode, year, 4),
-                MayValue = reportDAO.GetCountOfMoveIns(locationId, facilityTypeCode, year, 5),
-                JuneValue = reportDAO.GetCountOfMoveIns(locationId, facilityTypeCode, year, 6),
-                JulyValue = reportDAO.GetCountOfMoveIns(locationId, facilityTypeCode, year, 7),
-                AugustValue = reportDAO.GetCountOfMoveIns(locationId, facilityTypeCode, year, 8),
-                SeptemberValue = reportDAO.GetCountOfMoveIns(locationId, facilityTypeCode, year, 9),
-                OctoberValue = reportDAO.GetCountOfMoveIns(locationId, facilityTypeCode, year, 10),
-                NovemberValue = reportDAO.GetCountOfMoveIns(locationId, facilityTypeCode, year, 11),
-                DecemberValue = reportDAO.GetCountOfMoveIns(locationId, facilityTypeCode, year, 12)
-            };
-            return record;
+
         }
 
-        private OccupancyRecord GetMoveOutData(int locationId, string facilityTypeCode, int year)
+        private void AddSkilledNurseSection(ExcelWorksheet ws, int locationId, DateTime reportDate)
         {
-            OccupancyRecord record = new OccupancyRecord
-            {
-                RecordTypeDescription = "Move-ins",
-                JanuaryValue = reportDAO.GetCountOfMoveOuts(locationId, facilityTypeCode, year, 1),
-                FebruaryValue = reportDAO.GetCountOfMoveOuts(locationId, facilityTypeCode, year, 2),
-                MarchValue = reportDAO.GetCountOfMoveOuts(locationId, facilityTypeCode, year, 3),
-                AprilValue = reportDAO.GetCountOfMoveOuts(locationId, facilityTypeCode, year, 4),
-                MayValue = reportDAO.GetCountOfMoveOuts(locationId, facilityTypeCode, year, 5),
-                JuneValue = reportDAO.GetCountOfMoveOuts(locationId, facilityTypeCode, year, 6),
-                JulyValue = reportDAO.GetCountOfMoveOuts(locationId, facilityTypeCode, year, 7),
-                AugustValue = reportDAO.GetCountOfMoveOuts(locationId, facilityTypeCode, year, 8),
-                SeptemberValue = reportDAO.GetCountOfMoveOuts(locationId, facilityTypeCode, year, 9),
-                OctoberValue = reportDAO.GetCountOfMoveOuts(locationId, facilityTypeCode, year, 10),
-                NovemberValue = reportDAO.GetCountOfMoveOuts(locationId, facilityTypeCode, year, 11),
-                DecemberValue = reportDAO.GetCountOfMoveOuts(locationId, facilityTypeCode, year, 12)
-            };
-            return record;
+
         }
     }
 }

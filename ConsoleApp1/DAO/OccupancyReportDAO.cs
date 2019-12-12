@@ -16,7 +16,7 @@ namespace ReportApp.DAO
         public Location GetLocation(int id)
         {
             string sql = "SELECT * FROM ingLocations WHERE Id = @LocationId";
-            using var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString);
+            using var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["ingAnalyticsConnection"].ConnectionString);
             connection.Open();
 
             using var multi = connection.QueryMultiple(sql, new { LocationId = id });
@@ -24,20 +24,9 @@ namespace ReportApp.DAO
             return Location;
         }
 
-        public FacilityType GetFacilityType(int locationId, string facilityTypeCode)
-        {
-            string sql = "SELECT Location, FacilityType AS FacilType, Title, DisplayOrder, ChartColor FROM ingFacilityTypes WHERE Location = @LocationId AND FacilityType = @FacilityTypeCode";
-            using var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString);
-            connection.Open();
-
-            using var multi = connection.QueryMultiple(sql, new { LocationId = locationId, FacilityTypeCode = facilityTypeCode });
-            var facilityType = multi.Read<FacilityType>().First();
-            return facilityType;
-        }
-
         public List<FacilityType> GetFactilityTypesByLocation(int locationId)
         {
-            using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString);
+            using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ingAnalyticsConnection"].ConnectionString);
             return conn.Query<FacilityType>(
                 new StringBuilder()
                 .Append("SELECT Location, FacilityType AS FacilType, FacTypeCode, Title, DisplayOrder, ChartColor ")
@@ -48,86 +37,107 @@ namespace ReportApp.DAO
                 .ToString(), new { LocationId = locationId, }).ToList();
         }
 
-        public AdmissionStatusRecord GetAdmissionStatus(int locationId, string facilityTypeCode, string admissionStatusCode)
+        public int GetCountOfAllUnits(int locationId, List<string> facilityTypeCodes)
         {
-            string sql = "SELECT * FROM ingAdmitCodes WHERE Location = @LocationId AND FacilityType = @FacilityTypeCode AND AdmissionStatus = @AdmissionStatusCode";
-            using var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString);
-            connection.Open();
-            using var multi = connection.QueryMultiple(sql, new { LocationId = locationId, FacilityTypeCode = facilityTypeCode, AdmissionStatusCode = admissionStatusCode });
-            var admissionStatusRecord = multi.Read<AdmissionStatusRecord>().First();
-            return admissionStatusRecord;
+            using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ingAnalyticsConnection"].ConnectionString);
+            return conn.ExecuteScalar<int>("SELECT COUNT(UnitID) FROM ingUnits WHERE Location = @LocationId AND FacilityType IN @FacilityTypeCodes",
+                new { LocationId = locationId, FacilityTypeCodes = facilityTypeCodes });
         }
 
-        public List<CensusItem> GetCensusRecords(int locationId, DateTime startDate, DateTime endDate, string facilityTypeCode)
+        public OccupancyRecord GetUnitsAvailableData(int locationId, List<string> facilityTypeCodes)
         {
-            using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString);
-            return conn.Query<CensusItem>("ing_getWLRCensusRecords", new { LocationId = locationId, StartDate = startDate, EndDate = endDate, FacilityTypeCode = facilityTypeCode }, commandType: CommandType.StoredProcedure).ToList();
+            List<OccupancyRecord> unitsAvailable = new List<OccupancyRecord>();
+            int countOfAllUnits = GetCountOfAllUnits(locationId, facilityTypeCodes);
+            OccupancyRecord record = new OccupancyRecord
+            {
+                RecordTypeDescription = "Units Available",
+                JanuaryValue = countOfAllUnits,
+                FebruaryValue = countOfAllUnits,
+                MarchValue = countOfAllUnits,
+                AprilValue = countOfAllUnits,
+                MayValue = countOfAllUnits,
+                JuneValue = countOfAllUnits,
+                JulyValue = countOfAllUnits,
+                AugustValue = countOfAllUnits,
+                SeptemberValue = countOfAllUnits,
+                OctoberValue = countOfAllUnits,
+                NovemberValue = countOfAllUnits,
+                DecemberValue = countOfAllUnits
+            };
+            return record;
         }
 
-        public List<Unit> GetVacantUnits(int locationId, string facilityTypeCode, DateTime date)
+        public OccupancyRecord GetBeginningOccupancyData(int locationId, List<string> facilityTypeCodes, int year)
         {
-            using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString);
-            return conn.Query<Unit>(
-                new StringBuilder()
-                .Append("SELECT * FROM ingUnits ") //
-                .Append("WHERE ") //
-                .Append("   Location = @LocationId ") //
-                .Append("   AND FacilityType = @FacilityTypeCode ") //
-                .Append("   AND (@DateParam BETWEEN ISNULL(AvailabilityStart, @DateParam - 1) AND ISNULL(AvailabilityEnd, @DateParam + 1))")
-                .ToString(), 
-                new { LocationId = locationId, FacilityTypeCode = facilityTypeCode, DateParam = date }).ToList();
+            OccupancyRecord record = new OccupancyRecord
+            {
+                RecordTypeDescription = "Beginning Occupancy",
+                JanuaryValue = GetBeginningOccupancy(locationId, facilityTypeCodes, year, 1),
+                FebruaryValue = GetBeginningOccupancy(locationId, facilityTypeCodes, year, 2),
+                MarchValue = GetBeginningOccupancy(locationId, facilityTypeCodes, year, 3),
+                AprilValue = GetBeginningOccupancy(locationId, facilityTypeCodes, year, 4),
+                MayValue = GetBeginningOccupancy(locationId, facilityTypeCodes, year, 5),
+                JuneValue = GetBeginningOccupancy(locationId, facilityTypeCodes, year, 6),
+                JulyValue = GetBeginningOccupancy(locationId, facilityTypeCodes, year, 7),
+                AugustValue = GetBeginningOccupancy(locationId, facilityTypeCodes, year, 8),
+                SeptemberValue = GetBeginningOccupancy(locationId, facilityTypeCodes, year, 9),
+                OctoberValue = GetBeginningOccupancy(locationId, facilityTypeCodes, year, 10),
+                NovemberValue = GetBeginningOccupancy(locationId, facilityTypeCodes, year, 11),
+                DecemberValue = GetBeginningOccupancy(locationId, facilityTypeCodes, year, 12)
+            };
+            return record;
         }
 
-        public int GetCountOfAllUnits(int locationId, string facilityTypeCode)
+        public OccupancyRecord GetCensusCountsByMonth(string description, int locationId, List<string> facilityTypeCodes, List<String> admissionStatusCodes, int year)
         {
-            using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString);
-            return conn.ExecuteScalar<int>("SELECT COUNT(UnitID) FROM ingUnits WHERE Location = @LocationId AND FacilityType = @FacilityTypeCode",
-                new { LocationId = locationId, FacilityTypeCode = facilityTypeCode });
+            OccupancyRecord record = new OccupancyRecord
+            {
+                RecordTypeDescription = description,
+                JanuaryValue = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 1),
+                FebruaryValue = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 2),
+                MarchValue = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 3),
+                AprilValue = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 4),
+                MayValue = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 5),
+                JuneValue = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 6),
+                JulyValue = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 7),
+                AugustValue = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 8),
+                SeptemberValue = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 9),
+                OctoberValue = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 10),
+                NovemberValue = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 11),
+                DecemberValue = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 12)
+            };
+            return record;
         }
 
-        public int GetBeginningOccupancy(int locationId, string facilityTypeCode, int year, int month)
+
+        public int GetBeginningOccupancy(int locationId, List<string> facilityTypeCodes, int year, int month)
         {
-            using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString);
+            using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ingAnalyticsConnection"].ConnectionString);
             return conn.ExecuteScalar<int>(
                 new StringBuilder()
                 .Append("SELECT StartOccupancy FROM ingOccupancyBase ") //
                 .Append("WHERE Location = @LocationId ") //
-                .Append("   AND FacilityType = @FacilityTypeCode ") //
+                .Append("   AND FacilityType = @FacilityTypeCodes ") //
                 .Append("   AND Year = @Year ")
                 .Append("   AND Month = @Month ")
-                .ToString(), 
-                new { LocationId = locationId, FacilityTypeCode = facilityTypeCode, Year = year, Month = month });
+                .ToString(),
+                new { LocationId = locationId, FacilityTypeCodes = facilityTypeCodes, Year = year, Month = month });
         }
 
-        public int GetCountOfMoveIns(int locationId, string facilityTypeCode, int year, int month)
+        public int GetCensusCount(int locationId, List<string> facilityTypeCodes, List<string> admissionStatusCodes, int year, int month)
         {
-            using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString);
+            using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ingAnalyticsConnection"].ConnectionString);
             return conn.ExecuteScalar<int>(
                 new StringBuilder()
                 .Append("SELECT COUNT(UnitID) ")
                 .Append("FROM ingCensus ")
                 .Append("WHERE Location = @LocationId ")
-                .Append("   AND FacilityType = @FacilityTypeCode ")
-                .Append("   AND AdmissionStatus IN ('A') ")
+                .Append("   AND FacilityType = @FacilityTypeCodes ")
+                .Append("   AND AdmissionStatus IN @AdmissionStatusCodes ")
                 .Append("   AND YEAR(CensusDate) = @Year ")
                 .Append("   AND Month(CensusDate) = @Month ").ToString(),
-                new { LocationId = locationId, FacilityTypeCode = facilityTypeCode, Year = year, Month = month });
+                new { LocationId = locationId, FacilityTypeCodes = facilityTypeCodes, AdmissionStatusCodes = admissionStatusCodes, Year = year, Month = month });
         }
 
-        public int GetCountOfMoveOuts(int locationId, string facilityTypeCode, int year, int month)
-        {
-            using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString);
-            return conn.ExecuteScalar<int>(
-                new StringBuilder()
-                .Append("SELECT COUNT(UnitID) ")
-                .Append("FROM ingCensus ")
-                .Append("WHERE Location = @LocationId ")
-                .Append("   AND FacilityType = @FacilityTypeCode ")
-                .Append("   AND AdmissionStatus IN ('PT', 'TT', 'D', 'DH', 'L') ")
-                .Append("   AND YEAR(CensusDate) = @Year ")
-                .Append("   AND Month(CensusDate) = @Month ").ToString(),
-                new { LocationId = locationId, FacilityTypeCode = facilityTypeCode, Year = year, Month = month });
-        }
-       
     }
 }

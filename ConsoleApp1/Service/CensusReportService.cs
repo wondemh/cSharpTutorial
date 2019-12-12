@@ -45,7 +45,7 @@ namespace ReportApp
             ws.Row(rowNumber).PageBreak = true;
 
             rowNumber += 4;//Add 4 empty rows above vacant rooms section
-           VacantRoomsSectionBuilder.AddVacantRoomsSection(ws, vacantUnits, startDate, rowNumber);
+            VacantRoomsSectionBuilder.AddVacantRoomsSection(ws, vacantUnits, startDate, rowNumber);
 
             ws.PrinterSettings.PaperSize = ePaperSize.A4;
             ws.PrinterSettings.Orientation = eOrientation.Portrait;
@@ -60,7 +60,7 @@ namespace ReportApp
             //ws.PrinterSettings.RepeatRows = new ExcelAddress("1:1");
 
             ws.Cells["A:N"].AutoFitColumns();
-            p.SaveAs(new FileInfo(@"C:\Users\wondemh\source\repos\cSharpTutorial\Census Report - WLR - " + facilityTypeCode + ".xlsx"));
+            p.SaveAs(new FileInfo(@"C:\Users\wondemh\source\repos\cSharpTutorial\Census Report - " + facilityTypeCode + ".xlsx"));
         }
 
     }

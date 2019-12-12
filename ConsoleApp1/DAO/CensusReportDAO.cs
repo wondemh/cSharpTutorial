@@ -16,7 +16,7 @@ namespace ReportApp.DAO
         public Location GetLocation(int id)
         {
             string sql = "SELECT * FROM ingLocations WHERE Id = @LocationId";
-            using var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString);
+            using var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["ingAnalyticsConnection"].ConnectionString);
             connection.Open();
 
             using var multi = connection.QueryMultiple(sql, new { LocationId = id });
@@ -27,7 +27,7 @@ namespace ReportApp.DAO
         public FacilityType GetFacilityType(int locationId, string facilityTypeCode)
         {
             string sql = "SELECT Location, FacilityType AS FacilType, Title, DisplayOrder, ChartColor FROM ingFacilityTypes WHERE Location = @LocationId AND FacilityType = @FacilityTypeCode";
-            using var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString);
+            using var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["ingAnalyticsConnection"].ConnectionString);
             connection.Open();
 
             using var multi = connection.QueryMultiple(sql, new { LocationId = locationId, FacilityTypeCode = facilityTypeCode });
@@ -38,7 +38,7 @@ namespace ReportApp.DAO
         public AdmissionStatusRecord GetAdmissionStatus(int locationId, string facilityTypeCode, string admissionStatusCode)
         {
             string sql = "SELECT * FROM ingAdmitCodes WHERE Location = @LocationId AND FacilityType = @FacilityTypeCode AND AdmissionStatus = @AdmissionStatusCode";
-            using var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString);
+            using var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["ingAnalyticsConnection"].ConnectionString);
             connection.Open();
             using var multi = connection.QueryMultiple(sql, new { LocationId = locationId, FacilityTypeCode = facilityTypeCode, AdmissionStatusCode = admissionStatusCode });
             var admissionStatusRecord = multi.Read<AdmissionStatusRecord>().First();
@@ -47,19 +47,19 @@ namespace ReportApp.DAO
 
         public List<CensusItem> GetCensusRecords(int locationId, DateTime startDate, DateTime endDate, string facilityTypeCode)
         {
-            using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString);
-            return conn.Query<CensusItem>("ing_getWLRCensusRecords", new { LocationId = locationId, StartDate = startDate, EndDate = endDate, FacilityTypeCode = facilityTypeCode }, commandType: CommandType.StoredProcedure).ToList();
+            using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ingAnalyticsConnection"].ConnectionString);
+            return conn.Query<CensusItem>("ing_getCensusRecords", new { LocationId = locationId, StartDate = startDate, EndDate = endDate, FacilityTypeCode = facilityTypeCode }, commandType: CommandType.StoredProcedure).ToList();
         }
 
         public List<Unit> GetVacantUnits(int locationId, string facilityTypeCode, DateTime date)
         {
-            using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString);
+            using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ingAnalyticsConnection"].ConnectionString);
             return conn.Query<Unit>(GetVacantUnitsQuery(), new { LocationId = locationId, FacilityTypeCode = facilityTypeCode, DateParam = date }).ToList();
         }
 
         public int GetCountOfAllUnits(int locationId, string facilityTypeCode)
         {
-            using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString);
+            using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ingAnalyticsConnection"].ConnectionString);
             return conn.ExecuteScalar<int>("SELECT COUNT(UnitID) FROM ingUnits WHERE Location = @LocationId AND FacilityType = @FacilityTypeCode",
                 new { LocationId = locationId, FacilityTypeCode = facilityTypeCode});
         }
