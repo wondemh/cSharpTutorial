@@ -6,7 +6,6 @@ namespace ReportApp.Model
 {
     public class OccupancyRecord
     {
-        public string RecordTypeDescription { get; set; }
         public float JanuaryValue { get; set; }
         public float FebruaryValue { get; set; }
         public float MarchValue { get; set; }

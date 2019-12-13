@@ -23,19 +23,20 @@ namespace ReportApp
 
             Location location = reportDAO.GetLocation(locationId);
 
-            List<FacilityType> facilityTypes = reportDAO.GetFactilityTypesByLocation(locationId);
+            List<FacilityType> facilityTypes = reportDAO.GetFacilityTypesByLocation(locationId);
             List<string> independentLivingFacilityTypeCodes = new List<string> { "IL", "AP", "CO", "PS" };
             bool addedIndependentLivingSection = false;
             bool addedAssistedLivingSection = false;
             bool addedMemorySupportSection = false;
             bool addedSkilledNurseSection = false;
 
+            int rowNumber = 1;
             foreach (var facilityType in facilityTypes)
             {
                 //If IL, AP, CO, PS,  add Assisted Living section
                 if (independentLivingFacilityTypeCodes.IndexOf(facilityType.FacilType) >= 0 && !addedIndependentLivingSection)
                 {
-                    AddIndependentLivingSection(ws, locationId, reportDate);
+                    rowNumber = IndependentLivingSectionBuilder.AddIndependentLivingSection(ws, locationId, reportDate, rowNumber);
                     addedIndependentLivingSection = true;
                 }
 
@@ -77,18 +78,7 @@ namespace ReportApp
             p.SaveAs(new FileInfo(@"C:\Users\wondemh\source\repos\cSharpTutorial\OccupancyReport.xlsx"));
         }
 
-        private void AddIndependentLivingSection(ExcelWorksheet ws, int locationId, DateTime reportDate)
-        {
-            List<string> facilityTypeCodes = new List<string> { "IL", "AP", "CO", "PS" };
-            IndependentLivingStats independentLivingStats = new IndependentLivingStats
-            {
-                UnitsAvailable = reportDAO.GetUnitsAvailableData(locationId, facilityTypeCodes),
-                BeginningOccupancy = reportDAO.GetBeginningOccupancyData(locationId, facilityTypeCodes, reportDate.Year),
-                MoveIns = reportDAO.GetCensusCountsByMonth("Move-ins", locationId, facilityTypeCodes, new List<string> { "A" }, reportDate.Year),
-                MoveOuts = reportDAO.GetCensusCountsByMonth("Move-outs", locationId, facilityTypeCodes, new List<string> { "D", "DH", "L" }, reportDate.Year),
-                Transfers = reportDAO.GetCensusCountsByMonth("Transfer to AL/HC", locationId, facilityTypeCodes, new List<string> { "PT", "TT" }, reportDate.Year)
-            };
-        }
+        
 
         private void AddAssistedLivingSection(ExcelWorksheet ws, int locationId, DateTime reportDate)
         {
