@@ -19,7 +19,7 @@ namespace ReportApp
         {
             AssistedLivingMemorySupportDAO dao = new AssistedLivingMemorySupportDAO();
             List<string> facilityTypeCodes = new List<string> { "MS" };
-            AssistedLivingMemorySupportStats assistedLivingMemorySupport = new AssistedLivingMemorySupportStats
+            MemorySupportStats assistedLivingMemorySupport = new MemorySupportStats
             {
                 UnitsAvailable = dao.GetUnitsAvailableData(locationId, facilityTypeCodes),
                 LicensedFor = null,

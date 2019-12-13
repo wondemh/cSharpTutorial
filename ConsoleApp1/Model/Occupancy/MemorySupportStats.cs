@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ReportApp.Model.Occupancy
 {
-    class AssistedLivingMemorySupportStats
+    class MemorySupportStats
     {
         public OccupancyRecord UnitsAvailable { get; set; }
         public OccupancyRecord LicensedFor { get; set; }
