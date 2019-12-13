@@ -43,21 +43,21 @@ namespace ReportApp
                 //If AL, add Assisted Living section
                 if (facilityType.FacilType.Equals("AL") && !addedAssistedLivingSection)
                 {
-                    AddAssistedLivingSection(ws, locationId, reportDate);
+                    rowNumber = AssistedLivingSectionBuilder.AddAssistedLivingSection(ws, locationId, reportDate, rowNumber);
                     addedAssistedLivingSection = true;
                 }
 
                 //If MS, add Memory Support section
                 if (facilityType.FacilType.Equals("MS") && !addedMemorySupportSection)
                 {
-                    AddMemorySupportSection(ws, locationId, reportDate);
+                    rowNumber = MemorySupportSectionBuilder.AddMemorySupportSection(ws, locationId, reportDate, rowNumber);
                     addedMemorySupportSection = true;
                 }
 
                 //If MS, add Skilled Nurse section
                 if (facilityType.FacilType.Equals("HC") && !addedSkilledNurseSection)
                 {
-                    AddSkilledNurseSection(ws, locationId, reportDate);
+                    rowNumber = SkilledNurseSectionBuilder.AddSkilledNurseSection(ws, locationId, reportDate, rowNumber);
                     addedSkilledNurseSection = true;
                 }
             }

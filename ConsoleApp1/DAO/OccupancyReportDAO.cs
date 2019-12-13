@@ -11,7 +11,7 @@ using ReportApp.Model;
 
 namespace ReportApp.DAO
 {
-    class OccupancyReportDAO
+    public class OccupancyReportDAO
     {
         public OccupancyRecord GetUnitsAvailableData(int locationId, List<string> facilityTypeCodes)
         {

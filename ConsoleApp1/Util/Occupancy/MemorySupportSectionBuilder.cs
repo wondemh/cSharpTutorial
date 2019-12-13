@@ -12,10 +12,10 @@ using ReportApp.Model.Occupancy;
 
 namespace ReportApp
 {
-    public class AssistedLivingMemorySupportSectionBuilder : OccupancySectionBuilder
+    public class MemorySupportSectionBuilder : OccupancySectionBuilder
     {
 
-        public static int AddAssistedLivingMemorySupportSection(ExcelWorksheet ws, int locationId, DateTime reportDate, int rowNumber)
+        public static int AddMemorySupportSection(ExcelWorksheet ws, int locationId, DateTime reportDate, int rowNumber)
         {
             AssistedLivingMemorySupportDAO dao = new AssistedLivingMemorySupportDAO();
             List<string> facilityTypeCodes = new List<string> { "MS" };

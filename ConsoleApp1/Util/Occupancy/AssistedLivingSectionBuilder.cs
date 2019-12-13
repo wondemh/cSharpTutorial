@@ -24,9 +24,6 @@ namespace ReportApp
                 UnitsAvailable = dao.GetUnitsAvailableData(locationId, facilityTypeCodes),
                 AverageFFS = null,
                 AverageLC = null,
-                AverageOccupancy = null,
-                PercentUnitOccupancy = null,
-                UnoccupiedUnits = null
             };
 
             rowNumber = AddSectionHeader(ws, "Assisted Living Occupancy Statistics", rowNumber);
