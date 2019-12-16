@@ -9,11 +9,37 @@ using OfficeOpenXml.Style;
 using ReportApp.Model;
 using ReportApp.DAO;
 using ReportApp.Model.Occupancy;
+using System.Globalization;
 
 namespace ReportApp
 {
     public abstract class OccupancySectionBuilder
     {
+
+        internal static int AddPageHeader(ExcelWorksheet ws, string locationName, DateTime reportDate, int rowNumber)
+        {
+            int initialRowNumber = rowNumber;
+            ExcelRange range = ws.Cells[rowNumber, 1, rowNumber, 14];
+            range.Merge = true;
+            range.Value = locationName.ToUpper(CultureInfo.CurrentCulture);
+
+            rowNumber++;
+            range = ws.Cells[rowNumber, 1, rowNumber, 14];
+            range.Merge = true;
+            range.Value = "OCCUPANCY STATISTICS";
+
+            rowNumber++;
+            range = ws.Cells[rowNumber, 1, rowNumber, 14];
+            range.Merge = true;
+            range.Value = "AS OF " + reportDate.ToString("MM/dd/yyyy", CultureInfo.CurrentCulture); ;
+
+            range = ws.Cells[initialRowNumber, 1, rowNumber, 14];
+            range.Style.Font.Size = 15;
+            range.Style.Font.Bold = true;
+            range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            return rowNumber + 3;
+        }
+
         internal static int AddSectionHeader(ExcelWorksheet ws, string headerText, int rowNumber)
         {
             ExcelRange range = ws.Cells[rowNumber, 1, rowNumber, 14];
@@ -21,6 +47,8 @@ namespace ReportApp
             range.Value = headerText;
             range.Style.Font.Size = 13;
             range.Style.Font.Bold = true;
+            range.Style.Font.UnderLine = true;
+            range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
             return ++rowNumber;
         }
 

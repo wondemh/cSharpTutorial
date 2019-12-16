@@ -33,29 +33,39 @@ namespace ReportApp.DAO
             return record;
         }
 
-        internal OccupancyRecord GetAverageMemoryDareData(int locationId, List<string> facilityTypeCodes, int year, int month)
+        internal OccupancyRecord GetAverageMedicaidData(int locationId, List<string> facilityTypeCodes, int year, int month)
         {
-            throw new NotImplementedException();
+            return new OccupancyRecord();
         }
 
-        internal OccupancyRecord GetFFSDirectAdmitData(int locationId, List<string> facilityTypeCodes, int year, int month)
+        internal OccupancyRecord GetAverageMedicareData(int locationId, List<string> facilityTypeCodes, int year, int month)
         {
-            throw new NotImplementedException();
+            return new OccupancyRecord();
         }
 
-        internal OccupancyRecord GetAverageLCSecondData(int locationId, List<string> facilityTypeCodes, int year, int month)
+        public OccupancyRecord GetAverageMemoryCareData(int locationId, List<string> facilityTypeCodes, int year, int month)
         {
-            throw new NotImplementedException();
+            return new OccupancyRecord();
         }
 
-        internal OccupancyRecord GetAverageLCFirstData(int locationId, List<string> facilityTypeCodes, int year, int month)
+        public OccupancyRecord GetFFSDirectAdmitData(int locationId, List<string> facilityTypeCodes, int year, int month)
         {
-            throw new NotImplementedException();
+            return new OccupancyRecord();
+        }
+
+        public OccupancyRecord GetAverageLCSecondData(int locationId, List<string> facilityTypeCodes, int year, int month)
+        {
+            return new OccupancyRecord();
+        }
+
+        public OccupancyRecord GetAverageLCFirstData(int locationId, List<string> facilityTypeCodes, int year, int month)
+        {
+            return new OccupancyRecord();
         }
 
         internal OccupancyRecord GetBedsAvailableData(int locationId, List<string> facilityTypeCodes, int year, int month)
         {
-            throw new NotImplementedException();
+            return new OccupancyRecord();
         }
 
         public OccupancyRecord GetCensusCountsByMonth(int locationId, List<string> facilityTypeCodes, List<String> admissionStatusCodes, int year)

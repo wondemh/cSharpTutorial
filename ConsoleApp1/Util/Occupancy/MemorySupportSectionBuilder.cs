@@ -15,16 +15,16 @@ namespace ReportApp
     public class MemorySupportSectionBuilder : OccupancySectionBuilder
     {
 
-        public static int AddMemorySupportSection(ExcelWorksheet ws, int locationId, DateTime reportDate, int rowNumber)
+        internal static int AddMemorySupportSection(ExcelWorksheet ws, int locationId, DateTime reportDate, int rowNumber)
         {
-            MemorySupportDAO dao = new MemorySupportDAO();
+            
             List<string> facilityTypeCodes = new List<string> { "MS" };
             MemorySupportStats assistedLivingMemorySupport = new MemorySupportStats
             {
-                UnitsAvailable = dao.GetUnitsAvailableData(locationId, facilityTypeCodes),
-                LicensedFor = dao.getLicensedForData(locationId, facilityTypeCodes),
-                PrivateMCFirstPerson = dao.getPrivateMCFirstPersonData(locationId, facilityTypeCodes),
-                PrivateMCSecondPerson = dao.getPrivateMCSecondPersonData(locationId, facilityTypeCodes),
+                UnitsAvailable = OccupancyReportDAO.GetUnitsAvailableData(locationId, facilityTypeCodes),
+                LicensedFor = MemorySupportDAO.GetLicensedForData(locationId, facilityTypeCodes),
+                PrivateMCFirstPerson = MemorySupportDAO.GetPrivateMCFirstPersonData(locationId, facilityTypeCodes),
+                PrivateMCSecondPerson = MemorySupportDAO.GetPrivateMCSecondPersonData(locationId, facilityTypeCodes),
             };
 
             rowNumber = AddSectionHeader(ws, "Assisted Living Memory Support Occupancy Statistics", rowNumber);

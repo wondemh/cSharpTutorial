@@ -15,17 +15,16 @@ namespace ReportApp
     public class IndependentLivingSectionBuilder : OccupancySectionBuilder
     {
 
-        public static int AddIndependentLivingSection(ExcelWorksheet ws, int locationId, DateTime reportDate, int rowNumber)
+        internal static int AddIndependentLivingSection(ExcelWorksheet ws, int locationId, DateTime reportDate, int rowNumber)
         {
-            IndependentLivingDAO dao = new IndependentLivingDAO();
             List<string> facilityTypeCodes = new List<string> { "IL", "AP", "CO", "PS" };
             IndependentLivingStats independentLivingStats = new IndependentLivingStats
             {
-                UnitsAvailable = dao.GetUnitsAvailableData(locationId, facilityTypeCodes),
-                BeginningOccupancy = dao.GetBeginningOccupancyData(locationId, facilityTypeCodes, reportDate.Year),
-                MoveIns = dao.GetCensusCountsByMonth(locationId, facilityTypeCodes, new List<string> { "A" }, reportDate.Year),
-                MoveOuts = dao.GetCensusCountsByMonth(locationId, facilityTypeCodes, new List<string> { "D", "DH", "L" }, reportDate.Year),
-                Transfers = dao.GetCensusCountsByMonth(locationId, facilityTypeCodes, new List<string> { "PT", "TT" }, reportDate.Year)
+                UnitsAvailable = OccupancyReportDAO.GetUnitsAvailableData(locationId, facilityTypeCodes),
+                BeginningOccupancy = IndependentLivingDAO.GetBeginningOccupancyData(locationId, facilityTypeCodes, reportDate.Year),
+                MoveIns = IndependentLivingDAO.GetCensusCountsByMonth(locationId, facilityTypeCodes, new List<string> { "A" }, reportDate.Year),
+                MoveOuts = IndependentLivingDAO.GetCensusCountsByMonth(locationId, facilityTypeCodes, new List<string> { "D", "DH", "L" }, reportDate.Year),
+                Transfers = IndependentLivingDAO.GetCensusCountsByMonth(locationId, facilityTypeCodes, new List<string> { "PT", "TT" }, reportDate.Year)
             };
 
             rowNumber = AddSectionHeader(ws, "Independent Living Occupancy Statistics", rowNumber);

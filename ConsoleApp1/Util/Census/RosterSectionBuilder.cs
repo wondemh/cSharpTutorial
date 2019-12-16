@@ -7,6 +7,7 @@ using System.IO;
 using OfficeOpenXml.Style;
 
 using ReportApp.Model;
+using System.Globalization;
 
 namespace ReportApp
 {
@@ -50,10 +51,10 @@ namespace ReportApp
             ws.HeaderFooter.EvenHeader.LeftAlignedText = leftHeader.ToString();
             ws.HeaderFooter.OddHeader.LeftAlignedText = leftHeader.ToString();
 
-            string dateInfo = startDate.ToString("MM/dd/yyyy");
+            string dateInfo = startDate.ToString("MM/dd/yyyy", CultureInfo.CurrentCulture);
             if (startDate.Date != endDate.Date)
             {
-                dateInfo += (" thru " + endDate.ToString("MM/dd/yyyy"));
+                dateInfo += (" thru " + endDate.ToString("MM/dd/yyyy", CultureInfo.CurrentCulture));
             }
             //&17 means font size 17
             //&B means bold
@@ -61,7 +62,7 @@ namespace ReportApp
             ws.HeaderFooter.EvenHeader.CenteredText = centerHeader;
             ws.HeaderFooter.OddHeader.CenteredText = centerHeader;
 
-            string rightHeader = DateTime.Now.ToString("MM/dd/yyyy    HH:mm") + "    Page: &P";
+            string rightHeader = DateTime.Now.ToString("MM/dd/yyyy    HH:mm", CultureInfo.CurrentCulture) + "    Page: &P";
             ws.HeaderFooter.EvenHeader.RightAlignedText = rightHeader;
             ws.HeaderFooter.OddHeader.RightAlignedText = rightHeader;
 

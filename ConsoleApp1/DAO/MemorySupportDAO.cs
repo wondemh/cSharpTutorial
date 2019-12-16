@@ -11,21 +11,24 @@ using ReportApp.Model;
 
 namespace ReportApp.DAO
 {
-    class MemorySupportDAO : OccupancyReportDAO
+    public static class MemorySupportDAO
     {
-        public OccupancyRecord getPrivateMCSecondPersonData(int locationId, List<string> facilityTypeCodes)
+
+        public static OccupancyRecord GetLicensedForData(int locationId, List<string> facilityTypeCodes)
         {
-            return null;
+            return new OccupancyRecord();
+        }
+        public static OccupancyRecord GetPrivateMCFirstPersonData(int locationId, List<string> facilityTypeCodes)
+        {
+            return new OccupancyRecord();
+        }
+        public static OccupancyRecord GetPrivateMCSecondPersonData(int locationId, List<string> facilityTypeCodes)
+        {
+            return new OccupancyRecord();
         }
 
-        public OccupancyRecord getPrivateMCFirstPersonData(int locationId, List<string> facilityTypeCodes)
-        {
-            return null;
-        }
+        
 
-        public OccupancyRecord getLicensedForData(int locationId, List<string> facilityTypeCodes)
-        {
-            return null;
-        }
+        
     }
 }

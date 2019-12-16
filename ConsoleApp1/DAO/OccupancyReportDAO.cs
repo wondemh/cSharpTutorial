@@ -11,9 +11,9 @@ using ReportApp.Model;
 
 namespace ReportApp.DAO
 {
-    public class OccupancyReportDAO
+    public static class OccupancyReportDAO
     {
-        public OccupancyRecord GetUnitsAvailableData(int locationId, List<string> facilityTypeCodes)
+        public static OccupancyRecord GetUnitsAvailableData(int locationId, List<string> facilityTypeCodes)
         {
             int countOfAllUnits = GetCountOfAllUnits(locationId, facilityTypeCodes);
             OccupancyRecord record = new OccupancyRecord
@@ -34,14 +34,14 @@ namespace ReportApp.DAO
             return record;
         }
 
-        public int GetCountOfAllUnits(int locationId, List<string> facilityTypeCodes)
+        public static int GetCountOfAllUnits(int locationId, List<string> facilityTypeCodes)
         {
             using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ingAnalyticsConnection"].ConnectionString);
             return conn.ExecuteScalar<int>("SELECT COUNT(UnitID) FROM ingUnits WHERE Location = @LocationId AND FacilityType IN @FacilityTypeCodes",
                 new { LocationId = locationId, FacilityTypeCodes = facilityTypeCodes });
         }
 
-        public Location GetLocation(int id)
+        public static Location GetLocation(int id)
         {
             string sql = "SELECT * FROM ingLocations WHERE Id = @LocationId";
             using var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["ingAnalyticsConnection"].ConnectionString);
@@ -52,7 +52,7 @@ namespace ReportApp.DAO
             return Location;
         }
 
-        public List<FacilityType> GetFacilityTypesByLocation(int locationId)
+        public static List<FacilityType> GetFacilityTypesByLocation(int locationId)
         {
             using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ingAnalyticsConnection"].ConnectionString);
             return conn.Query<FacilityType>(
