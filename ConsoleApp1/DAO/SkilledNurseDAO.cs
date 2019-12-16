@@ -33,6 +33,31 @@ namespace ReportApp.DAO
             return record;
         }
 
+        internal OccupancyRecord GetAverageMemoryDareData(int locationId, List<string> facilityTypeCodes, int year, int month)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal OccupancyRecord GetFFSDirectAdmitData(int locationId, List<string> facilityTypeCodes, int year, int month)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal OccupancyRecord GetAverageLCSecondData(int locationId, List<string> facilityTypeCodes, int year, int month)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal OccupancyRecord GetAverageLCFirstData(int locationId, List<string> facilityTypeCodes, int year, int month)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal OccupancyRecord GetBedsAvailableData(int locationId, List<string> facilityTypeCodes, int year, int month)
+        {
+            throw new NotImplementedException();
+        }
+
         public OccupancyRecord GetCensusCountsByMonth(int locationId, List<string> facilityTypeCodes, List<String> admissionStatusCodes, int year)
         {
             OccupancyRecord record = new OccupancyRecord

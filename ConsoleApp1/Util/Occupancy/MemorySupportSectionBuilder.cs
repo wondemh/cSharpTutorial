@@ -17,19 +17,14 @@ namespace ReportApp
 
         public static int AddMemorySupportSection(ExcelWorksheet ws, int locationId, DateTime reportDate, int rowNumber)
         {
-            AssistedLivingMemorySupportDAO dao = new AssistedLivingMemorySupportDAO();
+            MemorySupportDAO dao = new MemorySupportDAO();
             List<string> facilityTypeCodes = new List<string> { "MS" };
             MemorySupportStats assistedLivingMemorySupport = new MemorySupportStats
             {
                 UnitsAvailable = dao.GetUnitsAvailableData(locationId, facilityTypeCodes),
-                LicensedFor = null,
-                PrivateMCFirstPerson = null,
-                PrivateMCSecondPerson = null,
-                EndingAverageOccupancy = null,
-                PercentAverageUnitOccupancy = null,
-                AverageUnoccupiedUnits = null,
-                EndingAveragePersonOccupancy = null,
-                PercentLicensedOccupancy = null
+                LicensedFor = dao.getLicensedForData(locationId, facilityTypeCodes),
+                PrivateMCFirstPerson = dao.getPrivateMCFirstPersonData(locationId, facilityTypeCodes),
+                PrivateMCSecondPerson = dao.getPrivateMCSecondPersonData(locationId, facilityTypeCodes),
             };
 
             rowNumber = AddSectionHeader(ws, "Assisted Living Memory Support Occupancy Statistics", rowNumber);

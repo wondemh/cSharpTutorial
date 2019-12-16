@@ -17,15 +17,15 @@ namespace ReportApp
 
         public static int AddSkilledNurseSection(ExcelWorksheet ws, int locationId, DateTime reportDate, int rowNumber)
         {
-            IndependentLivingDAO dao = new IndependentLivingDAO();
-            List<string> facilityTypeCodes = new List<string> { "IL", "AP", "CO", "PS" };
-            IndependentLivingStats independentLivingStats = new IndependentLivingStats
+            SkilledNurseDAO dao = new SkilledNurseDAO();
+            List<string> facilityTypeCodes = new List<string> { "HC" };
+            SkilledNurseStats independentLivingStats = new SkilledNurseStats
             {
-                UnitsAvailable = dao.GetUnitsAvailableData(locationId, facilityTypeCodes),
-                BeginningOccupancy = dao.GetBeginningOccupancyData(locationId, facilityTypeCodes, reportDate.Year),
-                MoveIns = dao.GetCensusCountsByMonth(locationId, facilityTypeCodes, new List<string> { "A" }, reportDate.Year),
-                MoveOuts = dao.GetCensusCountsByMonth(locationId, facilityTypeCodes, new List<string> { "D", "DH", "L" }, reportDate.Year),
-                Transfers = dao.GetCensusCountsByMonth(locationId, facilityTypeCodes, new List<string> { "PT", "TT" }, reportDate.Year)
+                BedsAvailable = dao.GetBedsAvailableData(locationId, facilityTypeCodes, reportDate.Year, reportDate.Month),
+                AverageLCFirst = dao.GetAverageLCFirstData(locationId, facilityTypeCodes, reportDate.Year, reportDate.Month),
+                AverageLCSecond = dao.GetAverageLCSecondData(locationId, facilityTypeCodes, reportDate.Year, reportDate.Month),
+                FFSDirectAdmit = dao.GetFFSDirectAdmitData(locationId, facilityTypeCodes, reportDate.Year, reportDate.Month),
+                AverageMemoryCare = dao.GetAverageMemoryDareData(locationId, facilityTypeCodes, reportDate.Year, reportDate.Month),
             };
 
             rowNumber = AddSectionHeader(ws, "Independent Living Occupancy Statistics", rowNumber);
