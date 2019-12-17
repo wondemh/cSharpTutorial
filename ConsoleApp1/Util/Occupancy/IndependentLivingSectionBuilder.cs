@@ -21,10 +21,10 @@ namespace ReportApp
             IndependentLivingStats independentLivingStats = new IndependentLivingStats
             {
                 UnitsAvailable = OccupancyReportDAO.GetUnitsAvailableData(locationId, facilityTypeCodes),
-                BeginningOccupancy = IndependentLivingDAO.GetBeginningOccupancyData(locationId, facilityTypeCodes, reportDate.Year),
-                MoveIns = IndependentLivingDAO.GetCensusCountsByMonth(locationId, facilityTypeCodes, new List<string> { "A" }, reportDate.Year),
-                MoveOuts = IndependentLivingDAO.GetCensusCountsByMonth(locationId, facilityTypeCodes, new List<string> { "D", "DH", "L" }, reportDate.Year),
-                Transfers = IndependentLivingDAO.GetCensusCountsByMonth(locationId, facilityTypeCodes, new List<string> { "PT", "TT" }, reportDate.Year)
+                BeginningOccupancy = IndependentLivingDAO.GetBeginningOccupancyData(locationId, facilityTypeCodes, reportDate),
+                MoveIns = IndependentLivingDAO.GetCensusCountsByMonth(locationId, facilityTypeCodes, new List<string> { "A" }, reportDate.Year, false),
+                MoveOuts = IndependentLivingDAO.GetCensusCountsByMonth(locationId, facilityTypeCodes, new List<string> { "D", "DH", "L" }, reportDate.Year, true),
+                Transfers = IndependentLivingDAO.GetCensusCountsByMonth(locationId, facilityTypeCodes, new List<string> { "PT", "TT" }, reportDate.Year, true)
             };
             independentLivingStats.BeginningOccupancy.TotalOrAverageValue = independentLivingStats.BeginningOccupancy.CalculateAverageValue();
             independentLivingStats.MoveIns.TotalOrAverageValue = independentLivingStats.MoveIns.CalculateTotalValue();

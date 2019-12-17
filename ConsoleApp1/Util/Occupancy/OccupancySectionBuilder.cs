@@ -93,7 +93,9 @@ namespace ReportApp
                 ws.Cells[rowNumber, 11].Value = record.OctoberValue;
                 ws.Cells[rowNumber, 12].Value = record.NovemberValue;
                 ws.Cells[rowNumber, 13].Value = record.DecemberValue;
-                ws.Cells[rowNumber, 14].Value = record.TotalOrAverageValue;
+
+                Console.WriteLine($"TotalOrAverage for {description} is : {record.TotalOrAverageValue}");
+                ws.Cells[rowNumber, 14].Value = Math.Round(record.TotalOrAverageValue, 1);
                 
                 ws.Cells[rowNumber, 2, rowNumber, 14].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 if (rowFormat != null)

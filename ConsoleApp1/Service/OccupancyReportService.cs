@@ -39,7 +39,7 @@ namespace ReportApp
                 //If AL, add Assisted Living section
                 if (facilityType.FacilType.Equals("AL", StringComparison.Ordinal) && !addedAssistedLivingSection)
                 {
-                    rowNumber = AssistedLivingSectionBuilder.AddAssistedLivingSection(ws, locationId, ++rowNumber);
+                    rowNumber = AssistedLivingSectionBuilder.AddAssistedLivingSection(ws, locationId, reportDate, ++rowNumber);
                     addedAssistedLivingSection = true;
                 }
 

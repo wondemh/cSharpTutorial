@@ -11,24 +11,25 @@ namespace ReportApp.Model.Occupancy
         public OccupancyRecord MoveIns { get; set; }
         public OccupancyRecord MoveOuts { get; set; }
         public OccupancyRecord Transfers { get; set; }
+        //public OccupancyRecord EndingOccupancy { get; set; }
         public OccupancyRecord EndingOccupancy
         {
             get
             {
                 OccupancyRecord record = new OccupancyRecord
                 {
-                    JanuaryValue = BeginningOccupancy.JanuaryValue + MoveIns.JanuaryValue + MoveOuts.JanuaryValue - Transfers.JanuaryValue,
-                    FebruaryValue = BeginningOccupancy.FebruaryValue + MoveIns.FebruaryValue + MoveOuts.FebruaryValue - Transfers.FebruaryValue,
-                    MarchValue = BeginningOccupancy.MarchValue + MoveIns.MarchValue + MoveOuts.MarchValue - Transfers.MarchValue,
-                    AprilValue = BeginningOccupancy.AprilValue + MoveIns.AprilValue + MoveOuts.AprilValue - Transfers.AprilValue,
-                    MayValue = BeginningOccupancy.MayValue + MoveIns.MayValue + MoveOuts.MayValue - Transfers.MayValue,
-                    JuneValue = BeginningOccupancy.JuneValue + MoveIns.JuneValue + MoveOuts.JuneValue - Transfers.JuneValue,
-                    JulyValue = BeginningOccupancy.JulyValue + MoveIns.JulyValue + MoveOuts.JulyValue - Transfers.JulyValue,
-                    AugustValue = BeginningOccupancy.AugustValue + MoveIns.AugustValue + MoveOuts.AugustValue - Transfers.AugustValue,
-                    SeptemberValue = BeginningOccupancy.SeptemberValue + MoveIns.SeptemberValue + MoveOuts.SeptemberValue - Transfers.SeptemberValue,
-                    OctoberValue = BeginningOccupancy.OctoberValue + MoveIns.OctoberValue + MoveOuts.OctoberValue - Transfers.OctoberValue,
-                    NovemberValue = BeginningOccupancy.NovemberValue + MoveIns.NovemberValue + MoveOuts.NovemberValue - Transfers.NovemberValue,
-                    DecemberValue = BeginningOccupancy.DecemberValue + MoveIns.DecemberValue + MoveOuts.DecemberValue - Transfers.DecemberValue
+                    JanuaryValue = BeginningOccupancy.JanuaryValue + MoveIns.JanuaryValue + MoveOuts.JanuaryValue + Transfers.JanuaryValue,
+                    FebruaryValue = BeginningOccupancy.FebruaryValue + MoveIns.FebruaryValue + MoveOuts.FebruaryValue + Transfers.FebruaryValue,
+                    MarchValue = BeginningOccupancy.MarchValue + MoveIns.MarchValue + MoveOuts.MarchValue + Transfers.MarchValue,
+                    AprilValue = BeginningOccupancy.AprilValue + MoveIns.AprilValue + MoveOuts.AprilValue + Transfers.AprilValue,
+                    MayValue = BeginningOccupancy.MayValue + MoveIns.MayValue + MoveOuts.MayValue + Transfers.MayValue,
+                    JuneValue = BeginningOccupancy.JuneValue + MoveIns.JuneValue + MoveOuts.JuneValue + Transfers.JuneValue,
+                    JulyValue = BeginningOccupancy.JulyValue + MoveIns.JulyValue + MoveOuts.JulyValue + Transfers.JulyValue,
+                    AugustValue = BeginningOccupancy.AugustValue + MoveIns.AugustValue + MoveOuts.AugustValue + Transfers.AugustValue,
+                    SeptemberValue = BeginningOccupancy.SeptemberValue + MoveIns.SeptemberValue + MoveOuts.SeptemberValue + Transfers.SeptemberValue,
+                    OctoberValue = BeginningOccupancy.OctoberValue + MoveIns.OctoberValue + MoveOuts.OctoberValue + Transfers.OctoberValue,
+                    NovemberValue = BeginningOccupancy.NovemberValue + MoveIns.NovemberValue + MoveOuts.NovemberValue + Transfers.NovemberValue,
+                    DecemberValue = BeginningOccupancy.DecemberValue + MoveIns.DecemberValue + MoveOuts.DecemberValue + Transfers.DecemberValue
                 };
                 record.TotalOrAverageValue = record.CalculateAverageValue();
                 return record;

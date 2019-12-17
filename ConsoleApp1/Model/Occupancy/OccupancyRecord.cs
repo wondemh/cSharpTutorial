@@ -22,8 +22,10 @@ namespace ReportApp.Model
 
         public float CalculateAverageValue()
         {
-            return (JanuaryValue + FebruaryValue + MarchValue + AprilValue + MayValue + JuneValue + JulyValue + AugustValue + SeptemberValue +
-                    OctoberValue + NovemberValue + DecemberValue)/12;
+            float average = (JanuaryValue + FebruaryValue + MarchValue + AprilValue + MayValue + JuneValue + JulyValue + AugustValue + SeptemberValue +
+                    OctoberValue + NovemberValue + DecemberValue) / 12;
+            float roundedAverage = (float)Math.Round(average, 1);
+            return roundedAverage;
         }
 
         public float CalculateTotalValue()

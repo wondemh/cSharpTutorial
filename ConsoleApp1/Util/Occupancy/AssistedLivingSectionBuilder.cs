@@ -15,14 +15,14 @@ namespace ReportApp
     public class AssistedLivingSectionBuilder : OccupancySectionBuilder
     {
 
-        internal static int AddAssistedLivingSection(ExcelWorksheet ws, int locationId, int rowNumber)
+        internal static int AddAssistedLivingSection(ExcelWorksheet ws, int locationId, DateTime reportDate, int rowNumber)
         {
             List<string> facilityTypeCodes = new List<string> { "AL" };
             AssistedLivingStats assistedLivingStats = new AssistedLivingStats
             {
                 UnitsAvailable = OccupancyReportDAO.GetUnitsAvailableData(locationId, facilityTypeCodes),
-                AverageFFS = AssistedLivingDAO.GetAverageFFS(locationId, facilityTypeCodes),
-                AverageLC = AssistedLivingDAO.GetAverageLC(),
+                AverageFFS = AssistedLivingDAO.GetAverageFFS(locationId, facilityTypeCodes, reportDate),
+                AverageLC = AssistedLivingDAO.GetAverageLC(locationId, facilityTypeCodes, reportDate),
             };
 
             rowNumber = AddSectionHeader(ws, "Assisted Living Occupancy Statistics", rowNumber);
