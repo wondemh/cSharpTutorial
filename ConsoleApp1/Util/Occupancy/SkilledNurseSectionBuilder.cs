@@ -40,7 +40,7 @@ namespace ReportApp
             rowNumber = AddGridRow(ws, skilledNurseStats.AverageMedicare, "Avg Medicare:", rowNumber);
             rowNumber = AddGridRow(ws, skilledNurseStats.AverageMedicaid, "Avg Medicaid:", rowNumber);
             rowNumber = AddGridRow(ws, skilledNurseStats.TotalAverageOccupancy, "Total Avg. Occupancy:", rowNumber);
-            rowNumber = AddGridRow(ws, skilledNurseStats.PercentOccupancy, "% Occupancy:", rowNumber);
+            rowNumber = AddGridRow(ws, skilledNurseStats.PercentOccupancy, "% Occupancy:", rowNumber, "0%");
 
             return rowNumber;
         }

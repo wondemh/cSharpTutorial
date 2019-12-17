@@ -34,10 +34,10 @@ namespace ReportApp
             rowNumber = AddGridRow(ws, assistedLivingMemorySupport.PrivateMCFirstPerson, "Private - MC - 1st Person:", rowNumber);
             rowNumber = AddGridRow(ws, assistedLivingMemorySupport.PrivateMCSecondPerson, "Private - MC - 2nd Person:", rowNumber);
             rowNumber = AddGridRow(ws, assistedLivingMemorySupport.EndingAverageOccupancy, "Ending Avg.Occupancy:", rowNumber);
-            rowNumber = AddGridRow(ws, assistedLivingMemorySupport.PercentAverageUnitOccupancy, "% Avg.Unit Occupancy:", rowNumber);
+            rowNumber = AddGridRow(ws, assistedLivingMemorySupport.PercentAverageUnitOccupancy, "% Avg.Unit Occupancy:", rowNumber, "0%");
             rowNumber = AddGridRow(ws, assistedLivingMemorySupport.AverageUnoccupiedUnits, "Avg.Unoccupied Units:", rowNumber);
             rowNumber = AddGridRow(ws, assistedLivingMemorySupport.EndingAveragePersonOccupancy, "Ending Avg. Person Occupancy:", rowNumber);
-            rowNumber = AddGridRow(ws, assistedLivingMemorySupport.PercentLicensedOccupancy, "% Licensed Occupancy:", rowNumber);
+            rowNumber = AddGridRow(ws, assistedLivingMemorySupport.PercentLicensedOccupancy, "% Licensed Occupancy:", rowNumber, "0%");
 
             return rowNumber;
         }

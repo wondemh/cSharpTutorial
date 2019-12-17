@@ -15,12 +15,16 @@ namespace ReportApp.DAO
     {
         public static OccupancyRecord GetAverageFFS(int locationId, List<string> facilityTypeCodes)
         {
-            return new OccupancyRecord();
+            OccupancyRecord record = new OccupancyRecord();
+            record.TotalOrAverageValue = record.CalculateAverageValue();
+            return record;
         }
 
         internal static OccupancyRecord GetAverageLC()
         {
-            return new OccupancyRecord();
+            OccupancyRecord record = new OccupancyRecord();
+            record.TotalOrAverageValue = record.CalculateAverageValue();
+            return record;
         }
     }
 }

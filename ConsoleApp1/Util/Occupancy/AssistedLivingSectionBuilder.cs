@@ -31,7 +31,7 @@ namespace ReportApp
             rowNumber = AddGridRow(ws, assistedLivingStats.AverageFFS, "Average FFS:", rowNumber);
             rowNumber = AddGridRow(ws, assistedLivingStats.AverageLC, "Average LC:", rowNumber);
             rowNumber = AddGridRow(ws, assistedLivingStats.AverageOccupancy, "Average Occupancy:", rowNumber);
-            rowNumber = AddGridRow(ws, assistedLivingStats.PercentUnitOccupancy, "% Unit Occupancy:", rowNumber);
+            rowNumber = AddGridRow(ws, assistedLivingStats.PercentUnitOccupancy, "% Unit Occupancy:", rowNumber, "0%");
             rowNumber = AddGridRow(ws, assistedLivingStats.UnoccupiedUnits, "Unoccupied Units:", rowNumber);
 
             return rowNumber;

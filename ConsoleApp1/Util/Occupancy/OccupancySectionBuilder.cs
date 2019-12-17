@@ -74,11 +74,13 @@ namespace ReportApp
             return ++rowNumber;
         }
 
-        internal static int AddGridRow(ExcelWorksheet ws, OccupancyRecord record, string description, int rowNumber)
+        internal static int AddGridRow(ExcelWorksheet ws, OccupancyRecord record, string description, int rowNumber, string rowFormat = null)
         {
             if (record != null)
             {
                 ws.Cells[rowNumber, 1].Value = description;
+                ws.Cells[rowNumber, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+
                 ws.Cells[rowNumber, 2].Value = record.JanuaryValue;
                 ws.Cells[rowNumber, 3].Value = record.FebruaryValue;
                 ws.Cells[rowNumber, 4].Value = record.MarchValue;
@@ -91,7 +93,14 @@ namespace ReportApp
                 ws.Cells[rowNumber, 11].Value = record.OctoberValue;
                 ws.Cells[rowNumber, 12].Value = record.NovemberValue;
                 ws.Cells[rowNumber, 13].Value = record.DecemberValue;
-                ws.Cells[rowNumber, 14].Value = record.AverageValue;
+                ws.Cells[rowNumber, 14].Value = record.TotalOrAverageValue;
+                
+                ws.Cells[rowNumber, 2, rowNumber, 14].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                if (rowFormat != null)
+                {
+                    ws.Cells[rowNumber, 2, rowNumber, 14].Style.Numberformat.Format = rowFormat;
+                }
+
                 return ++rowNumber;
             }
             return rowNumber;

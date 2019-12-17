@@ -26,6 +26,10 @@ namespace ReportApp
                 MoveOuts = IndependentLivingDAO.GetCensusCountsByMonth(locationId, facilityTypeCodes, new List<string> { "D", "DH", "L" }, reportDate.Year),
                 Transfers = IndependentLivingDAO.GetCensusCountsByMonth(locationId, facilityTypeCodes, new List<string> { "PT", "TT" }, reportDate.Year)
             };
+            independentLivingStats.BeginningOccupancy.TotalOrAverageValue = independentLivingStats.BeginningOccupancy.CalculateAverageValue();
+            independentLivingStats.MoveIns.TotalOrAverageValue = independentLivingStats.MoveIns.CalculateTotalValue();
+            independentLivingStats.MoveOuts.TotalOrAverageValue = independentLivingStats.MoveOuts.CalculateTotalValue();
+            independentLivingStats.Transfers.TotalOrAverageValue = independentLivingStats.Transfers.CalculateTotalValue();
 
             rowNumber = AddSectionHeader(ws, "Independent Living Occupancy Statistics", rowNumber);
             rowNumber = AddColumnHeaders(ws, rowNumber);
@@ -35,7 +39,7 @@ namespace ReportApp
             rowNumber = AddGridRow(ws, independentLivingStats.MoveOuts, "Move-outs:", rowNumber);
             rowNumber = AddGridRow(ws, independentLivingStats.Transfers, "Transfer to AL/HC:", rowNumber);
             rowNumber = AddGridRow(ws, independentLivingStats.EndingOccupancy, "Ending Occupancy:", rowNumber);
-            rowNumber = AddGridRow(ws, independentLivingStats.PercentOccupancy, "% Occupancy:", rowNumber);
+            rowNumber = AddGridRow(ws, independentLivingStats.PercentOccupancy, "% Occupancy:", rowNumber, "0%");
             rowNumber = AddGridRow(ws, independentLivingStats.UnoccupiedUnits, "Unoccupied Units:", rowNumber);
 
             return rowNumber;

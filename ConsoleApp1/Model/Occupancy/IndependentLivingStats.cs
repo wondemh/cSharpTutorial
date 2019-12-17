@@ -15,7 +15,7 @@ namespace ReportApp.Model.Occupancy
         {
             get
             {
-                return new OccupancyRecord
+                OccupancyRecord record = new OccupancyRecord
                 {
                     JanuaryValue = BeginningOccupancy.JanuaryValue + MoveIns.JanuaryValue + MoveOuts.JanuaryValue - Transfers.JanuaryValue,
                     FebruaryValue = BeginningOccupancy.FebruaryValue + MoveIns.FebruaryValue + MoveOuts.FebruaryValue - Transfers.FebruaryValue,
@@ -30,35 +30,41 @@ namespace ReportApp.Model.Occupancy
                     NovemberValue = BeginningOccupancy.NovemberValue + MoveIns.NovemberValue + MoveOuts.NovemberValue - Transfers.NovemberValue,
                     DecemberValue = BeginningOccupancy.DecemberValue + MoveIns.DecemberValue + MoveOuts.DecemberValue - Transfers.DecemberValue
                 };
+                record.TotalOrAverageValue = record.CalculateAverageValue();
+                return record;
             }
         }
 
-        public OccupancyRecord PercentOccupancy {
+        public OccupancyRecord PercentOccupancy
+        {
             get
             {
-                return new OccupancyRecord
+                OccupancyRecord record = new OccupancyRecord
                 {
-                    JanuaryValue = UnitsAvailable.JanuaryValue > 0 ? EndingOccupancy.JanuaryValue / UnitsAvailable.JanuaryValue : 0,
-                    FebruaryValue = UnitsAvailable.FebruaryValue > 0 ? EndingOccupancy.FebruaryValue / UnitsAvailable.FebruaryValue : 0,
-                    MarchValue = UnitsAvailable.MarchValue > 0 ? EndingOccupancy.MarchValue / UnitsAvailable.MarchValue : 0,
-                    AprilValue = UnitsAvailable.AprilValue > 0 ? EndingOccupancy.AprilValue / UnitsAvailable.AprilValue : 0,
-                    MayValue = UnitsAvailable.MayValue > 0 ? EndingOccupancy.MayValue / UnitsAvailable.MayValue : 0,
-                    JuneValue = UnitsAvailable.JuneValue > 0 ? EndingOccupancy.JuneValue / UnitsAvailable.JuneValue : 0,
-                    JulyValue = UnitsAvailable.JulyValue > 0 ? EndingOccupancy.JulyValue / UnitsAvailable.JulyValue : 0,
-                    AugustValue = UnitsAvailable.AugustValue > 0 ? EndingOccupancy.AugustValue / UnitsAvailable.AugustValue : 0,
-                    SeptemberValue = UnitsAvailable.SeptemberValue > 0 ? EndingOccupancy.SeptemberValue / UnitsAvailable.SeptemberValue : 0,
-                    OctoberValue = UnitsAvailable.OctoberValue > 0 ? EndingOccupancy.OctoberValue / UnitsAvailable.OctoberValue : 0,
-                    NovemberValue = UnitsAvailable.NovemberValue > 0 ? EndingOccupancy.NovemberValue / UnitsAvailable.NovemberValue : 0,
-                    DecemberValue = UnitsAvailable.DecemberValue > 0 ? EndingOccupancy.DecemberValue / UnitsAvailable.DecemberValue : 0
+                    JanuaryValue = UnitsAvailable.JanuaryValue > 0 ? (float)Math.Round(EndingOccupancy.JanuaryValue / UnitsAvailable.JanuaryValue, 0) : 0,
+                    FebruaryValue = UnitsAvailable.FebruaryValue > 0 ? (float)Math.Round(EndingOccupancy.FebruaryValue / UnitsAvailable.FebruaryValue, 0) : 0,
+                    MarchValue = UnitsAvailable.MarchValue > 0 ? (float)Math.Round(EndingOccupancy.MarchValue / UnitsAvailable.MarchValue, 0) : 0,
+                    AprilValue = UnitsAvailable.AprilValue > 0 ? (float)Math.Round(EndingOccupancy.AprilValue / UnitsAvailable.AprilValue, 0) : 0,
+                    MayValue = UnitsAvailable.MayValue > 0 ? (float)Math.Round(EndingOccupancy.MayValue / UnitsAvailable.MayValue, 0) : 0,
+                    JuneValue = UnitsAvailable.JuneValue > 0 ? (float)Math.Round(EndingOccupancy.JuneValue / UnitsAvailable.JuneValue, 0) : 0,
+                    JulyValue = UnitsAvailable.JulyValue > 0 ? (float)Math.Round(EndingOccupancy.JulyValue / UnitsAvailable.JulyValue, 0) : 0,
+                    AugustValue = UnitsAvailable.AugustValue > 0 ? (float)Math.Round(EndingOccupancy.AugustValue / UnitsAvailable.AugustValue, 0) : 0,
+                    SeptemberValue = UnitsAvailable.SeptemberValue > 0 ? (float)Math.Round(EndingOccupancy.SeptemberValue / UnitsAvailable.SeptemberValue, 0) : 0,
+                    OctoberValue = UnitsAvailable.OctoberValue > 0 ? (float)Math.Round(EndingOccupancy.OctoberValue / UnitsAvailable.OctoberValue, 0) : 0,
+                    NovemberValue = UnitsAvailable.NovemberValue > 0 ? (float)Math.Round(EndingOccupancy.NovemberValue / UnitsAvailable.NovemberValue, 0) : 0,
+                    DecemberValue = UnitsAvailable.DecemberValue > 0 ? (float)Math.Round(EndingOccupancy.DecemberValue / UnitsAvailable.DecemberValue, 0) : 0
                 };
+                record.TotalOrAverageValue = UnitsAvailable.TotalOrAverageValue > 0 ? (float)Math.Round(EndingOccupancy.TotalOrAverageValue / UnitsAvailable.TotalOrAverageValue, 0) : 0;
+                return record;
 
             }
         }
 
-        public OccupancyRecord UnoccupiedUnits {
+        public OccupancyRecord UnoccupiedUnits
+        {
             get
             {
-                return new OccupancyRecord
+                OccupancyRecord record = new OccupancyRecord
                 {
                     JanuaryValue = UnitsAvailable.JanuaryValue - EndingOccupancy.JanuaryValue,
                     FebruaryValue = UnitsAvailable.FebruaryValue - EndingOccupancy.FebruaryValue,
@@ -73,6 +79,8 @@ namespace ReportApp.Model.Occupancy
                     NovemberValue = UnitsAvailable.NovemberValue - EndingOccupancy.NovemberValue,
                     DecemberValue = UnitsAvailable.DecemberValue - EndingOccupancy.DecemberValue
                 };
+                record.TotalOrAverageValue = record.CalculateAverageValue();
+                return record;
             }
         }
     }

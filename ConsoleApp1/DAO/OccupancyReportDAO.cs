@@ -29,7 +29,8 @@ namespace ReportApp.DAO
                 SeptemberValue = countOfAllUnits,
                 OctoberValue = countOfAllUnits,
                 NovemberValue = countOfAllUnits,
-                DecemberValue = countOfAllUnits
+                DecemberValue = countOfAllUnits,
+                TotalOrAverageValue = countOfAllUnits
             };
             return record;
         }

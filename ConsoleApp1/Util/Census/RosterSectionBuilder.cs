@@ -11,7 +11,7 @@ using System.Globalization;
 
 namespace ReportApp
 {
-    public class RosterSectionBuilder
+    public static class RosterSectionBuilder
     {
         public static int BuildRosterSection(ExcelWorksheet ws, string facilityTypeCode, List<CensusItem> list, Location location, DateTime startDate, DateTime endDate)
         {
