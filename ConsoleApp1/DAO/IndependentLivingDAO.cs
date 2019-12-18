@@ -15,7 +15,7 @@ namespace ReportApp.DAO
     {
         
 
-        public static OccupancyRecord GetBeginningOccupancyData(int locationId, List<string> facilityTypeCodes, DateTime reportDate)
+        public static OccupancyRecord GetActualBeginningOccupancyData(int locationId, List<string> facilityTypeCodes, DateTime reportDate)
         {
             OccupancyRecord record = new OccupancyRecord
             {
@@ -35,7 +35,7 @@ namespace ReportApp.DAO
             return record;
         }
 
-        public static OccupancyRecord GetCensusCountsByMonth(int locationId, List<string> facilityTypeCodes, List<String> admissionStatusCodes, int year, bool negate)
+        public static OccupancyRecord GetActualCensusCountsByMonth(int locationId, List<string> facilityTypeCodes, List<String> admissionStatusCodes, int year, bool negate)
         {
             OccupancyRecord record = new OccupancyRecord
             {

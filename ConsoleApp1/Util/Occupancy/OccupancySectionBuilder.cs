@@ -16,24 +16,27 @@ namespace ReportApp
     public abstract class OccupancySectionBuilder
     {
 
+        public const string ActualSectionColor = "#FF8633";
+        public const string BudgetSectionColor = "#3FC3E1";
+
         internal static int AddPageHeader(ExcelWorksheet ws, string locationName, DateTime reportDate, int rowNumber)
         {
             int initialRowNumber = rowNumber;
-            ExcelRange range = ws.Cells[rowNumber, 1, rowNumber, 14];
+            ExcelRange range = ws.Cells[rowNumber, 1, rowNumber, 15];
             range.Merge = true;
             range.Value = locationName.ToUpper(CultureInfo.CurrentCulture);
 
             rowNumber++;
-            range = ws.Cells[rowNumber, 1, rowNumber, 14];
+            range = ws.Cells[rowNumber, 1, rowNumber, 15];
             range.Merge = true;
             range.Value = "OCCUPANCY STATISTICS";
 
             rowNumber++;
-            range = ws.Cells[rowNumber, 1, rowNumber, 14];
+            range = ws.Cells[rowNumber, 1, rowNumber, 15];
             range.Merge = true;
             range.Value = "AS OF " + reportDate.ToString("MM/dd/yyyy", CultureInfo.CurrentCulture); ;
 
-            range = ws.Cells[initialRowNumber, 1, rowNumber, 14];
+            range = ws.Cells[initialRowNumber, 1, rowNumber, 15];
             range.Style.Font.Size = 15;
             range.Style.Font.Bold = true;
             range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
@@ -42,7 +45,7 @@ namespace ReportApp
 
         internal static int AddSectionHeader(ExcelWorksheet ws, string headerText, int rowNumber)
         {
-            ExcelRange range = ws.Cells[rowNumber, 1, rowNumber, 14];
+            ExcelRange range = ws.Cells[rowNumber, 1, rowNumber, 15];
             range.Merge = true;
             range.Value = headerText;
             range.Style.Font.Size = 13;
@@ -52,23 +55,40 @@ namespace ReportApp
             return ++rowNumber;
         }
 
+        internal static void AddSectionSideBar(ExcelWorksheet ws, string sidebarText, int startRowNumber, int endRowNumber, string hexColor)
+        {
+            ExcelRange range = ws.Cells[startRowNumber, 1, endRowNumber, 1];
+            range.Merge = true;
+            range.Value = sidebarText;
+            range.Style.Font.Size = 12;
+            range.Style.TextRotation = 90;
+            range.Style.Font.Bold = true;
+            range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+            range.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+            System.Drawing.Color colorFromHex = System.Drawing.ColorTranslator.FromHtml(hexColor);
+            range.Style.Fill.BackgroundColor.SetColor(colorFromHex);
+            range.AutoFitColumns();
+        }
+
         internal static int AddColumnHeaders(ExcelWorksheet ws, int rowNumber)
         {
-            ws.Cells[rowNumber, 2].Value = "Jan";
-            ws.Cells[rowNumber, 3].Value = "Feb";
-            ws.Cells[rowNumber, 4].Value = "Mar";
-            ws.Cells[rowNumber, 5].Value = "Apr";
-            ws.Cells[rowNumber, 6].Value = "May";
-            ws.Cells[rowNumber, 7].Value = "Jun";
-            ws.Cells[rowNumber, 8].Value = "Jul";
-            ws.Cells[rowNumber, 9].Value = "Aug";
-            ws.Cells[rowNumber, 10].Value = "Sep";
-            ws.Cells[rowNumber, 11].Value = "Oct";
-            ws.Cells[rowNumber, 12].Value = "Nov";
-            ws.Cells[rowNumber, 13].Value = "Dec";
-            ws.Cells[rowNumber, 14].Value = "Tot/Avg";
+            ws.Cells[rowNumber, 3].Value = "Jan";
+            ws.Cells[rowNumber, 4].Value = "Feb";
+            ws.Cells[rowNumber, 5].Value = "Mar";
+            ws.Cells[rowNumber, 6].Value = "Apr";
+            ws.Cells[rowNumber, 7].Value = "May";
+            ws.Cells[rowNumber, 8].Value = "Jun";
+            ws.Cells[rowNumber, 9].Value = "Jul";
+            ws.Cells[rowNumber, 10].Value = "Aug";
+            ws.Cells[rowNumber, 11].Value = "Sep";
+            ws.Cells[rowNumber, 12].Value = "Oct";
+            ws.Cells[rowNumber, 13].Value = "Nov";
+            ws.Cells[rowNumber, 14].Value = "Dec";
+            ws.Cells[rowNumber, 15].Value = "Tot/Avg";
 
-            ExcelRange range = ws.Cells[rowNumber, 2, rowNumber, 14];
+            ExcelRange range = ws.Cells[rowNumber, 3, rowNumber, 15];
             range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
             range.Style.Font.Bold = true;
             return ++rowNumber;
@@ -78,29 +98,29 @@ namespace ReportApp
         {
             if (record != null)
             {
-                ws.Cells[rowNumber, 1].Value = description;
-                ws.Cells[rowNumber, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+                ws.Cells[rowNumber, 2].Value = description;
+                ws.Cells[rowNumber, 2].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
 
-                ws.Cells[rowNumber, 2].Value = record.JanuaryValue;
-                ws.Cells[rowNumber, 3].Value = record.FebruaryValue;
-                ws.Cells[rowNumber, 4].Value = record.MarchValue;
-                ws.Cells[rowNumber, 5].Value = record.AprilValue;
-                ws.Cells[rowNumber, 6].Value = record.MayValue;
-                ws.Cells[rowNumber, 7].Value = record.JuneValue;
-                ws.Cells[rowNumber, 8].Value = record.JulyValue;
-                ws.Cells[rowNumber, 9].Value = record.AugustValue;
-                ws.Cells[rowNumber, 10].Value = record.SeptemberValue;
-                ws.Cells[rowNumber, 11].Value = record.OctoberValue;
-                ws.Cells[rowNumber, 12].Value = record.NovemberValue;
-                ws.Cells[rowNumber, 13].Value = record.DecemberValue;
+                ws.Cells[rowNumber, 3].Value = record.JanuaryValue;
+                ws.Cells[rowNumber, 4].Value = record.FebruaryValue;
+                ws.Cells[rowNumber, 5].Value = record.MarchValue;
+                ws.Cells[rowNumber, 6].Value = record.AprilValue;
+                ws.Cells[rowNumber, 7].Value = record.MayValue;
+                ws.Cells[rowNumber, 8].Value = record.JuneValue;
+                ws.Cells[rowNumber, 9].Value = record.JulyValue;
+                ws.Cells[rowNumber, 10].Value = record.AugustValue;
+                ws.Cells[rowNumber, 11].Value = record.SeptemberValue;
+                ws.Cells[rowNumber, 12].Value = record.OctoberValue;
+                ws.Cells[rowNumber, 13].Value = record.NovemberValue;
+                ws.Cells[rowNumber, 14].Value = record.DecemberValue;
 
                 Console.WriteLine($"TotalOrAverage for {description} is : {record.TotalOrAverageValue}");
-                ws.Cells[rowNumber, 14].Value = Math.Round(record.TotalOrAverageValue, 1);
+                ws.Cells[rowNumber, 15].Value = Math.Round(record.TotalOrAverageValue, 1);
                 
-                ws.Cells[rowNumber, 2, rowNumber, 14].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                ws.Cells[rowNumber, 3, rowNumber, 15].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 if (rowFormat != null)
                 {
-                    ws.Cells[rowNumber, 2, rowNumber, 14].Style.Numberformat.Format = rowFormat;
+                    ws.Cells[rowNumber, 3, rowNumber, 15].Style.Numberformat.Format = rowFormat;
                 }
 
                 return ++rowNumber;

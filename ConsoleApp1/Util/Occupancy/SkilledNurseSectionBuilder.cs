@@ -17,9 +17,18 @@ namespace ReportApp
 
         internal static int AddSkilledNurseSection(ExcelWorksheet ws, int locationId, DateTime reportDate, int rowNumber)
         {
-            SkilledNurseDAO dao = new SkilledNurseDAO();
             List<string> facilityTypeCodes = new List<string> { "HC" };
-            SkilledNurseStats skilledNurseStats = new SkilledNurseStats
+            rowNumber = AddSectionHeader(ws, "Skilled Nursing Occupancy Statistics", rowNumber);
+            rowNumber = AddActualSection(ws, locationId, reportDate, facilityTypeCodes, rowNumber);
+            rowNumber = AddBudgetSection(ws, locationId, reportDate, facilityTypeCodes, ++rowNumber);
+            return rowNumber;
+        }
+
+        private static int AddActualSection(ExcelWorksheet ws, int locationId, DateTime reportDate, List<string> facilityTypeCodes, int rowNumber)
+        {
+            SkilledNurseDAO dao = new SkilledNurseDAO();
+            
+            SkilledNurseActual skilledNurseStats = new SkilledNurseActual
             {
                 BedsAvailable = dao.GetBedsAvailableData(locationId, facilityTypeCodes, reportDate.Year, reportDate.Month),
                 AverageLCFirst = dao.GetAverageLCFirstData(locationId, facilityTypeCodes, reportDate.Year, reportDate.Month),
@@ -30,7 +39,7 @@ namespace ReportApp
                 AverageMedicaid = dao.GetAverageMedicaidData(locationId, facilityTypeCodes, reportDate.Year, reportDate.Month),
             };
 
-            rowNumber = AddSectionHeader(ws, "Skilled Nursing Occupancy Statistics", rowNumber);
+            int startRowNumber = rowNumber;
             rowNumber = AddColumnHeaders(ws, rowNumber);
             rowNumber = AddGridRow(ws, skilledNurseStats.BedsAvailable, "Beds Available:", rowNumber);
             rowNumber = AddGridRow(ws, skilledNurseStats.AverageLCFirst, "Avg. LC 1st:", rowNumber);
@@ -42,8 +51,53 @@ namespace ReportApp
             rowNumber = AddGridRow(ws, skilledNurseStats.TotalAverageOccupancy, "Total Avg. Occupancy:", rowNumber);
             rowNumber = AddGridRow(ws, skilledNurseStats.PercentOccupancy, "% Occupancy:", rowNumber, "0%");
 
+            //This adds the sidebar
+            AddSectionSideBar(ws, "Actual", startRowNumber, rowNumber - 1, ActualSectionColor);
+
             return rowNumber;
         }
 
+        private static int AddBudgetSection(ExcelWorksheet ws, int locationId, DateTime reportDate, List<string> facilityTypeCodes, int rowNumber)
+        {
+            SkilledNurseBudget skilledNurseBudget = new SkilledNurseBudget
+            {
+                AverageLCFirst = new OccupancyRecord(),
+                LCFirstVarianceFromBudget = new OccupancyRecord(),
+                AverageLCSecond = new OccupancyRecord(),
+                LCSecondVarianceFromBudget = new OccupancyRecord(),
+                MemoryCare = new OccupancyRecord(),
+                MemoryCareVarianceFromBudget = new OccupancyRecord(),
+                FFSDirectAdmit = new OccupancyRecord(),
+                FFSDirectAdmitVarianceFromBudget = new OccupancyRecord(),
+                Medicare = new OccupancyRecord(),
+                MedicareVarianceFromBudget = new OccupancyRecord(),
+                Medicaid = new OccupancyRecord(),
+                MedicaidVarianceFromBudget = new OccupancyRecord(),
+                TotalOccupancy = new OccupancyRecord(),
+                TotalOccupancyVarianceFromBudget = new OccupancyRecord()
+            };
+
+            int startRowNumber = rowNumber;
+            rowNumber = AddColumnHeaders(ws, rowNumber);
+            rowNumber = AddGridRow(ws, skilledNurseBudget.AverageLCFirst, "Avg. LC 1st:", rowNumber);
+            rowNumber = AddGridRow(ws, skilledNurseBudget.LCFirstVarianceFromBudget, "Variance from Budget:", rowNumber);
+            rowNumber = AddGridRow(ws, skilledNurseBudget.AverageLCSecond, "Avg. LC 2nd:", rowNumber);
+            rowNumber = AddGridRow(ws, skilledNurseBudget.LCSecondVarianceFromBudget, "Variance from Budget:", rowNumber);
+            rowNumber = AddGridRow(ws, skilledNurseBudget.MemoryCare, "Memory Care:", rowNumber, "0%");
+            rowNumber = AddGridRow(ws, skilledNurseBudget.MemoryCareVarianceFromBudget, "Variance from Budget:", rowNumber);
+            rowNumber = AddGridRow(ws, skilledNurseBudget.FFSDirectAdmit, "FFS/Direct Admit:", rowNumber);
+            rowNumber = AddGridRow(ws, skilledNurseBudget.FFSDirectAdmitVarianceFromBudget, "Variance from Budget:", rowNumber);
+            rowNumber = AddGridRow(ws, skilledNurseBudget.Medicare, "Medicare:", rowNumber);
+            rowNumber = AddGridRow(ws, skilledNurseBudget.MedicareVarianceFromBudget, "Variance from Budget:", rowNumber);
+            rowNumber = AddGridRow(ws, skilledNurseBudget.Medicaid, "Medicaid:", rowNumber);
+            rowNumber = AddGridRow(ws, skilledNurseBudget.MedicaidVarianceFromBudget, "Variance from Budget:", rowNumber);
+            rowNumber = AddGridRow(ws, skilledNurseBudget.TotalOccupancy, "Total Occupancy:", rowNumber);
+            rowNumber = AddGridRow(ws, skilledNurseBudget.TotalOccupancyVarianceFromBudget, "Variance from Budget:", rowNumber);
+
+            //This adds the sidebar
+            AddSectionSideBar(ws, "Budget", startRowNumber, rowNumber - 1, BudgetSectionColor);
+
+            return rowNumber;
+        }
     }
 }

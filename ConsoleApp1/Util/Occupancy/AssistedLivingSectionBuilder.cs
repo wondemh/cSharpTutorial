@@ -18,14 +18,23 @@ namespace ReportApp
         internal static int AddAssistedLivingSection(ExcelWorksheet ws, int locationId, DateTime reportDate, int rowNumber)
         {
             List<string> facilityTypeCodes = new List<string> { "AL" };
-            AssistedLivingStats assistedLivingStats = new AssistedLivingStats
+            rowNumber = AddSectionHeader(ws, "Assisted Living Occupancy Statistics", rowNumber);
+            rowNumber = AddActualSection(ws, locationId, reportDate, facilityTypeCodes, rowNumber);
+            rowNumber = AddBudgetSection(ws, locationId, reportDate, facilityTypeCodes, ++rowNumber);
+            return rowNumber;
+        }
+
+        private static int AddActualSection(ExcelWorksheet ws, int locationId, DateTime reportDate, List<string> facilityTypeCodes, int rowNumber)
+        {
+           
+            AssistedLivingActual assistedLivingStats = new AssistedLivingActual
             {
                 UnitsAvailable = OccupancyReportDAO.GetUnitsAvailableData(locationId, facilityTypeCodes),
                 AverageFFS = AssistedLivingDAO.GetAverageFFS(locationId, facilityTypeCodes, reportDate),
                 AverageLC = AssistedLivingDAO.GetAverageLC(locationId, facilityTypeCodes, reportDate),
             };
 
-            rowNumber = AddSectionHeader(ws, "Assisted Living Occupancy Statistics", rowNumber);
+            int startRowNumber = rowNumber;
             rowNumber = AddColumnHeaders(ws, rowNumber);
             rowNumber = AddGridRow(ws, assistedLivingStats.UnitsAvailable, "Units Available:", rowNumber);
             rowNumber = AddGridRow(ws, assistedLivingStats.AverageFFS, "Average FFS:", rowNumber);
@@ -33,6 +42,34 @@ namespace ReportApp
             rowNumber = AddGridRow(ws, assistedLivingStats.AverageOccupancy, "Average Occupancy:", rowNumber);
             rowNumber = AddGridRow(ws, assistedLivingStats.PercentUnitOccupancy, "% Unit Occupancy:", rowNumber, "0%");
             rowNumber = AddGridRow(ws, assistedLivingStats.UnoccupiedUnits, "Unoccupied Units:", rowNumber);
+
+            //This adds the sidebar
+            AddSectionSideBar(ws, "Actual", startRowNumber, rowNumber - 1, ActualSectionColor);
+
+            return ++rowNumber;
+        }
+
+        private static int AddBudgetSection(ExcelWorksheet ws, int locationId, DateTime reportDate, List<string> facilityTypeCodes, int rowNumber)
+        {
+            AssistedLivingBudget independentLivingBudget = new AssistedLivingBudget
+            {
+                AverageFFSFirst = new OccupancyRecord(),
+                AverLCFirst = new OccupancyRecord(),
+                EndingAverageOccupance = new OccupancyRecord(),
+                PercentOccupancy = new OccupancyRecord(),
+                VarianceFromBudget = new OccupancyRecord()
+            };
+
+            int startRowNumber = rowNumber;
+            rowNumber = AddColumnHeaders(ws, rowNumber);
+            rowNumber = AddGridRow(ws, independentLivingBudget.AverageFFSFirst, "Average FFS 1st:", rowNumber);
+            rowNumber = AddGridRow(ws, independentLivingBudget.AverLCFirst, "Averaget LC 1st:", rowNumber);
+            rowNumber = AddGridRow(ws, independentLivingBudget.EndingAverageOccupance, "Ending Avg. Occupancy:", rowNumber);
+            rowNumber = AddGridRow(ws, independentLivingBudget.VarianceFromBudget, "Variance from Budget:", rowNumber);
+            rowNumber = AddGridRow(ws, independentLivingBudget.PercentOccupancy, "% Occupancy:", rowNumber, "0%");
+
+            //This adds the sidebar
+            AddSectionSideBar(ws, "Budget", startRowNumber, rowNumber - 1, BudgetSectionColor);
 
             return rowNumber;
         }

@@ -60,7 +60,7 @@ namespace ReportApp
             //ws.PrinterSettings.RepeatRows = new ExcelAddress("1:1");
 
             ws.Cells["A:N"].AutoFitColumns();
-            p.SaveAs(new FileInfo(@"C:\Users\wondemh\source\repos\cSharpTutorial\Census Report - " + facilityTypeCode + ".xlsx"));
+            p.SaveAs(new FileInfo(@"C:\Users\wondemh\source\repos\cSharpTutorial\"+ location.Name +" Census - " + facilityTypeCode + ".xlsx"));
         }
 
     }
