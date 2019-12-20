@@ -54,7 +54,7 @@ namespace ReportApp
             WLRAssistedLivingBudget assistedLivingBudget = new WLRAssistedLivingBudget
             {
                 AverageFFSFirst = new OccupancyRecord(),
-                AverLCFirst = new OccupancyRecord(),
+                AverageLCFirst = new OccupancyRecord(),
                 EndingAverageOccupance = new OccupancyRecord(),
                 PercentOccupancy = new OccupancyRecord(),
                 VarianceFromBudget = new OccupancyRecord()
@@ -63,8 +63,8 @@ namespace ReportApp
             int startRowNumber = rowNumber;
             rowNumber = BuildColumnHeaders(ws, rowNumber);
             rowNumber = BuildGridRow(ws, assistedLivingBudget.AverageFFSFirst, "Average FFS 1st:", rowNumber);
-            rowNumber = BuildGridRow(ws, assistedLivingBudget.AverLCFirst, "Averaget LC 1st:", rowNumber);
-            rowNumber = BuildGridRow(ws, assistedLivingBudget.EndingAverageOccupance, "Ending Avg. Occupancy:", rowNumber);
+            rowNumber = BuildGridRow(ws, assistedLivingBudget.AverageLCFirst, "Averaget LC 1st:", rowNumber);
+            rowNumber = BuildGridRow(ws, assistedLivingBudget.EndingAverageOccupancy, "Ending Avg. Occupancy:", rowNumber);
             rowNumber = BuildGridRow(ws, assistedLivingBudget.VarianceFromBudget, "Variance from Budget:", rowNumber);
             rowNumber = BuildGridRow(ws, assistedLivingBudget.PercentOccupancy, "% Occupancy:", rowNumber, "0%");
 
