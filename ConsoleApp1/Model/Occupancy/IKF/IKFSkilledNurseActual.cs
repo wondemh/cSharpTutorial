@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ReportApp.Model.Occupancy
 {
-    class SkilledNurseActual
+    class IKFSkilledNurseActual
     {
         public OccupancyRecord BedsAvailable { get; set; }
         public OccupancyRecord AverageLCFirst { get; set; }

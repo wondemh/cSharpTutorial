@@ -19,7 +19,7 @@ namespace ReportApp
         public const string ActualSectionColor = "#FF8633";
         public const string BudgetSectionColor = "#3FC3E1";
 
-        internal static int AddPageHeader(ExcelWorksheet ws, string locationName, DateTime reportDate, int rowNumber)
+        internal int BuildPageHeader(ExcelWorksheet ws, string locationName, DateTime reportDate, int rowNumber)
         {
             int initialRowNumber = rowNumber;
             ExcelRange range = ws.Cells[rowNumber, 1, rowNumber, 15];
@@ -43,7 +43,7 @@ namespace ReportApp
             return rowNumber + 3;
         }
 
-        internal static int AddSectionHeader(ExcelWorksheet ws, string headerText, int rowNumber)
+        internal int BuildSectionHeader(ExcelWorksheet ws, string headerText, int rowNumber)
         {
             ExcelRange range = ws.Cells[rowNumber, 1, rowNumber, 15];
             range.Merge = true;
@@ -55,7 +55,7 @@ namespace ReportApp
             return ++rowNumber;
         }
 
-        internal static void AddSectionSideBar(ExcelWorksheet ws, string sidebarText, int startRowNumber, int endRowNumber, string hexColor)
+        internal void BuildSectionSideBar(ExcelWorksheet ws, string sidebarText, int startRowNumber, int endRowNumber, string hexColor)
         {
             ExcelRange range = ws.Cells[startRowNumber, 1, endRowNumber, 1];
             range.Merge = true;
@@ -72,7 +72,7 @@ namespace ReportApp
             range.AutoFitColumns();
         }
 
-        internal static int AddColumnHeaders(ExcelWorksheet ws, int rowNumber)
+        internal int BuildColumnHeaders(ExcelWorksheet ws, int rowNumber)
         {
             ws.Cells[rowNumber, 3].Value = "Jan";
             ws.Cells[rowNumber, 4].Value = "Feb";
@@ -94,7 +94,7 @@ namespace ReportApp
             return ++rowNumber;
         }
 
-        internal static int AddGridRow(ExcelWorksheet ws, OccupancyRecord record, string description, int rowNumber, string rowFormat = null)
+        internal int BuildGridRow(ExcelWorksheet ws, OccupancyRecord record, string description, int rowNumber, string rowFormat = null)
         {
             if (record != null)
             {
@@ -128,8 +128,7 @@ namespace ReportApp
             return rowNumber;
         }
 
-        internal abstract int buildSectionHeader();
-        internal abstract int buildActualSection();
-        internal abstract int buildBudgetSection();
+        internal abstract int BuildActualSection(ExcelWorksheet ws, LocationCodes locationId, DateTime reportDate, List<string> facilityTypeCodes, int rowNumber);
+        internal abstract int BuildBudgetSection(ExcelWorksheet ws, LocationCodes locationId, DateTime reportDate, List<string> facilityTypeCodes, int rowNumber);
     }
 }

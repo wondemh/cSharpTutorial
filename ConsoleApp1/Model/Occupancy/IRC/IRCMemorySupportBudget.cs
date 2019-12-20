@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ReportApp.Model.Occupancy
 {
-    class MemorySupportBudget
+    class IRCMemorySupportBudget
     {
         public OccupancyRecord PrivateMCFirstPerson { get; set; }
         public OccupancyRecord PrivateMCSecondtPerson { get; set; }

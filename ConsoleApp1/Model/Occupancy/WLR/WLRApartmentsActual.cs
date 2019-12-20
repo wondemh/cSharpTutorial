@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ReportApp.Model.Occupancy
 {
-    class ApartmentsActual
+    class WLRApartmentsActual
     {
         public OccupancyRecord UnitsAvailable { get; set; }
         public OccupancyRecord BeginningOccupancy { get; set; }

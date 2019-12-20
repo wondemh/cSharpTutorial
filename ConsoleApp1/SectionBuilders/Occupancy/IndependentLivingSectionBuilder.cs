@@ -18,7 +18,7 @@ namespace ReportApp
         internal static int AddIndependentLivingSection(ExcelWorksheet ws, int locationId, DateTime reportDate, int rowNumber)
         {
             List<string> facilityTypeCodes = new List<string> { "IL", "AP", "CO", "PS" };
-            rowNumber = AddSectionHeader(ws, "Independent Living Occupancy Statistics", rowNumber);
+            rowNumber = BuildSectionHeader(ws, "Independent Living Occupancy Statistics", rowNumber);
             rowNumber = AddActualSection(ws, locationId, reportDate, facilityTypeCodes, rowNumber);
             rowNumber = AddBudgetSection(ws, locationId, reportDate, facilityTypeCodes, ++rowNumber);
             return rowNumber;
@@ -41,18 +41,18 @@ namespace ReportApp
             independentLivingActual.Transfers.TotalOrAverage = independentLivingActual.Transfers.CalculateTotalValue();
 
             int startRowNumber = rowNumber;
-            rowNumber = AddColumnHeaders(ws, rowNumber);
-            rowNumber = AddGridRow(ws, independentLivingActual.UnitsAvailable, "Units Available:", rowNumber);
-            rowNumber = AddGridRow(ws, independentLivingActual.BeginningOccupancy, "Beginning Occupancy:", rowNumber);
-            rowNumber = AddGridRow(ws, independentLivingActual.MoveIns, "Move-ins:", rowNumber);
-            rowNumber = AddGridRow(ws, independentLivingActual.MoveOuts, "Move-outs:", rowNumber);
-            rowNumber = AddGridRow(ws, independentLivingActual.Transfers, "Transfer to AL/HC:", rowNumber);
-            rowNumber = AddGridRow(ws, independentLivingActual.EndingOccupancy, "Ending Occupancy:", rowNumber);
-            rowNumber = AddGridRow(ws, independentLivingActual.PercentOccupancy, "% Occupancy:", rowNumber, "0%");
-            rowNumber = AddGridRow(ws, independentLivingActual.UnoccupiedUnits, "Unoccupied Units:", rowNumber);
+            rowNumber = BuildColumnHeaders(ws, rowNumber);
+            rowNumber = BuildGridRow(ws, independentLivingActual.UnitsAvailable, "Units Available:", rowNumber);
+            rowNumber = BuildGridRow(ws, independentLivingActual.BeginningOccupancy, "Beginning Occupancy:", rowNumber);
+            rowNumber = BuildGridRow(ws, independentLivingActual.MoveIns, "Move-ins:", rowNumber);
+            rowNumber = BuildGridRow(ws, independentLivingActual.MoveOuts, "Move-outs:", rowNumber);
+            rowNumber = BuildGridRow(ws, independentLivingActual.Transfers, "Transfer to AL/HC:", rowNumber);
+            rowNumber = BuildGridRow(ws, independentLivingActual.EndingOccupancy, "Ending Occupancy:", rowNumber);
+            rowNumber = BuildGridRow(ws, independentLivingActual.PercentOccupancy, "% Occupancy:", rowNumber, "0%");
+            rowNumber = BuildGridRow(ws, independentLivingActual.UnoccupiedUnits, "Unoccupied Units:", rowNumber);
 
             //This adds the sidebar
-            AddSectionSideBar(ws, "Actual", startRowNumber, rowNumber - 1, ActualSectionColor);
+            BuildSectionSideBar(ws, "Actual", startRowNumber, rowNumber - 1, ActualSectionColor);
 
 
             return rowNumber;
@@ -71,16 +71,16 @@ namespace ReportApp
             };
 
             int startRowNumber = rowNumber;
-            rowNumber = AddColumnHeaders(ws, rowNumber);
-            rowNumber = AddGridRow(ws, independentLivingBudget.BeginningOccupancy, "Beginning Occupancy:", rowNumber);
-            rowNumber = AddGridRow(ws, independentLivingBudget.MoveIns, "Move-ins:", rowNumber);
-            rowNumber = AddGridRow(ws, independentLivingBudget.MoveOuts, "Move-outs:", rowNumber);
-            rowNumber = AddGridRow(ws, independentLivingBudget.EndingOccupancy, "Ending Occupancy:", rowNumber);
-            rowNumber = AddGridRow(ws, independentLivingBudget.PercenOccupancy, "% Occupancy:", rowNumber, "0%");
-            rowNumber = AddGridRow(ws, independentLivingBudget.VarianceFromBudget, "Variance from Budget:", rowNumber);
+            rowNumber = BuildColumnHeaders(ws, rowNumber);
+            rowNumber = BuildGridRow(ws, independentLivingBudget.BeginningOccupancy, "Beginning Occupancy:", rowNumber);
+            rowNumber = BuildGridRow(ws, independentLivingBudget.MoveIns, "Move-ins:", rowNumber);
+            rowNumber = BuildGridRow(ws, independentLivingBudget.MoveOuts, "Move-outs:", rowNumber);
+            rowNumber = BuildGridRow(ws, independentLivingBudget.EndingOccupancy, "Ending Occupancy:", rowNumber);
+            rowNumber = BuildGridRow(ws, independentLivingBudget.PercenOccupancy, "% Occupancy:", rowNumber, "0%");
+            rowNumber = BuildGridRow(ws, independentLivingBudget.VarianceFromBudget, "Variance from Budget:", rowNumber);
 
             //This adds the sidebar
-            AddSectionSideBar(ws, "Budget", startRowNumber, rowNumber - 1, BudgetSectionColor);
+            BuildSectionSideBar(ws, "Budget", startRowNumber, rowNumber - 1, BudgetSectionColor);
 
             return rowNumber;
         }

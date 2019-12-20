@@ -78,7 +78,7 @@ namespace ReportApp
             Location location = OccupancyReportDAO.GetLocation(locationId);
 
             int rowNumber = 1;
-            rowNumber = OccupancySectionBuilder.AddPageHeader(ws, location.Name, reportDate, rowNumber);
+            rowNumber = OccupancySectionBuilder.BuildPageHeader(ws, location.Name, reportDate, rowNumber);
             string[] sections = reportSections[locationId].Split(new char[] { ',' });
             foreach(string section in sections)
             {
