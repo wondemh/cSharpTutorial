@@ -80,7 +80,6 @@ namespace ReportApp.Model.Occupancy
         {
             get
             {
-
                 OccupancyRecord record = new OccupancyRecord();
                 record.January = EndingAverageOccupancy.January ?? ZeroIfNull(AverageLevelOne.January) + ZeroIfNull(AverageLevelTwo.January) + ZeroIfNull(AverageLevelThree.January) + ZeroIfNull(AverageSecondPerson.January);
                 record.February = EndingAverageOccupancy.February ?? ZeroIfNull(AverageLevelOne.February) + ZeroIfNull(AverageLevelTwo.February) + ZeroIfNull(AverageLevelThree.February) + ZeroIfNull(AverageSecondPerson.February);
@@ -99,8 +98,6 @@ namespace ReportApp.Model.Occupancy
             }
         }
 
-        //= IF(F36 <> "", +F36 / F28, "")
-        //If Ending Average Peraton Occupancy ? Ending Average Person Occupancy / LicensedFor
         public OccupancyRecord PercentLicensedOccupancy
         {
             get

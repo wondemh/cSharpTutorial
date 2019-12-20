@@ -4,88 +4,99 @@ using System.Text;
 
 namespace ReportApp.Model.Occupancy
 {
-    class IKFAssistedLivingBudget
+    class IKFAssistedLivingBudget : OccupancyRecordsContainer
     {
-        public OccupancyRecord UnitsAvailable { get; set; }
-        public OccupancyRecord LicensedFor { get; set; }
+        public IKFAssistedLivingActual AssistedLivingActual { get;  set; }
         public OccupancyRecord AverageLevelOne { get; set; }
         public OccupancyRecord AverageLevelTwo { get; set; }
         public OccupancyRecord AverageLevelThree { get; set; }
         public OccupancyRecord AverageSecondPerson { get; set; }
-        public OccupancyRecord EndingAverageOccupancy { get; set; }
-        public OccupancyRecord PercentAverageUnitOccupancy { get; set; }
-        public OccupancyRecord AverageUnoccupiedUnits { get; set; }
+        public OccupancyRecord EndingAverageOccupancy 
+        {
+            get
+            {
+
+                OccupancyRecord record = new OccupancyRecord();
+                record.January = ZeroIfNull(AverageLevelOne.January) + ZeroIfNull(AverageLevelTwo.January) + ZeroIfNull(AverageLevelTwo.January);
+                record.February = ZeroIfNull(AverageLevelOne.February) + ZeroIfNull(AverageLevelTwo.February) + ZeroIfNull(AverageLevelTwo.February);
+                record.March = ZeroIfNull(AverageLevelOne.March) + ZeroIfNull(AverageLevelTwo.March) + ZeroIfNull(AverageLevelTwo.March);
+                record.April = ZeroIfNull(AverageLevelOne.April) + ZeroIfNull(AverageLevelTwo.April) + ZeroIfNull(AverageLevelTwo.April);
+                record.May = ZeroIfNull(AverageLevelOne.May) + ZeroIfNull(AverageLevelTwo.May) + ZeroIfNull(AverageLevelTwo.May);
+                record.June = ZeroIfNull(AverageLevelOne.June) + ZeroIfNull(AverageLevelTwo.June) + ZeroIfNull(AverageLevelTwo.June);
+                record.July = ZeroIfNull(AverageLevelOne.July) + ZeroIfNull(AverageLevelTwo.July) + ZeroIfNull(AverageLevelTwo.July);
+                record.August = ZeroIfNull(AverageLevelOne.August) + ZeroIfNull(AverageLevelTwo.August) + ZeroIfNull(AverageLevelTwo.August);
+                record.September = ZeroIfNull(AverageLevelOne.September) + ZeroIfNull(AverageLevelTwo.September) + ZeroIfNull(AverageLevelTwo.September);
+                record.October = ZeroIfNull(AverageLevelOne.October) + ZeroIfNull(AverageLevelTwo.October) + ZeroIfNull(AverageLevelTwo.October);
+                record.November = ZeroIfNull(AverageLevelOne.November) + ZeroIfNull(AverageLevelTwo.November) + ZeroIfNull(AverageLevelTwo.November);
+                record.December = ZeroIfNull(AverageLevelOne.December) + ZeroIfNull(AverageLevelTwo.December) + ZeroIfNull(AverageLevelTwo.December);
+                record.TotalOrAverage = record.CalculateAverageValue();
+                return record;
+            }
+        }
+
+        public OccupancyRecord EndingAverageOccupancyVarianceFromBudget 
+        { 
+            get 
+            {
+                OccupancyRecord record = new OccupancyRecord();
+                record.January = AssistedLivingActual.EndingAverageOccupancy.January ?? ZeroIfNull(AssistedLivingActual.EndingAverageOccupancy.January) - ZeroIfNull(EndingAverageOccupancy.January);
+                record.February = AssistedLivingActual.EndingAverageOccupancy.February ?? ZeroIfNull(AssistedLivingActual.EndingAverageOccupancy.February) - ZeroIfNull(EndingAverageOccupancy.February);
+                record.March = AssistedLivingActual.EndingAverageOccupancy.March ?? ZeroIfNull(AssistedLivingActual.EndingAverageOccupancy.March) - ZeroIfNull(EndingAverageOccupancy.March);
+                record.April = AssistedLivingActual.EndingAverageOccupancy.April ?? ZeroIfNull(AssistedLivingActual.EndingAverageOccupancy.April) - ZeroIfNull(EndingAverageOccupancy.April);
+                record.May = AssistedLivingActual.EndingAverageOccupancy.May ?? ZeroIfNull(AssistedLivingActual.EndingAverageOccupancy.May) - ZeroIfNull(EndingAverageOccupancy.May);
+                record.June = AssistedLivingActual.EndingAverageOccupancy.June ?? ZeroIfNull(AssistedLivingActual.EndingAverageOccupancy.June) - ZeroIfNull(EndingAverageOccupancy.June);
+                record.July = AssistedLivingActual.EndingAverageOccupancy.July ?? ZeroIfNull(AssistedLivingActual.EndingAverageOccupancy.July) - ZeroIfNull(EndingAverageOccupancy.July);
+                record.August = AssistedLivingActual.EndingAverageOccupancy.August ?? ZeroIfNull(AssistedLivingActual.EndingAverageOccupancy.August) - ZeroIfNull(EndingAverageOccupancy.August);
+                record.September = AssistedLivingActual.EndingAverageOccupancy.September ?? ZeroIfNull(AssistedLivingActual.EndingAverageOccupancy.September) - ZeroIfNull(EndingAverageOccupancy.September);
+                record.October = AssistedLivingActual.EndingAverageOccupancy.October ?? ZeroIfNull(AssistedLivingActual.EndingAverageOccupancy.October) - ZeroIfNull(EndingAverageOccupancy.October);
+                record.November = AssistedLivingActual.EndingAverageOccupancy.November ?? ZeroIfNull(AssistedLivingActual.EndingAverageOccupancy.November) - ZeroIfNull(EndingAverageOccupancy.November);
+                record.December = AssistedLivingActual.EndingAverageOccupancy.December ?? ZeroIfNull(AssistedLivingActual.EndingAverageOccupancy.December) - ZeroIfNull(EndingAverageOccupancy.December);
+                return record;
+            } 
+        }
         public OccupancyRecord EndingAveragePersonOccupancy
         {
             get
             {
 
-                OccupancyRecord record = new OccupancyRecord
-                {
-                    January = AverageLevelOne.January + AverageLevelTwo.January + AverageLevelThree.January + AverageSecondPerson.January,
-                    February = EndingAverageOccupancy.February > 0
-                        ? AverageLevelOne.February + AverageLevelTwo.February + AverageLevelThree.February + AverageSecondPerson.February
-                        : 0,
-                    March = EndingAverageOccupancy.March > 0
-                        ? AverageLevelOne.March + AverageLevelTwo.March + AverageLevelThree.March + AverageSecondPerson.March
-                        : 0,
-                    April = EndingAverageOccupancy.April > 0
-                        ? AverageLevelOne.April + AverageLevelTwo.April + AverageLevelThree.April + AverageSecondPerson.April
-                        : 0,
-                    May = EndingAverageOccupancy.May > 0
-                        ? AverageLevelOne.May + AverageLevelTwo.May + AverageLevelThree.May + AverageSecondPerson.May
-                        : 0,
-                    June = EndingAverageOccupancy.June > 0
-                        ? AverageLevelOne.June + AverageLevelTwo.June + AverageLevelThree.June + AverageSecondPerson.June
-                        : 0,
-                    July = EndingAverageOccupancy.July > 0
-                        ? AverageLevelOne.July + AverageLevelTwo.July + AverageLevelThree.July + AverageSecondPerson.July
-                        : 0,
-                    August = EndingAverageOccupancy.August > 0
-                        ? AverageLevelOne.August + AverageLevelTwo.August + AverageLevelThree.August + AverageSecondPerson.August
-                        : 0,
-                    September = EndingAverageOccupancy.September > 0
-                        ? AverageLevelOne.September + AverageLevelTwo.September + AverageLevelThree.September + AverageSecondPerson.September
-                        : 0,
-                    October = EndingAverageOccupancy.October > 0
-                        ? AverageLevelOne.October + AverageLevelTwo.October + AverageLevelThree.October + AverageSecondPerson.October
-                        : 0,
-                    November = EndingAverageOccupancy.November > 0
-                        ? AverageLevelOne.November + AverageLevelTwo.November + AverageLevelThree.November + AverageSecondPerson.November
-                        : 0,
-                    December = EndingAverageOccupancy.December > 0
-                        ? AverageLevelOne.December + AverageLevelTwo.December + AverageLevelThree.December + AverageSecondPerson.December
-                        : 0,
-                };
+                OccupancyRecord record = new OccupancyRecord();
+                record.January = ZeroIfNull(AverageLevelOne.January) + ZeroIfNull(AverageLevelTwo.January) + ZeroIfNull(AverageLevelTwo.January) + ZeroIfNull(AverageSecondPerson.January);
+                record.February = ZeroIfNull(AverageLevelOne.February) + ZeroIfNull(AverageLevelTwo.February) + ZeroIfNull(AverageLevelTwo.February) + ZeroIfNull(AverageSecondPerson.February);
+                record.March = ZeroIfNull(AverageLevelOne.March) + ZeroIfNull(AverageLevelTwo.March) + ZeroIfNull(AverageLevelTwo.March) + ZeroIfNull(AverageSecondPerson.March);
+                record.April = ZeroIfNull(AverageLevelOne.April) + ZeroIfNull(AverageLevelTwo.April) + ZeroIfNull(AverageLevelTwo.April) + ZeroIfNull(AverageSecondPerson.April);
+                record.May = ZeroIfNull(AverageLevelOne.May) + ZeroIfNull(AverageLevelTwo.May) + ZeroIfNull(AverageLevelTwo.May) + ZeroIfNull(AverageSecondPerson.May);
+                record.June = ZeroIfNull(AverageLevelOne.June) + ZeroIfNull(AverageLevelTwo.June) + ZeroIfNull(AverageLevelTwo.June) + ZeroIfNull(AverageSecondPerson.June);
+                record.July = ZeroIfNull(AverageLevelOne.July) + ZeroIfNull(AverageLevelTwo.July) + ZeroIfNull(AverageLevelTwo.July) + ZeroIfNull(AverageSecondPerson.July);
+                record.August = ZeroIfNull(AverageLevelOne.August) + ZeroIfNull(AverageLevelTwo.August) + ZeroIfNull(AverageLevelTwo.August) + ZeroIfNull(AverageSecondPerson.August);
+                record.September = ZeroIfNull(AverageLevelOne.September) + ZeroIfNull(AverageLevelTwo.September) + ZeroIfNull(AverageLevelTwo.September) + ZeroIfNull(AverageSecondPerson.September);
+                record.October = ZeroIfNull(AverageLevelOne.October) + ZeroIfNull(AverageLevelTwo.October) + ZeroIfNull(AverageLevelTwo.October) + ZeroIfNull(AverageSecondPerson.October);
+                record.November = ZeroIfNull(AverageLevelOne.November) + ZeroIfNull(AverageLevelTwo.November) + ZeroIfNull(AverageLevelTwo.November) + ZeroIfNull(AverageSecondPerson.November);
+                record.December = ZeroIfNull(AverageLevelOne.December) + ZeroIfNull(AverageLevelTwo.December) + ZeroIfNull(AverageLevelTwo.December) + ZeroIfNull(AverageSecondPerson.December);
                 record.TotalOrAverage = record.CalculateAverageValue();
                 return record;
             }
         }
-        public OccupancyRecord PercentLicensedOccupancy
+
+        //record.January = Actual.EndingAveragePersonOccupancy.January ?? Actual.EndingAveragePersonOccupancy.January - ZeroIfNull(EndingAveragePersonOccupancy);
+        public OccupancyRecord EndingAveragePersonOccupancyVarianceFromBudget
         {
             get
             {
-                if (EndingAveragePersonOccupancy != null && LicensedFor != null)
-                {
-                    OccupancyRecord record = new OccupancyRecord
-                    {
-                        January = LicensedFor.January > 0 ? (float)Math.Round(EndingAveragePersonOccupancy.January / LicensedFor.January, 0) : 0,
-                        February = LicensedFor.February > 0 ? (float)Math.Round(EndingAveragePersonOccupancy.February / LicensedFor.February, 0) : 0,
-                        March = LicensedFor.March > 0 ? (float)Math.Round(EndingAveragePersonOccupancy.March / LicensedFor.March, 0) : 0,
-                        April = LicensedFor.April > 0 ? (float)Math.Round(EndingAveragePersonOccupancy.April / LicensedFor.April, 0) : 0,
-                        May = LicensedFor.May > 0 ? (float)Math.Round(EndingAveragePersonOccupancy.May / LicensedFor.May, 0) : 0,
-                        June = LicensedFor.June > 0 ? (float)Math.Round(EndingAveragePersonOccupancy.June / LicensedFor.June, 0) : 0,
-                        July = LicensedFor.July > 0 ? (float)Math.Round(EndingAveragePersonOccupancy.July / LicensedFor.July, 0) : 0,
-                        August = LicensedFor.August > 0 ? (float)Math.Round(EndingAveragePersonOccupancy.August / LicensedFor.August, 0) : 0,
-                        September = LicensedFor.September > 0 ? (float)Math.Round(EndingAveragePersonOccupancy.September / LicensedFor.September, 0) : 0,
-                        October = LicensedFor.October > 0 ? (float)Math.Round(EndingAveragePersonOccupancy.October / LicensedFor.October, 0) : 0,
-                        November = LicensedFor.November > 0 ? (float)Math.Round(EndingAveragePersonOccupancy.November / LicensedFor.November, 0) : 0,
-                        December = LicensedFor.December > 0 ? (float)Math.Round(EndingAveragePersonOccupancy.December / LicensedFor.December, 0) : 0
-                    };
-                    record.TotalOrAverage = UnitsAvailable.TotalOrAverage > 0 ? (float)Math.Round(EndingAveragePersonOccupancy.TotalOrAverage / LicensedFor.TotalOrAverage, 0) : 0;
-                    return record;
-                }
-                return new OccupancyRecord();
+                OccupancyRecord record = new OccupancyRecord();
+                record.January = AssistedLivingActual.EndingAveragePersonOccupancy.January ?? AssistedLivingActual.EndingAveragePersonOccupancy.January - ZeroIfNull(EndingAveragePersonOccupancy.January);
+                record.February = AssistedLivingActual.EndingAveragePersonOccupancy.February ?? AssistedLivingActual.EndingAveragePersonOccupancy.February - ZeroIfNull(EndingAveragePersonOccupancy.February);
+                record.March = AssistedLivingActual.EndingAveragePersonOccupancy.March ?? AssistedLivingActual.EndingAveragePersonOccupancy.March - ZeroIfNull(EndingAveragePersonOccupancy.March);
+                record.April = AssistedLivingActual.EndingAveragePersonOccupancy.April ?? AssistedLivingActual.EndingAveragePersonOccupancy.April - ZeroIfNull(EndingAveragePersonOccupancy.April);
+                record.May = AssistedLivingActual.EndingAveragePersonOccupancy.May ?? AssistedLivingActual.EndingAveragePersonOccupancy.May - ZeroIfNull(EndingAveragePersonOccupancy.May);
+                record.June = AssistedLivingActual.EndingAveragePersonOccupancy.June ?? AssistedLivingActual.EndingAveragePersonOccupancy.June - ZeroIfNull(EndingAveragePersonOccupancy.June);
+                record.July = AssistedLivingActual.EndingAveragePersonOccupancy.July ?? AssistedLivingActual.EndingAveragePersonOccupancy.July - ZeroIfNull(EndingAveragePersonOccupancy.July);
+                record.August = AssistedLivingActual.EndingAveragePersonOccupancy.August ?? AssistedLivingActual.EndingAveragePersonOccupancy.August - ZeroIfNull(EndingAveragePersonOccupancy.August);
+                record.September = AssistedLivingActual.EndingAveragePersonOccupancy.September ?? AssistedLivingActual.EndingAveragePersonOccupancy.September - ZeroIfNull(EndingAveragePersonOccupancy.September);
+                record.October = AssistedLivingActual.EndingAveragePersonOccupancy.October ?? AssistedLivingActual.EndingAveragePersonOccupancy.October - ZeroIfNull(EndingAveragePersonOccupancy.October);
+                record.November = AssistedLivingActual.EndingAveragePersonOccupancy.November ?? AssistedLivingActual.EndingAveragePersonOccupancy.November - ZeroIfNull(EndingAveragePersonOccupancy.November);
+                record.December = AssistedLivingActual.EndingAveragePersonOccupancy.December ?? AssistedLivingActual.EndingAveragePersonOccupancy.December - ZeroIfNull(EndingAveragePersonOccupancy.December);
+                record.TotalOrAverage = record.CalculateAverageValue();
+                return record;
             }
         }
     }
