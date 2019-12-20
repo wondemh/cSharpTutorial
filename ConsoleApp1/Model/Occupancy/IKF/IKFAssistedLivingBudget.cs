@@ -61,18 +61,18 @@ namespace ReportApp.Model.Occupancy
             {
 
                 OccupancyRecord record = new OccupancyRecord();
-                record.January = ZeroIfNull(AverageLevelOne.January) + ZeroIfNull(AverageLevelTwo.January) + ZeroIfNull(AverageLevelTwo.January) + ZeroIfNull(AverageSecondPerson.January);
-                record.February = ZeroIfNull(AverageLevelOne.February) + ZeroIfNull(AverageLevelTwo.February) + ZeroIfNull(AverageLevelTwo.February) + ZeroIfNull(AverageSecondPerson.February);
-                record.March = ZeroIfNull(AverageLevelOne.March) + ZeroIfNull(AverageLevelTwo.March) + ZeroIfNull(AverageLevelTwo.March) + ZeroIfNull(AverageSecondPerson.March);
-                record.April = ZeroIfNull(AverageLevelOne.April) + ZeroIfNull(AverageLevelTwo.April) + ZeroIfNull(AverageLevelTwo.April) + ZeroIfNull(AverageSecondPerson.April);
-                record.May = ZeroIfNull(AverageLevelOne.May) + ZeroIfNull(AverageLevelTwo.May) + ZeroIfNull(AverageLevelTwo.May) + ZeroIfNull(AverageSecondPerson.May);
-                record.June = ZeroIfNull(AverageLevelOne.June) + ZeroIfNull(AverageLevelTwo.June) + ZeroIfNull(AverageLevelTwo.June) + ZeroIfNull(AverageSecondPerson.June);
-                record.July = ZeroIfNull(AverageLevelOne.July) + ZeroIfNull(AverageLevelTwo.July) + ZeroIfNull(AverageLevelTwo.July) + ZeroIfNull(AverageSecondPerson.July);
-                record.August = ZeroIfNull(AverageLevelOne.August) + ZeroIfNull(AverageLevelTwo.August) + ZeroIfNull(AverageLevelTwo.August) + ZeroIfNull(AverageSecondPerson.August);
-                record.September = ZeroIfNull(AverageLevelOne.September) + ZeroIfNull(AverageLevelTwo.September) + ZeroIfNull(AverageLevelTwo.September) + ZeroIfNull(AverageSecondPerson.September);
-                record.October = ZeroIfNull(AverageLevelOne.October) + ZeroIfNull(AverageLevelTwo.October) + ZeroIfNull(AverageLevelTwo.October) + ZeroIfNull(AverageSecondPerson.October);
-                record.November = ZeroIfNull(AverageLevelOne.November) + ZeroIfNull(AverageLevelTwo.November) + ZeroIfNull(AverageLevelTwo.November) + ZeroIfNull(AverageSecondPerson.November);
-                record.December = ZeroIfNull(AverageLevelOne.December) + ZeroIfNull(AverageLevelTwo.December) + ZeroIfNull(AverageLevelTwo.December) + ZeroIfNull(AverageSecondPerson.December);
+                record.January = ZeroIfNull(AverageLevelOne.January) + ZeroIfNull(AverageLevelTwo.January) + ZeroIfNull(AverageLevelThree.January) + ZeroIfNull(AverageSecondPerson.January);
+                record.February = ZeroIfNull(AverageLevelOne.February) + ZeroIfNull(AverageLevelTwo.February) + ZeroIfNull(AverageLevelThree.February) + ZeroIfNull(AverageSecondPerson.February);
+                record.March = ZeroIfNull(AverageLevelOne.March) + ZeroIfNull(AverageLevelTwo.March) + ZeroIfNull(AverageLevelThree.March) + ZeroIfNull(AverageSecondPerson.March);
+                record.April = ZeroIfNull(AverageLevelOne.April) + ZeroIfNull(AverageLevelTwo.April) + ZeroIfNull(AverageLevelThree.April) + ZeroIfNull(AverageSecondPerson.April);
+                record.May = ZeroIfNull(AverageLevelOne.May) + ZeroIfNull(AverageLevelTwo.May) + ZeroIfNull(AverageLevelThree.May) + ZeroIfNull(AverageSecondPerson.May);
+                record.June = ZeroIfNull(AverageLevelOne.June) + ZeroIfNull(AverageLevelTwo.June) + ZeroIfNull(AverageLevelThree.June) + ZeroIfNull(AverageSecondPerson.June);
+                record.July = ZeroIfNull(AverageLevelOne.July) + ZeroIfNull(AverageLevelTwo.July) + ZeroIfNull(AverageLevelThree.July) + ZeroIfNull(AverageSecondPerson.July);
+                record.August = ZeroIfNull(AverageLevelOne.August) + ZeroIfNull(AverageLevelTwo.August) + ZeroIfNull(AverageLevelThree.August) + ZeroIfNull(AverageSecondPerson.August);
+                record.September = ZeroIfNull(AverageLevelOne.September) + ZeroIfNull(AverageLevelTwo.September) + ZeroIfNull(AverageLevelThree.September) + ZeroIfNull(AverageSecondPerson.September);
+                record.October = ZeroIfNull(AverageLevelOne.October) + ZeroIfNull(AverageLevelTwo.October) + ZeroIfNull(AverageLevelThree.October) + ZeroIfNull(AverageSecondPerson.October);
+                record.November = ZeroIfNull(AverageLevelOne.November) + ZeroIfNull(AverageLevelTwo.November) + ZeroIfNull(AverageLevelThree.November) + ZeroIfNull(AverageSecondPerson.November);
+                record.December = ZeroIfNull(AverageLevelOne.December) + ZeroIfNull(AverageLevelTwo.December) + ZeroIfNull(AverageLevelThree.December) + ZeroIfNull(AverageSecondPerson.December);
                 record.TotalOrAverage = record.CalculateAverageValue();
                 return record;
             }

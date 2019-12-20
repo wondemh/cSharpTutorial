@@ -18,18 +18,18 @@ namespace ReportApp.Model.Occupancy
             {
                 OccupancyRecord record = new OccupancyRecord
                 {
-                    January = AverageFFSFirst.January ?? AverageFFSFirst.January + AverageLCFirst.January,
-                    February = AverageFFSFirst.February ?? AverageFFSFirst.February + AverageLCFirst.February,
-                    March = AverageFFSFirst.March ?? AverageFFSFirst.March + AverageLCFirst.March,
-                    April = AverageFFSFirst.April ?? AverageFFSFirst.April + AverageLCFirst.April,
-                    May = AverageFFSFirst.May ?? AverageFFSFirst.May + AverageLCFirst.May,
-                    June = AverageFFSFirst.June ?? AverageFFSFirst.June + AverageLCFirst.June,
-                    July = AverageFFSFirst.July ?? AverageFFSFirst.July + AverageLCFirst.July,
-                    August = AverageFFSFirst.August ?? AverageFFSFirst.August + AverageLCFirst.August,
-                    September = AverageFFSFirst.September ?? AverageFFSFirst.September + AverageLCFirst.September,
-                    October = AverageFFSFirst.October ?? AverageFFSFirst.October + AverageLCFirst.October,
-                    November = AverageFFSFirst.November ?? AverageFFSFirst.November + AverageLCFirst.November,
-                    December = AverageFFSFirst.December ?? AverageFFSFirst.December + AverageLCFirst.December
+                    January = AverageFFSFirst.January ?? ZeroIfNull(AverageFFSFirst.January) + ZeroIfNull(AverageLCFirst.January),
+                    February = AverageFFSFirst.February ?? ZeroIfNull(AverageFFSFirst.February) + ZeroIfNull(AverageLCFirst.February),
+                    March = AverageFFSFirst.March ?? ZeroIfNull(AverageFFSFirst.March) + ZeroIfNull(AverageLCFirst.March),
+                    April = AverageFFSFirst.April ?? ZeroIfNull(AverageFFSFirst.April) + ZeroIfNull(AverageLCFirst.April),
+                    May = AverageFFSFirst.May ?? ZeroIfNull(AverageFFSFirst.May) + ZeroIfNull(AverageLCFirst.May),
+                    June = AverageFFSFirst.June ?? ZeroIfNull(AverageFFSFirst.June) + ZeroIfNull(AverageLCFirst.June),
+                    July = AverageFFSFirst.July ?? ZeroIfNull(AverageFFSFirst.July) + ZeroIfNull(AverageLCFirst.July),
+                    August = AverageFFSFirst.August ?? ZeroIfNull(AverageFFSFirst.August) + ZeroIfNull(AverageLCFirst.August),
+                    September = AverageFFSFirst.September ?? ZeroIfNull(AverageFFSFirst.September) + ZeroIfNull(AverageLCFirst.September),
+                    October = AverageFFSFirst.October ?? ZeroIfNull(AverageFFSFirst.October) + ZeroIfNull(AverageLCFirst.October),
+                    November = AverageFFSFirst.November ?? ZeroIfNull(AverageFFSFirst.November) + ZeroIfNull(AverageLCFirst.November),
+                    December = AverageFFSFirst.December ?? ZeroIfNull(AverageFFSFirst.December) + ZeroIfNull(AverageLCFirst.December)
                 };
                 record.TotalOrAverage = record.CalculateAverageValue();
                 return record;
