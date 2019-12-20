@@ -54,6 +54,7 @@ namespace ReportApp.Model.Occupancy
                 return record;
             } 
         }
+
         public OccupancyRecord EndingAveragePersonOccupancy
         {
             get
