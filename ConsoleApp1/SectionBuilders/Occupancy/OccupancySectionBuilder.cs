@@ -19,7 +19,7 @@ namespace ReportApp
         public const string ActualSectionColor = "#FF8633";
         public const string BudgetSectionColor = "#3FC3E1";
 
-        internal int BuildPageHeader(ExcelWorksheet ws, string locationName, DateTime reportDate, int rowNumber)
+        internal static int BuildPageHeader(ExcelWorksheet ws, string locationName, DateTime reportDate, int rowNumber)
         {
             int initialRowNumber = rowNumber;
             ExcelRange range = ws.Cells[rowNumber, 1, rowNumber, 15];
