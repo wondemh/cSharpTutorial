@@ -4,34 +4,32 @@ using System.Text;
 
 namespace ReportApp.Model.Occupancy
 {
-    class IRCSkilledNurseActual
+    class IRCSkilledNurseActual : OccupancyRecordsContainer
     {
         public OccupancyRecord BedsAvailable { get; set; }
         public OccupancyRecord AverageLCFirst { get; set; }
         public OccupancyRecord AverageLCSecond { get; set; }
         public OccupancyRecord FFSDirectAdmit { get; set; }
-        public OccupancyRecord AverageMemoryCare { get; set; }
         public OccupancyRecord AverageMedicare { get; set; }
         public OccupancyRecord AverageMedicaid { get; set; }
-
         public OccupancyRecord TotalAverageOccupancy
         {
             get
             {
                 OccupancyRecord record = new OccupancyRecord
                 {
-                    January = AverageLCFirst.January + AverageLCSecond.January + FFSDirectAdmit.January + AverageMemoryCare.January + AverageMedicare.January + AverageMedicaid.January,
-                    February = AverageLCFirst.February + AverageLCSecond.February + FFSDirectAdmit.February + AverageMemoryCare.February + AverageMedicare.February + AverageMedicaid.February,
-                    March = AverageLCFirst.March + AverageLCSecond.March + FFSDirectAdmit.March + AverageMemoryCare.March + AverageMedicare.March + AverageMedicaid.March,
-                    April = AverageLCFirst.April + AverageLCSecond.April + FFSDirectAdmit.April + AverageMemoryCare.April + AverageMedicare.April + AverageMedicaid.April,
-                    May = AverageLCFirst.May + AverageLCSecond.May + FFSDirectAdmit.May + AverageMemoryCare.May + AverageMedicare.May + AverageMedicaid.May,
-                    June = AverageLCFirst.June + AverageLCSecond.June + FFSDirectAdmit.June + AverageMemoryCare.June + AverageMedicare.June + AverageMedicaid.June,
-                    July = AverageLCFirst.July + AverageLCSecond.July + FFSDirectAdmit.July + AverageMemoryCare.July + AverageMedicare.July + AverageMedicaid.July,
-                    August = AverageLCFirst.August + AverageLCSecond.August + FFSDirectAdmit.August + AverageMemoryCare.August + AverageMedicare.August + AverageMedicaid.August,
-                    September = AverageLCFirst.September + AverageLCSecond.September + FFSDirectAdmit.September + AverageMemoryCare.September + AverageMedicare.September + AverageMedicaid.September,
-                    October = AverageLCFirst.October + AverageLCSecond.October + FFSDirectAdmit.October + AverageMemoryCare.October + AverageMedicare.October + AverageMedicaid.October,
-                    November = AverageLCFirst.November + AverageLCSecond.November + FFSDirectAdmit.November + AverageMemoryCare.November + AverageMedicare.November + AverageMedicaid.November,
-                    December = AverageLCFirst.December + AverageLCSecond.December + FFSDirectAdmit.December + AverageMemoryCare.December + AverageMedicare.December + AverageMedicaid.December
+                    January = ZeroIfNull(AverageLCFirst.January) + ZeroIfNull(AverageLCSecond.January) + ZeroIfNull(FFSDirectAdmit.January) + ZeroIfNull(AverageMedicare.January) + ZeroIfNull(AverageMedicaid.January),
+                    February = ZeroIfNull(AverageLCFirst.February) + ZeroIfNull(AverageLCSecond.February) + ZeroIfNull(FFSDirectAdmit.February) + ZeroIfNull(AverageMedicare.February) + ZeroIfNull(AverageMedicaid.February),
+                    March = ZeroIfNull(AverageLCFirst.March) + ZeroIfNull(AverageLCSecond.March) + ZeroIfNull(FFSDirectAdmit.March) + ZeroIfNull(AverageMedicare.March) + ZeroIfNull(AverageMedicaid.March),
+                    April = ZeroIfNull(AverageLCFirst.April) + ZeroIfNull(AverageLCSecond.April) + ZeroIfNull(FFSDirectAdmit.April) + ZeroIfNull(AverageMedicare.April) + ZeroIfNull(AverageMedicaid.April),
+                    May = ZeroIfNull(AverageLCFirst.May) + ZeroIfNull(AverageLCSecond.May) + ZeroIfNull(FFSDirectAdmit.May) + ZeroIfNull(AverageMedicare.May) + ZeroIfNull(AverageMedicaid.May),
+                    June = ZeroIfNull(AverageLCFirst.June) + ZeroIfNull(AverageLCSecond.June) + ZeroIfNull(FFSDirectAdmit.June) + ZeroIfNull(AverageMedicare.June) + ZeroIfNull(AverageMedicaid.June),
+                    July = ZeroIfNull(AverageLCFirst.July) + ZeroIfNull(AverageLCSecond.July) + ZeroIfNull(FFSDirectAdmit.July) + ZeroIfNull(AverageMedicare.July) + ZeroIfNull(AverageMedicaid.July),
+                    August = ZeroIfNull(AverageLCFirst.August) + ZeroIfNull(AverageLCSecond.August) + ZeroIfNull(FFSDirectAdmit.August) + ZeroIfNull(AverageMedicare.August) + ZeroIfNull(AverageMedicaid.August),
+                    September = ZeroIfNull(AverageLCFirst.September) + ZeroIfNull(AverageLCSecond.September) + ZeroIfNull(FFSDirectAdmit.September) + ZeroIfNull(AverageMedicare.September) + ZeroIfNull(AverageMedicaid.September),
+                    October = ZeroIfNull(AverageLCFirst.October) + ZeroIfNull(AverageLCSecond.October) + ZeroIfNull(FFSDirectAdmit.October) + ZeroIfNull(AverageMedicare.October) + ZeroIfNull(AverageMedicaid.October),
+                    November = ZeroIfNull(AverageLCFirst.November) + ZeroIfNull(AverageLCSecond.November) + ZeroIfNull(FFSDirectAdmit.November) + ZeroIfNull(AverageMedicare.November) + ZeroIfNull(AverageMedicaid.November),
+                    December = ZeroIfNull(AverageLCFirst.December) + ZeroIfNull(AverageLCSecond.December) + ZeroIfNull(FFSDirectAdmit.December) + ZeroIfNull(AverageMedicare.December) + ZeroIfNull(AverageMedicaid.December)
                 };
                 record.TotalOrAverage = record.CalculateAverageValue();
                 return record;
@@ -42,22 +40,21 @@ namespace ReportApp.Model.Occupancy
         {
             get
             {
-
                 return new OccupancyRecord
                 {
-                    January = BedsAvailable.January > 0 ? (float)Math.Round(TotalAverageOccupancy.January / BedsAvailable.January, 0) : 0,
-                    February = BedsAvailable.February > 0 ? (float)Math.Round(TotalAverageOccupancy.February / BedsAvailable.February, 0) : 0,
-                    March = BedsAvailable.March > 0 ? (float)Math.Round(TotalAverageOccupancy.March / BedsAvailable.March, 0) : 0,
-                    April = BedsAvailable.April > 0 ? (float)Math.Round(TotalAverageOccupancy.April / BedsAvailable.April, 0) : 0,
-                    May = BedsAvailable.May > 0 ? (float)Math.Round(TotalAverageOccupancy.May / BedsAvailable.May, 0) : 0,
-                    June = BedsAvailable.June > 0 ? (float)Math.Round(TotalAverageOccupancy.June / BedsAvailable.June, 0) : 0,
-                    July = BedsAvailable.July > 0 ? (float)Math.Round(TotalAverageOccupancy.July / BedsAvailable.July, 0) : 0,
-                    August = BedsAvailable.August > 0 ? (float)Math.Round(TotalAverageOccupancy.August / BedsAvailable.August, 0) : 0,
-                    September = BedsAvailable.September > 0 ? (float)Math.Round(TotalAverageOccupancy.September / BedsAvailable.September, 0) : 0,
-                    October = BedsAvailable.October > 0 ? (float)Math.Round(TotalAverageOccupancy.October / BedsAvailable.October, 0) : 0,
-                    November = BedsAvailable.November > 0 ? (float)Math.Round(TotalAverageOccupancy.November / BedsAvailable.November, 0) : 0,
-                    December = BedsAvailable.December > 0 ? (float)Math.Round(TotalAverageOccupancy.December / BedsAvailable.December, 0) : 0,
-                    TotalOrAverage = BedsAvailable.TotalOrAverage > 0 ? (float)Math.Round(TotalAverageOccupancy.TotalOrAverage / BedsAvailable.TotalOrAverage, 0) : 0
+                    January = TotalAverageOccupancy.January ?? (float)Math.Round(Divide(TotalAverageOccupancy.January, BedsAvailable.January), 0),
+                    February = TotalAverageOccupancy.February ?? (float)Math.Round(Divide(TotalAverageOccupancy.February, BedsAvailable.February), 0),
+                    March = TotalAverageOccupancy.March ?? (float)Math.Round(Divide(TotalAverageOccupancy.March, BedsAvailable.March), 0),
+                    April = TotalAverageOccupancy.April ?? (float)Math.Round(Divide(TotalAverageOccupancy.April, BedsAvailable.April), 0),
+                    May = TotalAverageOccupancy.May ?? (float)Math.Round(Divide(TotalAverageOccupancy.May, BedsAvailable.May), 0),
+                    June = TotalAverageOccupancy.June ?? (float)Math.Round(Divide(TotalAverageOccupancy.June, BedsAvailable.June), 0),
+                    July = TotalAverageOccupancy.July ?? (float)Math.Round(Divide(TotalAverageOccupancy.July, BedsAvailable.July), 0),
+                    August = TotalAverageOccupancy.August ?? (float)Math.Round(Divide(TotalAverageOccupancy.August, BedsAvailable.August), 0),
+                    September = TotalAverageOccupancy.September ?? (float)Math.Round(Divide(TotalAverageOccupancy.September, BedsAvailable.September), 0),
+                    October = TotalAverageOccupancy.October ?? (float)Math.Round(Divide(TotalAverageOccupancy.October, BedsAvailable.October), 0),
+                    November = TotalAverageOccupancy.November ?? (float)Math.Round(Divide(TotalAverageOccupancy.November, BedsAvailable.November), 0),
+                    December = TotalAverageOccupancy.December ?? (float)Math.Round(Divide(TotalAverageOccupancy.December, BedsAvailable.December), 0),
+                    TotalOrAverage = BedsAvailable.TotalOrAverage ?? (float)Math.Round(Divide(TotalAverageOccupancy.TotalOrAverage, BedsAvailable.TotalOrAverage), 0)
                 };
             }
         }

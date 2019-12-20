@@ -18,18 +18,18 @@ namespace ReportApp.Model.Occupancy
             {
                 OccupancyRecord record = new OccupancyRecord
                 {
-                    January = AveragePrivatePay.January + AverageprivatePrivateMedicaidPending.January + AverageMedicare.January + AverageMedicare.January + AverageMedicaid.January,
-                    February = AveragePrivatePay.February + AverageprivatePrivateMedicaidPending.February + AverageMedicare.February + AverageMedicare.February + AverageMedicaid.February,
-                    March = AveragePrivatePay.March + AverageprivatePrivateMedicaidPending.March + AverageMedicare.March + AverageMedicare.March + AverageMedicaid.March,
-                    April = AveragePrivatePay.April + AverageprivatePrivateMedicaidPending.April + AverageMedicare.April + AverageMedicare.April + AverageMedicaid.April,
-                    May = AveragePrivatePay.May + AverageprivatePrivateMedicaidPending.May + AverageMedicare.May + AverageMedicare.May + AverageMedicaid.May,
-                    June = AveragePrivatePay.June + AverageprivatePrivateMedicaidPending.June + AverageMedicare.June + AverageMedicare.June + AverageMedicaid.June,
-                    July = AveragePrivatePay.July + AverageprivatePrivateMedicaidPending.July + AverageMedicare.July + AverageMedicare.July + AverageMedicaid.July,
-                    August = AveragePrivatePay.August + AverageprivatePrivateMedicaidPending.August + AverageMedicare.August + AverageMedicare.August + AverageMedicaid.August,
-                    September = AveragePrivatePay.September + AverageprivatePrivateMedicaidPending.September + AverageMedicare.September + AverageMedicare.September + AverageMedicaid.September,
-                    October = AveragePrivatePay.October + AverageprivatePrivateMedicaidPending.October + AverageMedicare.October + AverageMedicare.October + AverageMedicaid.October,
-                    November = AveragePrivatePay.November + AverageprivatePrivateMedicaidPending.November + AverageMedicare.November + AverageMedicare.November + AverageMedicaid.November,
-                    December = AveragePrivatePay.December + AverageprivatePrivateMedicaidPending.December + AverageMedicare.December + AverageMedicare.December + AverageMedicaid.December
+                    January = ZeroIfNull(AveragePrivatePay.January) + ZeroIfNull(AverageprivatePrivateMedicaidPending.January) + ZeroIfNull(AverageMedicare.January) + ZeroIfNull(AverageMedicaid.January),
+                    February = ZeroIfNull(AveragePrivatePay.February) + ZeroIfNull(AverageprivatePrivateMedicaidPending.February) + ZeroIfNull(AverageMedicare.February) + ZeroIfNull(AverageMedicaid.February),
+                    March = ZeroIfNull(AveragePrivatePay.March) + ZeroIfNull(AverageprivatePrivateMedicaidPending.March) + ZeroIfNull(AverageMedicare.March) + ZeroIfNull(AverageMedicaid.March),
+                    April = ZeroIfNull(AveragePrivatePay.April) + ZeroIfNull(AverageprivatePrivateMedicaidPending.April) + ZeroIfNull(AverageMedicare.April) + ZeroIfNull(AverageMedicaid.April),
+                    May = ZeroIfNull(AveragePrivatePay.May) + ZeroIfNull(AverageprivatePrivateMedicaidPending.May) + ZeroIfNull(AverageMedicare.May) + ZeroIfNull(AverageMedicaid.May),
+                    June = ZeroIfNull(AveragePrivatePay.June) + ZeroIfNull(AverageprivatePrivateMedicaidPending.June) + ZeroIfNull(AverageMedicare.June) + ZeroIfNull(AverageMedicaid.June),
+                    July = ZeroIfNull(AveragePrivatePay.July) + ZeroIfNull(AverageprivatePrivateMedicaidPending.July) + ZeroIfNull(AverageMedicare.July) + ZeroIfNull(AverageMedicaid.July),
+                    August = ZeroIfNull(AveragePrivatePay.August) + ZeroIfNull(AverageprivatePrivateMedicaidPending.August) + ZeroIfNull(AverageMedicare.August) + ZeroIfNull(AverageMedicaid.August),
+                    September = ZeroIfNull(AveragePrivatePay.September) + ZeroIfNull(AverageprivatePrivateMedicaidPending.September) + ZeroIfNull(AverageMedicare.September) + ZeroIfNull(AverageMedicaid.September),
+                    October = ZeroIfNull(AveragePrivatePay.October) + ZeroIfNull(AverageprivatePrivateMedicaidPending.October) + ZeroIfNull(AverageMedicare.October) + ZeroIfNull(AverageMedicaid.October),
+                    November = ZeroIfNull(AveragePrivatePay.November) + ZeroIfNull(AverageprivatePrivateMedicaidPending.November) + ZeroIfNull(AverageMedicare.November) + ZeroIfNull(AverageMedicaid.November),
+                    December = ZeroIfNull(AveragePrivatePay.December) + ZeroIfNull(AverageprivatePrivateMedicaidPending.December) + ZeroIfNull(AverageMedicare.December) + ZeroIfNull(AverageMedicaid.December)
                 };
                 record.TotalOrAverage = record.CalculateAverageValue();
                 return record;
