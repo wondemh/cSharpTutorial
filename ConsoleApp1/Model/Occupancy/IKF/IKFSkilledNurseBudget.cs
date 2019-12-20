@@ -8,7 +8,7 @@ namespace ReportApp.Model.Occupancy
     {
         public IKFSkilledNurseActual SkilledNurseActual { get; set; }
         public OccupancyRecord PrivatePay { get; set; }
-        public OccupancyRecord PriavePayVarianceFromBudget
+        public OccupancyRecord PrivatePayVarianceFromBudget
         {
             get
             {
