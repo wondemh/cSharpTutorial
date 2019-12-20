@@ -8,28 +8,28 @@ namespace ReportApp.Model.Occupancy
     {
         public OccupancyRecord UnitsAvailable { get; set; }
         public OccupancyRecord LicensedFor { get; set; }
-        public OccupancyRecord PrivateMSFFSFirst { get; set; }
-        public OccupancyRecord PrivateMSFFSSecond { get; set; }
-        public OccupancyRecord PrivateMSLCFirst { get; set; }
-        public OccupancyRecord PrivateMSLCSecond { get; set; }
+        public OccupancyRecord AverageMSFFSFirst { get; set; }
+        public OccupancyRecord AverageMSFFSSecond { get; set; }
+        public OccupancyRecord AverageMSLCFirst { get; set; }
+        public OccupancyRecord AverageMSLCSecond { get; set; }
         public OccupancyRecord EndingAverageOccupancy
         {
             get
             {
                 OccupancyRecord record = new OccupancyRecord
                 {
-                    January = ZeroIfNull(PrivateMSFFSFirst.January) + ZeroIfNull(PrivateMSFFSSecond.January) + ZeroIfNull(PrivateMSLCFirst.January) + ZeroIfNull(PrivateMSLCSecond.January),
-                    February = ZeroIfNull(PrivateMSFFSFirst.February) + ZeroIfNull(PrivateMSFFSSecond.February) + ZeroIfNull(PrivateMSLCFirst.February) + ZeroIfNull(PrivateMSLCSecond.February),
-                    March = ZeroIfNull(PrivateMSFFSFirst.March) + ZeroIfNull(PrivateMSFFSSecond.March) + ZeroIfNull(PrivateMSLCFirst.March) + ZeroIfNull(PrivateMSLCSecond.March),
-                    April = ZeroIfNull(PrivateMSFFSFirst.April) + ZeroIfNull(PrivateMSFFSSecond.April) + ZeroIfNull(PrivateMSLCFirst.April) + ZeroIfNull(PrivateMSLCSecond.April),
-                    May = ZeroIfNull(PrivateMSFFSFirst.May) + ZeroIfNull(PrivateMSFFSSecond.May) + ZeroIfNull(PrivateMSLCFirst.May) + ZeroIfNull(PrivateMSLCSecond.May),
-                    June = ZeroIfNull(PrivateMSFFSFirst.June) + ZeroIfNull(PrivateMSFFSSecond.June) + ZeroIfNull(PrivateMSLCFirst.June) + ZeroIfNull(PrivateMSLCSecond.June),
-                    July = ZeroIfNull(PrivateMSFFSFirst.July) + ZeroIfNull(PrivateMSFFSSecond.July) + ZeroIfNull(PrivateMSLCFirst.July) + ZeroIfNull(PrivateMSLCSecond.July),
-                    August = ZeroIfNull(PrivateMSFFSFirst.August) + ZeroIfNull(PrivateMSFFSSecond.August) + ZeroIfNull(PrivateMSLCFirst.August) + ZeroIfNull(PrivateMSLCSecond.August),
-                    September = ZeroIfNull(PrivateMSFFSFirst.September) + ZeroIfNull(PrivateMSFFSSecond.September) + ZeroIfNull(PrivateMSLCFirst.September) + ZeroIfNull(PrivateMSLCSecond.September),
-                    October = ZeroIfNull(PrivateMSFFSFirst.October) + ZeroIfNull(PrivateMSFFSSecond.October) + ZeroIfNull(PrivateMSLCFirst.October) + ZeroIfNull(PrivateMSLCSecond.October),
-                    November = ZeroIfNull(PrivateMSFFSFirst.November) + ZeroIfNull(PrivateMSFFSSecond.November) + ZeroIfNull(PrivateMSLCFirst.November) + ZeroIfNull(PrivateMSLCSecond.November),
-                    December = ZeroIfNull(PrivateMSFFSFirst.December) + ZeroIfNull(PrivateMSFFSSecond.December) + ZeroIfNull(PrivateMSLCFirst.December) + ZeroIfNull(PrivateMSLCSecond.December)
+                    January = ZeroIfNull(AverageMSFFSFirst.January) + ZeroIfNull(AverageMSFFSSecond.January) + ZeroIfNull(AverageMSLCFirst.January) + ZeroIfNull(AverageMSLCSecond.January),
+                    February = ZeroIfNull(AverageMSFFSFirst.February) + ZeroIfNull(AverageMSFFSSecond.February) + ZeroIfNull(AverageMSLCFirst.February) + ZeroIfNull(AverageMSLCSecond.February),
+                    March = ZeroIfNull(AverageMSFFSFirst.March) + ZeroIfNull(AverageMSFFSSecond.March) + ZeroIfNull(AverageMSLCFirst.March) + ZeroIfNull(AverageMSLCSecond.March),
+                    April = ZeroIfNull(AverageMSFFSFirst.April) + ZeroIfNull(AverageMSFFSSecond.April) + ZeroIfNull(AverageMSLCFirst.April) + ZeroIfNull(AverageMSLCSecond.April),
+                    May = ZeroIfNull(AverageMSFFSFirst.May) + ZeroIfNull(AverageMSFFSSecond.May) + ZeroIfNull(AverageMSLCFirst.May) + ZeroIfNull(AverageMSLCSecond.May),
+                    June = ZeroIfNull(AverageMSFFSFirst.June) + ZeroIfNull(AverageMSFFSSecond.June) + ZeroIfNull(AverageMSLCFirst.June) + ZeroIfNull(AverageMSLCSecond.June),
+                    July = ZeroIfNull(AverageMSFFSFirst.July) + ZeroIfNull(AverageMSFFSSecond.July) + ZeroIfNull(AverageMSLCFirst.July) + ZeroIfNull(AverageMSLCSecond.July),
+                    August = ZeroIfNull(AverageMSFFSFirst.August) + ZeroIfNull(AverageMSFFSSecond.August) + ZeroIfNull(AverageMSLCFirst.August) + ZeroIfNull(AverageMSLCSecond.August),
+                    September = ZeroIfNull(AverageMSFFSFirst.September) + ZeroIfNull(AverageMSFFSSecond.September) + ZeroIfNull(AverageMSLCFirst.September) + ZeroIfNull(AverageMSLCSecond.September),
+                    October = ZeroIfNull(AverageMSFFSFirst.October) + ZeroIfNull(AverageMSFFSSecond.October) + ZeroIfNull(AverageMSLCFirst.October) + ZeroIfNull(AverageMSLCSecond.October),
+                    November = ZeroIfNull(AverageMSFFSFirst.November) + ZeroIfNull(AverageMSFFSSecond.November) + ZeroIfNull(AverageMSLCFirst.November) + ZeroIfNull(AverageMSLCSecond.November),
+                    December = ZeroIfNull(AverageMSFFSFirst.December) + ZeroIfNull(AverageMSFFSSecond.December) + ZeroIfNull(AverageMSLCFirst.December) + ZeroIfNull(AverageMSLCSecond.December)
                 };
                 record.TotalOrAverage = record.CalculateAverageValue();
                 return record;
@@ -95,18 +95,18 @@ namespace ReportApp.Model.Occupancy
             {
                 OccupancyRecord record = new OccupancyRecord
                 {
-                    January = EndingAverageOccupancy.January ?? ZeroIfNull(PrivateMSFFSFirst.January) + ZeroIfNull(PrivateMSFFSSecond.January) + ZeroIfNull(PrivateMSLCFirst.January) + ZeroIfNull(PrivateMSLCSecond.January),
-                    February = EndingAverageOccupancy.February ?? ZeroIfNull(PrivateMSFFSFirst.February) + ZeroIfNull(PrivateMSFFSSecond.February) + ZeroIfNull(PrivateMSLCFirst.February) + ZeroIfNull(PrivateMSLCSecond.February),
-                    March = EndingAverageOccupancy.March ?? ZeroIfNull(PrivateMSFFSFirst.March) + ZeroIfNull(PrivateMSFFSSecond.March) + ZeroIfNull(PrivateMSLCFirst.March) + ZeroIfNull(PrivateMSLCSecond.March),
-                    April = EndingAverageOccupancy.April ?? ZeroIfNull(PrivateMSFFSFirst.April) + ZeroIfNull(PrivateMSFFSSecond.April) + ZeroIfNull(PrivateMSLCFirst.April) + ZeroIfNull(PrivateMSLCSecond.April),
-                    May = EndingAverageOccupancy.May ?? ZeroIfNull(PrivateMSFFSFirst.May) + ZeroIfNull(PrivateMSFFSSecond.May) + ZeroIfNull(PrivateMSLCFirst.May) + ZeroIfNull(PrivateMSLCSecond.May),
-                    June = EndingAverageOccupancy.June ?? ZeroIfNull(PrivateMSFFSFirst.June) + ZeroIfNull(PrivateMSFFSSecond.June) + ZeroIfNull(PrivateMSLCFirst.June) + ZeroIfNull(PrivateMSLCSecond.June),
-                    July = EndingAverageOccupancy.July ?? ZeroIfNull(PrivateMSFFSFirst.July) + ZeroIfNull(PrivateMSFFSSecond.July) + ZeroIfNull(PrivateMSLCFirst.July) + ZeroIfNull(PrivateMSLCSecond.July),
-                    August = EndingAverageOccupancy.August ?? ZeroIfNull(PrivateMSFFSFirst.August) + ZeroIfNull(PrivateMSFFSSecond.August) + ZeroIfNull(PrivateMSLCFirst.August) + ZeroIfNull(PrivateMSLCSecond.August),
-                    September = EndingAverageOccupancy.September ?? ZeroIfNull(PrivateMSFFSFirst.September) + ZeroIfNull(PrivateMSFFSSecond.September) + ZeroIfNull(PrivateMSLCFirst.September) + ZeroIfNull(PrivateMSLCSecond.September),
-                    October = EndingAverageOccupancy.October ?? ZeroIfNull(PrivateMSFFSFirst.October) + ZeroIfNull(PrivateMSFFSSecond.October) + ZeroIfNull(PrivateMSLCFirst.October) + ZeroIfNull(PrivateMSLCSecond.October),
-                    November = EndingAverageOccupancy.November ?? ZeroIfNull(PrivateMSFFSFirst.November) + ZeroIfNull(PrivateMSFFSSecond.November) + ZeroIfNull(PrivateMSLCFirst.November) + ZeroIfNull(PrivateMSLCSecond.November),
-                    December = EndingAverageOccupancy.December ?? ZeroIfNull(PrivateMSFFSFirst.December) + ZeroIfNull(PrivateMSFFSSecond.December) + ZeroIfNull(PrivateMSLCFirst.December) + ZeroIfNull(PrivateMSLCSecond.December)
+                    January = EndingAverageOccupancy.January ?? ZeroIfNull(AverageMSFFSFirst.January) + ZeroIfNull(AverageMSFFSSecond.January) + ZeroIfNull(AverageMSLCFirst.January) + ZeroIfNull(AverageMSLCSecond.January),
+                    February = EndingAverageOccupancy.February ?? ZeroIfNull(AverageMSFFSFirst.February) + ZeroIfNull(AverageMSFFSSecond.February) + ZeroIfNull(AverageMSLCFirst.February) + ZeroIfNull(AverageMSLCSecond.February),
+                    March = EndingAverageOccupancy.March ?? ZeroIfNull(AverageMSFFSFirst.March) + ZeroIfNull(AverageMSFFSSecond.March) + ZeroIfNull(AverageMSLCFirst.March) + ZeroIfNull(AverageMSLCSecond.March),
+                    April = EndingAverageOccupancy.April ?? ZeroIfNull(AverageMSFFSFirst.April) + ZeroIfNull(AverageMSFFSSecond.April) + ZeroIfNull(AverageMSLCFirst.April) + ZeroIfNull(AverageMSLCSecond.April),
+                    May = EndingAverageOccupancy.May ?? ZeroIfNull(AverageMSFFSFirst.May) + ZeroIfNull(AverageMSFFSSecond.May) + ZeroIfNull(AverageMSLCFirst.May) + ZeroIfNull(AverageMSLCSecond.May),
+                    June = EndingAverageOccupancy.June ?? ZeroIfNull(AverageMSFFSFirst.June) + ZeroIfNull(AverageMSFFSSecond.June) + ZeroIfNull(AverageMSLCFirst.June) + ZeroIfNull(AverageMSLCSecond.June),
+                    July = EndingAverageOccupancy.July ?? ZeroIfNull(AverageMSFFSFirst.July) + ZeroIfNull(AverageMSFFSSecond.July) + ZeroIfNull(AverageMSLCFirst.July) + ZeroIfNull(AverageMSLCSecond.July),
+                    August = EndingAverageOccupancy.August ?? ZeroIfNull(AverageMSFFSFirst.August) + ZeroIfNull(AverageMSFFSSecond.August) + ZeroIfNull(AverageMSLCFirst.August) + ZeroIfNull(AverageMSLCSecond.August),
+                    September = EndingAverageOccupancy.September ?? ZeroIfNull(AverageMSFFSFirst.September) + ZeroIfNull(AverageMSFFSSecond.September) + ZeroIfNull(AverageMSLCFirst.September) + ZeroIfNull(AverageMSLCSecond.September),
+                    October = EndingAverageOccupancy.October ?? ZeroIfNull(AverageMSFFSFirst.October) + ZeroIfNull(AverageMSFFSSecond.October) + ZeroIfNull(AverageMSLCFirst.October) + ZeroIfNull(AverageMSLCSecond.October),
+                    November = EndingAverageOccupancy.November ?? ZeroIfNull(AverageMSFFSFirst.November) + ZeroIfNull(AverageMSFFSSecond.November) + ZeroIfNull(AverageMSLCFirst.November) + ZeroIfNull(AverageMSLCSecond.November),
+                    December = EndingAverageOccupancy.December ?? ZeroIfNull(AverageMSFFSFirst.December) + ZeroIfNull(AverageMSFFSSecond.December) + ZeroIfNull(AverageMSLCFirst.December) + ZeroIfNull(AverageMSLCSecond.December)
                 };
                 record.TotalOrAverage = record.CalculateAverageValue();
                 return new OccupancyRecord();
