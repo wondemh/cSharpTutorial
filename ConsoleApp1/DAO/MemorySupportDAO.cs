@@ -17,19 +17,19 @@ namespace ReportApp.DAO
         public static OccupancyRecord GetLicensedForData(int locationId, List<string> facilityTypeCodes)
         {
             OccupancyRecord record = new OccupancyRecord();
-            record.TotalOrAverageValue = record.DecemberValue;
+            record.TotalOrAverage = record.December;
             return record;
         }
         public static OccupancyRecord GetPrivateMCFirstPersonData(int locationId, List<string> facilityTypeCodes)
         {
             OccupancyRecord record = new OccupancyRecord();
-            record.TotalOrAverageValue = record.CalculateAverageValue();
+            record.TotalOrAverage = record.CalculateAverageValue();
             return record;
         }
         public static OccupancyRecord GetPrivateMCSecondPersonData(int locationId, List<string> facilityTypeCodes)
         {
             OccupancyRecord record = new OccupancyRecord();
-            record.TotalOrAverageValue = record.CalculateAverageValue();
+            record.TotalOrAverage = record.CalculateAverageValue();
             return record;
         }
 

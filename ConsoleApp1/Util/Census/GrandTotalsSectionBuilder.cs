@@ -7,21 +7,30 @@ using System.IO;
 using OfficeOpenXml.Style;
 
 using ReportApp.Model;
+using System.Globalization;
+using System.Diagnostics.Contracts;
 
 namespace ReportApp
 {
-    public class GrandTotalsSectionBuilder
+    public static class GrandTotalsSectionBuilder
     {
 
         public static int AddGrandTotalsSection(ExcelWorksheet ws, List<CensusItem> list, int vacantUnitsCount, int allUnitsCount, int rowNumber, DateTime startDate, DateTime? endDate = null)
         {
-            int admittedCount = list.Where(c => c.Status.Equals("Admitted")).Count();
-            int holdCount = list.Where(c => c.Status.Equals("On Hold")).Count();
-            int leaveCount = list.Where(c => c.Status.Equals("On Leave")).Count();
-            int dischargedCount = list.Where(c => c.Status.Equals("Discharged")).Count();
-            int expiredCount = list.Where(c => c.Status.Equals("Expired")).Count();
+            Contract.Requires(ws != null);
+
+            if (list == null || list.Count == 0)
+            {
+                return rowNumber;
+            }
+
+            int admittedCount = list.Where(c => c.Status.Equals("Admitted", StringComparison.OrdinalIgnoreCase)).Count();
+            int holdCount = list.Where(c => c.Status.Equals("On Hold", StringComparison.OrdinalIgnoreCase)).Count();
+            int leaveCount = list.Where(c => c.Status.Equals("On Leave", StringComparison.OrdinalIgnoreCase)).Count();
+            int dischargedCount = list.Where(c => c.Status.Equals("Discharged", StringComparison.OrdinalIgnoreCase)).Count();
+            int expiredCount = list.Where(c => c.Status.Equals("Expired", StringComparison.OrdinalIgnoreCase)).Count();
             int totalOccupied = admittedCount + holdCount + leaveCount;
-            string totalOccupiedPercent = (((float)totalOccupied / (float)allUnitsCount) * 100).ToString("0.00");
+            string totalOccupiedPercent = (((float)totalOccupied / (float)allUnitsCount) * 100).ToString("0.00", CultureInfo.CurrentCulture);
             bool sectionIsForDateRange = endDate.HasValue;
 
             Console.WriteLine($"totalOccupied: {totalOccupied},  allUnitsCount : {allUnitsCount}, occupiedPercent: {totalOccupiedPercent}");
@@ -30,7 +39,7 @@ namespace ReportApp
 
             ExcelRange range = ws.Cells[rowNumber, 1, rowNumber, 14];
             range.Merge = true;
-            range.Value = "Grand Total for : " + startDate.ToString("MM/dd/yyyy") + (endDate.HasValue ? (" thru " + endDate.Value.ToString("MM/dd/yyyy")) : "");
+            range.Value = "Grand Total for : " + startDate.ToString("MM/dd/yyyy", CultureInfo.CurrentCulture) + (endDate.HasValue ? (" thru " + endDate.Value.ToString("MM/dd/yyyy", CultureInfo.CurrentCulture)) : "");
             range.Style.Font.Size = 13;
             range.Style.Font.Bold = true;
 

@@ -35,10 +35,10 @@ namespace ReportApp
                 MoveOuts = IndependentLivingDAO.GetActualCensusCountsByMonth(locationId, facilityTypeCodes, new List<string> { "D", "DH", "L" }, reportDate.Year, true),
                 Transfers = IndependentLivingDAO.GetActualCensusCountsByMonth(locationId, facilityTypeCodes, new List<string> { "PT", "TT" }, reportDate.Year, true)
             };
-            independentLivingActual.BeginningOccupancy.TotalOrAverageValue = independentLivingActual.BeginningOccupancy.CalculateAverageValue();
-            independentLivingActual.MoveIns.TotalOrAverageValue = independentLivingActual.MoveIns.CalculateTotalValue();
-            independentLivingActual.MoveOuts.TotalOrAverageValue = independentLivingActual.MoveOuts.CalculateTotalValue();
-            independentLivingActual.Transfers.TotalOrAverageValue = independentLivingActual.Transfers.CalculateTotalValue();
+            independentLivingActual.BeginningOccupancy.TotalOrAverage = independentLivingActual.BeginningOccupancy.CalculateAverageValue();
+            independentLivingActual.MoveIns.TotalOrAverage = independentLivingActual.MoveIns.CalculateTotalValue();
+            independentLivingActual.MoveOuts.TotalOrAverage = independentLivingActual.MoveOuts.CalculateTotalValue();
+            independentLivingActual.Transfers.TotalOrAverage = independentLivingActual.Transfers.CalculateTotalValue();
 
             int startRowNumber = rowNumber;
             rowNumber = AddColumnHeaders(ws, rowNumber);

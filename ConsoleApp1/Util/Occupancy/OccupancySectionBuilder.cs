@@ -101,21 +101,21 @@ namespace ReportApp
                 ws.Cells[rowNumber, 2].Value = description;
                 ws.Cells[rowNumber, 2].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
 
-                ws.Cells[rowNumber, 3].Value = record.JanuaryValue;
-                ws.Cells[rowNumber, 4].Value = record.FebruaryValue;
-                ws.Cells[rowNumber, 5].Value = record.MarchValue;
-                ws.Cells[rowNumber, 6].Value = record.AprilValue;
-                ws.Cells[rowNumber, 7].Value = record.MayValue;
-                ws.Cells[rowNumber, 8].Value = record.JuneValue;
-                ws.Cells[rowNumber, 9].Value = record.JulyValue;
-                ws.Cells[rowNumber, 10].Value = record.AugustValue;
-                ws.Cells[rowNumber, 11].Value = record.SeptemberValue;
-                ws.Cells[rowNumber, 12].Value = record.OctoberValue;
-                ws.Cells[rowNumber, 13].Value = record.NovemberValue;
-                ws.Cells[rowNumber, 14].Value = record.DecemberValue;
+                ws.Cells[rowNumber, 3].Value = record.January;
+                ws.Cells[rowNumber, 4].Value = record.February;
+                ws.Cells[rowNumber, 5].Value = record.March;
+                ws.Cells[rowNumber, 6].Value = record.April;
+                ws.Cells[rowNumber, 7].Value = record.May;
+                ws.Cells[rowNumber, 8].Value = record.June;
+                ws.Cells[rowNumber, 9].Value = record.July;
+                ws.Cells[rowNumber, 10].Value = record.August;
+                ws.Cells[rowNumber, 11].Value = record.September;
+                ws.Cells[rowNumber, 12].Value = record.October;
+                ws.Cells[rowNumber, 13].Value = record.November;
+                ws.Cells[rowNumber, 14].Value = record.December;
 
-                Console.WriteLine($"TotalOrAverage for {description} is : {record.TotalOrAverageValue}");
-                ws.Cells[rowNumber, 15].Value = Math.Round(record.TotalOrAverageValue, 1);
+                Console.WriteLine($"TotalOrAverage for {description} is : {record.TotalOrAverage}");
+                ws.Cells[rowNumber, 15].Value = Math.Round(record.TotalOrAverage, 1);
                 
                 ws.Cells[rowNumber, 3, rowNumber, 15].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 if (rowFormat != null)
@@ -127,5 +127,9 @@ namespace ReportApp
             }
             return rowNumber;
         }
+
+        internal abstract int buildSectionHeader();
+        internal abstract int buildActualSection();
+        internal abstract int buildBudgetSection();
     }
 }

@@ -8,6 +8,7 @@ using OfficeOpenXml.Style;
 
 using ReportApp.Model;
 using System.Globalization;
+using System.Diagnostics.Contracts;
 
 namespace ReportApp
 {
@@ -15,6 +16,13 @@ namespace ReportApp
     {
         public static int BuildRosterSection(ExcelWorksheet ws, string facilityTypeCode, List<CensusItem> list, Location location, DateTime startDate, DateTime endDate)
         {
+            Contract.Requires(ws != null);
+            Contract.Requires(facilityTypeCode != null);
+            Contract.Requires(list != null);
+            Contract.Requires(location != null);
+            Contract.Requires(startDate != null);
+            Contract.Requires(endDate != null);
+
             int rowNumber = AddPageHeaderSection(ws, location, startDate, endDate, facilityTypeCode);
             rowNumber = AddColumnHeaders(ws, rowNumber);
 
@@ -122,6 +130,12 @@ namespace ReportApp
             ws.Cells[rowNumber, 12].Value = " ";
             ws.Cells[rowNumber, 13].Value = " ";
             ws.Cells[rowNumber, 14].Value = " ";
+
+            ExcelRange range = ws.Cells[rowNumber, 1, rowNumber, 14];
+            range.Style.Border.Top.Style = ExcelBorderStyle.Hair;
+            range.Style.Border.Bottom.Style = ExcelBorderStyle.Hair;
+            range.Style.Border.Left.Style = ExcelBorderStyle.Hair;
+            range.Style.Border.Right.Style = ExcelBorderStyle.Hair;
 
             return ++rowNumber;
         }

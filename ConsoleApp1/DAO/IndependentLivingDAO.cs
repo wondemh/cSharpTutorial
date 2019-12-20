@@ -19,18 +19,18 @@ namespace ReportApp.DAO
         {
             OccupancyRecord record = new OccupancyRecord
             {
-                JanuaryValue = GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 1, 1),
-                FebruaryValue = GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 2, 1),
-                MarchValue = GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 3, 1),
-                AprilValue = GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 4, 1),
-                MayValue = GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 5, 1),
-                JuneValue = GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 6, 1),
-                JulyValue = GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 7, 1),
-                AugustValue = GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 8, 1),
-                SeptemberValue = GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 9, 1),
-                OctoberValue = GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 10, 1),
-                NovemberValue = GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 11, 1),
-                DecemberValue = GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 12, 1)
+                January = GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 1, 1),
+                February = GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 2, 1),
+                March = GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 3, 1),
+                April = GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 4, 1),
+                May = GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 5, 1),
+                June = GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 6, 1),
+                July = GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 7, 1),
+                August = GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 8, 1),
+                September = GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 9, 1),
+                October = GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 10, 1),
+                November = GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 11, 1),
+                December = GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 12, 1)
             };
             return record;
         }
@@ -39,18 +39,18 @@ namespace ReportApp.DAO
         {
             OccupancyRecord record = new OccupancyRecord
             {
-                JanuaryValue = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 1) * (negate ? -1 : 1),
-                FebruaryValue = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 2) * (negate ? -1 : 1),
-                MarchValue = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 3) * (negate ? -1 : 1),
-                AprilValue = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 4) * (negate ? -1 : 1),
-                MayValue = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 5) * (negate ? -1 : 1),
-                JuneValue = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 6) * (negate ? -1 : 1),
-                JulyValue = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 7) * (negate ? -1 : 1),
-                AugustValue = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 8) * (negate ? -1 : 1),
-                SeptemberValue = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 9) * (negate ? -1 : 1),
-                OctoberValue = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 10) * (negate ? -1 : 1),
-                NovemberValue = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 11) * (negate ? -1 : 1),
-                DecemberValue = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 12) * (negate ? -1 : 1)
+                January = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 1) * (negate ? -1 : 1),
+                February = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 2) * (negate ? -1 : 1),
+                March = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 3) * (negate ? -1 : 1),
+                April = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 4) * (negate ? -1 : 1),
+                May = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 5) * (negate ? -1 : 1),
+                June = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 6) * (negate ? -1 : 1),
+                July = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 7) * (negate ? -1 : 1),
+                August = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 8) * (negate ? -1 : 1),
+                September = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 9) * (negate ? -1 : 1),
+                October = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 10) * (negate ? -1 : 1),
+                November = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 11) * (negate ? -1 : 1),
+                December = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 12) * (negate ? -1 : 1)
             };
             return record;
         }

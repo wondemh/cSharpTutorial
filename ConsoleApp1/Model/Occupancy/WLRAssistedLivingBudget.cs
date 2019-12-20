@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ReportApp.Model.Occupancy
 {
-    class AssistedLivingBudget
+    class WLRAssistedLivingBudget
     {
         public OccupancyRecord AverageFFSFirst { get; set; }
         public OccupancyRecord AverLCFirst { get; set; }

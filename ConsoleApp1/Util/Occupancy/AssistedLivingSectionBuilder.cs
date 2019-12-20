@@ -15,7 +15,7 @@ namespace ReportApp
     public class AssistedLivingSectionBuilder : OccupancySectionBuilder
     {
 
-        internal static int AddAssistedLivingSection(ExcelWorksheet ws, int locationId, DateTime reportDate, int rowNumber)
+        internal static int AddAssistedLivingSection(ExcelWorksheet ws, LocationCodes locationId, DateTime reportDate, int rowNumber)
         {
             List<string> facilityTypeCodes = new List<string> { "AL" };
             rowNumber = AddSectionHeader(ws, "Assisted Living Occupancy Statistics", rowNumber);
@@ -24,10 +24,10 @@ namespace ReportApp
             return rowNumber;
         }
 
-        private static int AddActualSection(ExcelWorksheet ws, int locationId, DateTime reportDate, List<string> facilityTypeCodes, int rowNumber)
+        private static int AddActualSection(ExcelWorksheet ws, LocationCodes locationId, DateTime reportDate, List<string> facilityTypeCodes, int rowNumber)
         {
            
-            AssistedLivingActual assistedLivingStats = new AssistedLivingActual
+            WLRAssistedLivingActual assistedLivingStats = new WLRAssistedLivingActual
             {
                 UnitsAvailable = OccupancyReportDAO.GetUnitsAvailableData(locationId, facilityTypeCodes),
                 AverageFFS = AssistedLivingDAO.GetAverageFFS(locationId, facilityTypeCodes, reportDate),
@@ -51,7 +51,7 @@ namespace ReportApp
 
         private static int AddBudgetSection(ExcelWorksheet ws, int locationId, DateTime reportDate, List<string> facilityTypeCodes, int rowNumber)
         {
-            AssistedLivingBudget independentLivingBudget = new AssistedLivingBudget
+            WLRAssistedLivingBudget independentLivingBudget = new WLRAssistedLivingBudget
             {
                 AverageFFSFirst = new OccupancyRecord(),
                 AverLCFirst = new OccupancyRecord(),

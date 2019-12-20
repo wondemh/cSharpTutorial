@@ -11,28 +11,21 @@ using ReportApp.DAO;
 
 namespace ReportApp
 {
-    public class CensusReportService
+    public static class CensusReportService
     {
-        private readonly CensusReportDAO reportDAO;
-
-        public CensusReportService()
+        public static void BuildReport(int locationId, DateTime startDate, DateTime endDate, string facilityTypeCode)
         {
-            reportDAO = new CensusReportDAO();
-
-        }
-        public void BuildReport(int locationId, DateTime startDate, DateTime endDate, string facilityTypeCode)
-        {
-            Location location = reportDAO.GetLocation(locationId);
-            List<CensusItem> listForDateRange = reportDAO.GetCensusRecords(4, startDate, endDate, facilityTypeCode);
-            List<Unit> vacantUnits = reportDAO.GetVacantUnits(locationId, facilityTypeCode, startDate);
-            int countOfAllUnits = reportDAO.GetCountOfAllUnits(locationId, facilityTypeCode);
+            Location location = CensusReportDAO.GetLocation(locationId);
+            List<CensusItem> listForDateRange = CensusReportDAO.GetCensusRecords(4, startDate, endDate, facilityTypeCode);
+            List<Unit> vacantUnits = CensusReportDAO.GetVacantUnits(locationId, facilityTypeCode, startDate);
+            int countOfAllUnits = CensusReportDAO.GetCountOfAllUnits(locationId, facilityTypeCode);
 
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Census Report");
             int rowNumber = RosterSectionBuilder.BuildRosterSection(ws, facilityTypeCode, listForDateRange, location, startDate, endDate);
             if (startDate.Date != endDate.Date)
             {
-                List<CensusItem> listForSingleDate = reportDAO.GetCensusRecords(4, startDate, startDate, facilityTypeCode);
+                List<CensusItem> listForSingleDate = CensusReportDAO.GetCensusRecords(4, startDate, startDate, facilityTypeCode);
                 rowNumber = GrandTotalsSectionBuilder.AddGrandTotalsSection(ws, listForSingleDate, vacantUnits.Count, countOfAllUnits, rowNumber, startDate);
                 rowNumber = GrandTotalsSectionBuilder.AddGrandTotalsSection(ws, listForDateRange, vacantUnits.Count, countOfAllUnits, rowNumber, startDate, endDate);
             }
