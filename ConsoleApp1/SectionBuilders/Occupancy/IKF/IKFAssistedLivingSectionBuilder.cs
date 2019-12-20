@@ -27,7 +27,7 @@ namespace ReportApp
         internal override int BuildActualSection(ExcelWorksheet ws, LocationCodes locationId, DateTime reportDate, List<string> facilityTypeCodes, int rowNumber)
         {
            
-            IKFAssistedLivingActual ikfAssistedLivingStats = new IKFAssistedLivingActual
+            IKFAssistedLivingActual assistedLivingActual = new IKFAssistedLivingActual
             {
                 UnitsAvailable = OccupancyReportDAO.GetUnitsAvailableData(locationId, facilityTypeCodes),
                 AverageFFS = AssistedLivingDAO.GetAverageFFS(locationId, facilityTypeCodes, reportDate),
@@ -36,12 +36,12 @@ namespace ReportApp
 
             int startRowNumber = rowNumber;
             rowNumber = BuildColumnHeaders(ws, rowNumber);
-            rowNumber = BuildGridRow(ws, ikfAssistedLivingStats.UnitsAvailable, "Units Available:", rowNumber);
-            rowNumber = BuildGridRow(ws, ikfAssistedLivingStats.AverageFFS, "Average FFS:", rowNumber);
-            rowNumber = BuildGridRow(ws, ikfAssistedLivingStats.AverageLC, "Average LC:", rowNumber);
-            rowNumber = BuildGridRow(ws, ikfAssistedLivingStats.AverageOccupancy, "Average Occupancy:", rowNumber);
-            rowNumber = BuildGridRow(ws, ikfAssistedLivingStats.PercentUnitOccupancy, "% Unit Occupancy:", rowNumber, "0%");
-            rowNumber = BuildGridRow(ws, ikfAssistedLivingStats.UnoccupiedUnits, "Unoccupied Units:", rowNumber);
+            rowNumber = BuildGridRow(ws, assistedLivingActual.UnitsAvailable, "Units Available:", rowNumber);
+            rowNumber = BuildGridRow(ws, assistedLivingActual.AverageFFS, "Average FFS:", rowNumber);
+            rowNumber = BuildGridRow(ws, assistedLivingActual.AverageLC, "Average LC:", rowNumber);
+            rowNumber = BuildGridRow(ws, assistedLivingActual.AverageOccupancy, "Average Occupancy:", rowNumber);
+            rowNumber = BuildGridRow(ws, assistedLivingActual.PercentUnitOccupancy, "% Unit Occupancy:", rowNumber, "0%");
+            rowNumber = BuildGridRow(ws, assistedLivingActual.UnoccupiedUnits, "Unoccupied Units:", rowNumber);
 
             //This adds the sidebar
             BuildSectionSideBar(ws, "Actual", startRowNumber, rowNumber - 1, ActualSectionColor);
@@ -51,7 +51,7 @@ namespace ReportApp
 
         internal override int BuildBudgetSection(ExcelWorksheet ws, LocationCodes locationId, DateTime reportDate, List<string> facilityTypeCodes, int rowNumber)
         {
-            IKFAssistedLivingBudget ikfAssistedLivingBudget = new IKFAssistedLivingBudget
+            IKFAssistedLivingBudget assistedLivingBudget = new IKFAssistedLivingBudget
             {
                 AverageFFSFirst = new OccupancyRecord(),
                 AverLCFirst = new OccupancyRecord(),
@@ -62,11 +62,11 @@ namespace ReportApp
 
             int startRowNumber = rowNumber;
             rowNumber = BuildColumnHeaders(ws, rowNumber);
-            rowNumber = BuildGridRow(ws, ikfAssistedLivingBudget.AverageFFSFirst, "Average FFS 1st:", rowNumber);
-            rowNumber = BuildGridRow(ws, ikfAssistedLivingBudget.AverLCFirst, "Averaget LC 1st:", rowNumber);
-            rowNumber = BuildGridRow(ws, ikfAssistedLivingBudget.EndingAverageOccupance, "Ending Avg. Occupancy:", rowNumber);
-            rowNumber = BuildGridRow(ws, ikfAssistedLivingBudget.VarianceFromBudget, "Variance from Budget:", rowNumber);
-            rowNumber = BuildGridRow(ws, ikfAssistedLivingBudget.PercentOccupancy, "% Occupancy:", rowNumber, "0%");
+            rowNumber = BuildGridRow(ws, assistedLivingBudget.AverageFFSFirst, "Average FFS 1st:", rowNumber);
+            rowNumber = BuildGridRow(ws, assistedLivingBudget.AverLCFirst, "Averaget LC 1st:", rowNumber);
+            rowNumber = BuildGridRow(ws, assistedLivingBudget.EndingAverageOccupance, "Ending Avg. Occupancy:", rowNumber);
+            rowNumber = BuildGridRow(ws, assistedLivingBudget.VarianceFromBudget, "Variance from Budget:", rowNumber);
+            rowNumber = BuildGridRow(ws, assistedLivingBudget.PercentOccupancy, "% Occupancy:", rowNumber, "0%");
 
             //This adds the sidebar
             BuildSectionSideBar(ws, "Budget", startRowNumber, rowNumber - 1, BudgetSectionColor);

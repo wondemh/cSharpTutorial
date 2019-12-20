@@ -28,7 +28,7 @@ namespace ReportApp
         {
             SkilledNurseDAO dao = new SkilledNurseDAO();
 
-            IKFSkilledNurseActual ikfSkilledNurseStats = new IKFSkilledNurseActual
+            IKFSkilledNurseActual skilledNurseActual = new IKFSkilledNurseActual
             {
                 BedsAvailable = dao.GetBedsAvailableData(locationId, facilityTypeCodes, reportDate.Year, reportDate.Month),
                 AverageLCFirst = dao.GetAverageLCFirstData(locationId, facilityTypeCodes, reportDate.Year, reportDate.Month),
@@ -41,15 +41,15 @@ namespace ReportApp
 
             int startRowNumber = rowNumber;
             rowNumber = BuildColumnHeaders(ws, rowNumber);
-            rowNumber = BuildGridRow(ws, ikfSkilledNurseStats.BedsAvailable, "Beds Available:", rowNumber);
-            rowNumber = BuildGridRow(ws, ikfSkilledNurseStats.AverageLCFirst, "Avg. LC 1st:", rowNumber);
-            rowNumber = BuildGridRow(ws, ikfSkilledNurseStats.AverageLCSecond, "Avg. LC 2nd:", rowNumber);
-            rowNumber = BuildGridRow(ws, ikfSkilledNurseStats.FFSDirectAdmit, "FFS/Direct Admit:", rowNumber);
-            rowNumber = BuildGridRow(ws, ikfSkilledNurseStats.AverageMemoryCare, "Avg. Memory Care:", rowNumber);
-            rowNumber = BuildGridRow(ws, ikfSkilledNurseStats.AverageMedicare, "Avg Medicare:", rowNumber);
-            rowNumber = BuildGridRow(ws, ikfSkilledNurseStats.AverageMedicaid, "Avg Medicaid:", rowNumber);
-            rowNumber = BuildGridRow(ws, ikfSkilledNurseStats.TotalAverageOccupancy, "Total Avg. Occupancy:", rowNumber);
-            rowNumber = BuildGridRow(ws, ikfSkilledNurseStats.PercentOccupancy, "% Occupancy:", rowNumber, "0%");
+            rowNumber = BuildGridRow(ws, skilledNurseActual.BedsAvailable, "Beds Available:", rowNumber);
+            rowNumber = BuildGridRow(ws, skilledNurseActual.AverageLCFirst, "Avg. LC 1st:", rowNumber);
+            rowNumber = BuildGridRow(ws, skilledNurseActual.AverageLCSecond, "Avg. LC 2nd:", rowNumber);
+            rowNumber = BuildGridRow(ws, skilledNurseActual.FFSDirectAdmit, "FFS/Direct Admit:", rowNumber);
+            rowNumber = BuildGridRow(ws, skilledNurseActual.AverageMemoryCare, "Avg. Memory Care:", rowNumber);
+            rowNumber = BuildGridRow(ws, skilledNurseActual.AverageMedicare, "Avg Medicare:", rowNumber);
+            rowNumber = BuildGridRow(ws, skilledNurseActual.AverageMedicaid, "Avg Medicaid:", rowNumber);
+            rowNumber = BuildGridRow(ws, skilledNurseActual.TotalAverageOccupancy, "Total Avg. Occupancy:", rowNumber);
+            rowNumber = BuildGridRow(ws, skilledNurseActual.PercentOccupancy, "% Occupancy:", rowNumber, "0%");
 
             //This adds the sidebar
             BuildSectionSideBar(ws, "Actual", startRowNumber, rowNumber - 1, ActualSectionColor);
@@ -59,7 +59,7 @@ namespace ReportApp
 
         internal override int BuildBudgetSection(ExcelWorksheet ws, LocationCodes locationId, DateTime reportDate, List<string> facilityTypeCodes, int rowNumber)
         {
-            IKFSkilledNurseBudget ikfSkilledNurseBudget = new IKFSkilledNurseBudget
+            IKFSkilledNurseBudget skilledNurseBudget = new IKFSkilledNurseBudget
             {
                 AverageLCFirst = new OccupancyRecord(),
                 LCFirstVarianceFromBudget = new OccupancyRecord(),
@@ -79,20 +79,20 @@ namespace ReportApp
 
             int startRowNumber = rowNumber;
             rowNumber = BuildColumnHeaders(ws, rowNumber);
-            rowNumber = BuildGridRow(ws, ikfSkilledNurseBudget.AverageLCFirst, "Avg. LC 1st:", rowNumber);
-            rowNumber = BuildGridRow(ws, ikfSkilledNurseBudget.LCFirstVarianceFromBudget, "Variance from Budget:", rowNumber);
-            rowNumber = BuildGridRow(ws, ikfSkilledNurseBudget.AverageLCSecond, "Avg. LC 2nd:", rowNumber);
-            rowNumber = BuildGridRow(ws, ikfSkilledNurseBudget.LCSecondVarianceFromBudget, "Variance from Budget:", rowNumber);
-            rowNumber = BuildGridRow(ws, ikfSkilledNurseBudget.MemoryCare, "Memory Care:", rowNumber, "0%");
-            rowNumber = BuildGridRow(ws, ikfSkilledNurseBudget.MemoryCareVarianceFromBudget, "Variance from Budget:", rowNumber);
-            rowNumber = BuildGridRow(ws, ikfSkilledNurseBudget.FFSDirectAdmit, "FFS/Direct Admit:", rowNumber);
-            rowNumber = BuildGridRow(ws, ikfSkilledNurseBudget.FFSDirectAdmitVarianceFromBudget, "Variance from Budget:", rowNumber);
-            rowNumber = BuildGridRow(ws, ikfSkilledNurseBudget.Medicare, "Medicare:", rowNumber);
-            rowNumber = BuildGridRow(ws, ikfSkilledNurseBudget.MedicareVarianceFromBudget, "Variance from Budget:", rowNumber);
-            rowNumber = BuildGridRow(ws, ikfSkilledNurseBudget.Medicaid, "Medicaid:", rowNumber);
-            rowNumber = BuildGridRow(ws, ikfSkilledNurseBudget.MedicaidVarianceFromBudget, "Variance from Budget:", rowNumber);
-            rowNumber = BuildGridRow(ws, ikfSkilledNurseBudget.TotalOccupancy, "Total Occupancy:", rowNumber);
-            rowNumber = BuildGridRow(ws, ikfSkilledNurseBudget.TotalOccupancyVarianceFromBudget, "Variance from Budget:", rowNumber);
+            rowNumber = BuildGridRow(ws, skilledNurseBudget.AverageLCFirst, "Avg. LC 1st:", rowNumber);
+            rowNumber = BuildGridRow(ws, skilledNurseBudget.LCFirstVarianceFromBudget, "Variance from Budget:", rowNumber);
+            rowNumber = BuildGridRow(ws, skilledNurseBudget.AverageLCSecond, "Avg. LC 2nd:", rowNumber);
+            rowNumber = BuildGridRow(ws, skilledNurseBudget.LCSecondVarianceFromBudget, "Variance from Budget:", rowNumber);
+            rowNumber = BuildGridRow(ws, skilledNurseBudget.MemoryCare, "Memory Care:", rowNumber, "0%");
+            rowNumber = BuildGridRow(ws, skilledNurseBudget.MemoryCareVarianceFromBudget, "Variance from Budget:", rowNumber);
+            rowNumber = BuildGridRow(ws, skilledNurseBudget.FFSDirectAdmit, "FFS/Direct Admit:", rowNumber);
+            rowNumber = BuildGridRow(ws, skilledNurseBudget.FFSDirectAdmitVarianceFromBudget, "Variance from Budget:", rowNumber);
+            rowNumber = BuildGridRow(ws, skilledNurseBudget.Medicare, "Medicare:", rowNumber);
+            rowNumber = BuildGridRow(ws, skilledNurseBudget.MedicareVarianceFromBudget, "Variance from Budget:", rowNumber);
+            rowNumber = BuildGridRow(ws, skilledNurseBudget.Medicaid, "Medicaid:", rowNumber);
+            rowNumber = BuildGridRow(ws, skilledNurseBudget.MedicaidVarianceFromBudget, "Variance from Budget:", rowNumber);
+            rowNumber = BuildGridRow(ws, skilledNurseBudget.TotalOccupancy, "Total Occupancy:", rowNumber);
+            rowNumber = BuildGridRow(ws, skilledNurseBudget.TotalOccupancyVarianceFromBudget, "Variance from Budget:", rowNumber);
 
             //This adds the sidebar
             BuildSectionSideBar(ws, "Budget", startRowNumber, rowNumber - 1, BudgetSectionColor);
