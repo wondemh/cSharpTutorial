@@ -35,7 +35,8 @@ namespace ReportApp
                 SkilledNurseActual = skilledNurseActual,
                 PrivatePay = new OccupancyRecord(),
                 Medicare = new OccupancyRecord(),
-                Medicaid = new OccupancyRecord()
+                Medicaid = new OccupancyRecord(),
+                PrivateMedicaidPending = new OccupancyRecord()
             };
 
         }
@@ -56,7 +57,7 @@ namespace ReportApp
             //This adds the sidebar
             BuildSectionSideBar(ws, "Actual", startRowNumber, rowNumber - 1, ActualSectionColor);
 
-            return rowNumber;
+            return ++rowNumber;
         }
 
         internal int BuildBudgetSection(ExcelWorksheet ws, int rowNumber)
@@ -78,7 +79,7 @@ namespace ReportApp
             //This adds the sidebar
             BuildSectionSideBar(ws, "Budget", startRowNumber, rowNumber - 1, BudgetSectionColor);
 
-            return rowNumber;
+            return ++rowNumber;
         }
     }
 }

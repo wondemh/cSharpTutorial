@@ -64,7 +64,7 @@ namespace ReportApp
             BuildSectionSideBar(ws, "Actual", startRowNumber, rowNumber - 1, ActualSectionColor);
 
 
-            return rowNumber;
+            return ++rowNumber;
         }
 
         internal int BuildBudgetSection(ExcelWorksheet ws, int rowNumber)
@@ -82,7 +82,7 @@ namespace ReportApp
             //This adds the sidebar
             BuildSectionSideBar(ws, "Budget", startRowNumber, rowNumber - 1, BudgetSectionColor);
 
-            return rowNumber;
+            return ++rowNumber;
         }
 
         internal int BuildApartmentsSection(ExcelWorksheet ws, int rowNumber)
@@ -97,6 +97,7 @@ namespace ReportApp
                 TransferToCottage = new OccupancyRecord(),
                 TransferToALHC = new OccupancyRecord()
             };
+            apartmentsActual.SetEndingOccupancy(ReportDate.Month);
 
             int startRowNumber = rowNumber;
             rowNumber = BuildColumnHeaders(ws, rowNumber);
@@ -115,7 +116,7 @@ namespace ReportApp
             //This adds the sidebar
             BuildSectionSideBar(ws, "Actual", startRowNumber, rowNumber - 1, ActualSectionColor);
 
-            return rowNumber;
+            return ++rowNumber;
         }
 
         internal int BuildCottagesSection(ExcelWorksheet ws, int rowNumber)
@@ -130,6 +131,7 @@ namespace ReportApp
                 TransferToApt = new OccupancyRecord(),
                 TransferToALHC = new OccupancyRecord()
             };
+            cottagesActual.SetEndingOccupancy(ReportDate.Month);
 
             int startRowNumber = rowNumber;
             rowNumber = BuildColumnHeaders(ws, rowNumber);
@@ -148,7 +150,7 @@ namespace ReportApp
             //This adds the sidebar
             BuildSectionSideBar(ws, "Actual", startRowNumber, rowNumber - 1, ActualSectionColor);
 
-            return rowNumber;
+            return ++rowNumber;
         }
 
     }

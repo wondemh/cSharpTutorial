@@ -32,15 +32,8 @@ namespace ReportApp.Model.Occupancy
                 return record;
             }
         }
-        public OccupancyRecord PrivateMedicaidPending
-        {
-            get
-            {
-                OccupancyRecord record = new OccupancyRecord();
-                record.CalculateAverageValue();
-                return record;
-            }
-        }
+        public OccupancyRecord PrivateMedicaidPending { get; set; }
+
         public OccupancyRecord PrivateMedicaidPendingVarianceFromBudget 
         {
             get
