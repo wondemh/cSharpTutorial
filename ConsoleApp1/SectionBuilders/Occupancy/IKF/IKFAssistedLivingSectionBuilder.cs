@@ -12,12 +12,12 @@ using ReportApp.Model.Occupancy;
 
 namespace ReportApp
 {
-    public class IKFAssistedLivingSectionBuilder : OccupancySectionBuilder
+    internal class IKFAssistedLivingSectionBuilder : OccupancySectionBuilder
     {
         private readonly IKFAssistedLivingActual assistedLivingActual;
         private readonly IKFAssistedLivingBudget assistedLivingBudget;
 
-        public IKFAssistedLivingSectionBuilder(DateTime reportDate)
+        internal IKFAssistedLivingSectionBuilder(DateTime reportDate)
         {
             ReportDate = reportDate;
 

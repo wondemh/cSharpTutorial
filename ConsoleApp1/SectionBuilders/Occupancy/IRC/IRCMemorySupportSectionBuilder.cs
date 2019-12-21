@@ -12,37 +12,48 @@ using ReportApp.Model.Occupancy;
 
 namespace ReportApp
 {
-    public class IRCMemorySupportSectionBuilder : OccupancySectionBuilder
+    internal class IRCMemorySupportSectionBuilder : OccupancySectionBuilder
     {
+        private readonly IRCMemorySupportActual memorySupportActual;
+        private readonly IRCMemorySupportBudget memorySupportBudget;
 
-        //internal static int AddMemorySupportSection(ExcelWorksheet ws, int locationId, DateTime reportDate, int rowNumber)
-        //{
-        //    List<string> facilityTypeCodes = new List<string> { "MS" };
-        //    rowNumber = BuildSectionHeader(ws, "Assisted Living Memory Support Occupancy Statistics", rowNumber);
-        //    rowNumber = AddActualSection(ws, locationId, reportDate, facilityTypeCodes, rowNumber);
-        //    rowNumber = AddBudgetSection(ws, locationId, reportDate, facilityTypeCodes, ++rowNumber);
-        //    return rowNumber;
-        //}
-
-        internal override int BuildActualSection(ExcelWorksheet ws, LocationCodes locationId, DateTime reportDate, List<string> facilityTypeCodes, int rowNumber)
+        internal IRCMemorySupportSectionBuilder(DateTime reportDate)
         {
-            IKFMemorySupportActual memorySupportActual = new IKFMemorySupportActual
+            this.ReportDate = reportDate;
+
+            memorySupportActual = new IRCMemorySupportActual
             {
-                UnitsAvailable = OccupancyReportDAO.GetUnitsAvailableData(locationId, facilityTypeCodes),
-                LicensedFor = MemorySupportDAO.GetLicensedForData(locationId, facilityTypeCodes),
-                PrivateMCFirstPerson = MemorySupportDAO.GetPrivateMCFirstPersonData(locationId, facilityTypeCodes),
-                PrivateMCSecondPerson = MemorySupportDAO.GetPrivateMCSecondPersonData(locationId, facilityTypeCodes),
+                UnitsAvailable = new OccupancyRecord(),
+                LicensedFor = new OccupancyRecord(),
+                AverageMSFFSFirst = new OccupancyRecord(),
+                AverageMSFFSSecond = new OccupancyRecord(),
+                AverageMSLCFirst = new OccupancyRecord(),
+                AverageMSLCSecond = new OccupancyRecord()
             };
 
+            memorySupportBudget = new IRCMemorySupportBudget
+            {
+                MemorySupportActual = memorySupportActual,
+                AverageMSFFSFirst = new OccupancyRecord(),
+                AverageMSFFSSecond = new OccupancyRecord(),
+                AverageMSLCFirst = new OccupancyRecord(),
+                AverageMSLCSecond = new OccupancyRecord()
+            };
+        }
+
+        internal int BuildActualSection(ExcelWorksheet ws, int rowNumber)
+        {
             int startRowNumber = rowNumber;
             rowNumber = BuildColumnHeaders(ws, rowNumber);
             rowNumber = BuildGridRow(ws, memorySupportActual.UnitsAvailable, "Units Available:", rowNumber);
             rowNumber = BuildGridRow(ws, memorySupportActual.LicensedFor, "Licensed For:", rowNumber);
-            rowNumber = BuildGridRow(ws, memorySupportActual.PrivateMCFirstPerson, "Private - MC - 1st Person:", rowNumber);
-            rowNumber = BuildGridRow(ws, memorySupportActual.PrivateMCSecondPerson, "Private - MC - 2nd Person:", rowNumber);
-            rowNumber = BuildGridRow(ws, memorySupportActual.EndingAverageOccupancy, "Ending Avg.Occupancy:", rowNumber);
-            rowNumber = BuildGridRow(ws, memorySupportActual.PercentAverageUnitOccupancy, "% Avg.Unit Occupancy:", rowNumber, "0%");
-            rowNumber = BuildGridRow(ws, memorySupportActual.AverageUnoccupiedUnits, "Avg.Unoccupied Units:", rowNumber);
+            rowNumber = BuildGridRow(ws, memorySupportActual.AverageMSFFSFirst, "Average MS FFS 1st:", rowNumber);
+            rowNumber = BuildGridRow(ws, memorySupportActual.AverageMSFFSSecond, "Average MS FFS 2nd:", rowNumber);
+            rowNumber = BuildGridRow(ws, memorySupportActual.AverageMSLCFirst, "Average MS LC 1st:", rowNumber);
+            rowNumber = BuildGridRow(ws, memorySupportActual.AverageMSLCSecond, "Average MS LC 2nd:", rowNumber);
+            rowNumber = BuildGridRow(ws, memorySupportActual.EndingAverageOccupancy, "Ending Avg. Occupancy:", rowNumber);
+            rowNumber = BuildGridRow(ws, memorySupportActual.PercentUnitOccupancy, "% Unit Occupancy:", rowNumber, "0%");
+            rowNumber = BuildGridRow(ws, memorySupportActual.UnoccupiedUnits, "Unoccupied Units:", rowNumber);
             rowNumber = BuildGridRow(ws, memorySupportActual.EndingAveragePersonOccupancy, "Ending Avg. Person Occupancy:", rowNumber);
             rowNumber = BuildGridRow(ws, memorySupportActual.PercentLicensedOccupancy, "% Licensed Occupancy:", rowNumber, "0%");
 
@@ -52,26 +63,17 @@ namespace ReportApp
             return rowNumber;
         }
 
-        internal override int BuildBudgetSection(ExcelWorksheet ws, LocationCodes locationId, DateTime reportDate, List<string> facilityTypeCodes, int rowNumber)
+        internal int BuildBudgetSection(ExcelWorksheet ws, int rowNumber)
         {
-            
-            IKFMemorySupportBudget memorySupportBudget = new IKFMemorySupportBudget
-            {
-                PrivateMCFirstPerson = new OccupancyRecord(),
-                PrivateMCSecondtPerson = new OccupancyRecord(),
-                EndingAverageOccupancy = new OccupancyRecord(),
-                EndingAverageOccupancyVarianceFromBudget = new OccupancyRecord(),
-                EndingAvgPersonOccupancy = new OccupancyRecord(),
-                EndingAvgPersonOccupancyVarianceFromBudget = new OccupancyRecord()
-            };
-
             int startRowNumber = rowNumber;
             rowNumber = BuildColumnHeaders(ws, rowNumber);
-            rowNumber = BuildGridRow(ws, memorySupportBudget.PrivateMCFirstPerson, "Private - MC - 1st Person:", rowNumber);
-            rowNumber = BuildGridRow(ws, memorySupportBudget.PrivateMCSecondtPerson, "Private - MC - 2nd Person:", rowNumber);
+            rowNumber = BuildGridRow(ws, memorySupportBudget.AverageMSFFSFirst, "Average MS FFS 1st:", rowNumber);
+            rowNumber = BuildGridRow(ws, memorySupportBudget.AverageMSFFSSecond, "Average MS FFS 2nd:", rowNumber);
+            rowNumber = BuildGridRow(ws, memorySupportBudget.AverageMSLCFirst, "Average MS LC 2st:", rowNumber);
+            rowNumber = BuildGridRow(ws, memorySupportBudget.AverageMSLCSecond, "Average MS LC 2nd:", rowNumber);
             rowNumber = BuildGridRow(ws, memorySupportBudget.EndingAverageOccupancy, "Ending Avg. Occupancy:", rowNumber);
             rowNumber = BuildGridRow(ws, memorySupportBudget.EndingAverageOccupancyVarianceFromBudget, "Variance from Budget:", rowNumber);
-            rowNumber = BuildGridRow(ws, memorySupportBudget.EndingAvgPersonOccupancy, "Ending Avg. Person Occupancy:", rowNumber);
+            rowNumber = BuildGridRow(ws, memorySupportBudget.EndingAveragePersonOccupancy, "Ending Avg. Person Occupancy:", rowNumber);
             rowNumber = BuildGridRow(ws, memorySupportBudget.EndingAvgPersonOccupancyVarianceFromBudget, "Variance from Budget:", rowNumber, "0%");
 
             //This adds the sidebar

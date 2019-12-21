@@ -14,19 +14,19 @@ namespace ReportApp.DAO
     public static class MemorySupportDAO
     {
 
-        public static OccupancyRecord GetLicensedForData(int locationId, List<string> facilityTypeCodes)
+        public static OccupancyRecord GetLicensedForData(LocationCodes locationId, List<string> facilityTypeCodes)
         {
             OccupancyRecord record = new OccupancyRecord();
             record.TotalOrAverage = record.December;
             return record;
         }
-        public static OccupancyRecord GetPrivateMCFirstPersonData(int locationId, List<string> facilityTypeCodes)
+        public static OccupancyRecord GetPrivateMCFirstPersonData(LocationCodes locationId, List<string> facilityTypeCodes)
         {
             OccupancyRecord record = new OccupancyRecord();
             record.TotalOrAverage = record.CalculateAverageValue();
             return record;
         }
-        public static OccupancyRecord GetPrivateMCSecondPersonData(int locationId, List<string> facilityTypeCodes)
+        public static OccupancyRecord GetPrivateMCSecondPersonData(LocationCodes locationId, List<string> facilityTypeCodes)
         {
             OccupancyRecord record = new OccupancyRecord();
             record.TotalOrAverage = record.CalculateAverageValue();

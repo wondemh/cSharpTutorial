@@ -46,7 +46,7 @@ namespace ReportApp
 
         }
 
-        internal int AddActualSection(ExcelWorksheet ws, LocationCodes locationId, DateTime reportDate, List<string> facilityTypeCodes, int rowNumber)
+        internal int AddActualSection(ExcelWorksheet ws, int rowNumber)
         {
 
             int startRowNumber = rowNumber;
@@ -67,7 +67,7 @@ namespace ReportApp
             return rowNumber;
         }
 
-        internal int AddBudgetSection(ExcelWorksheet ws, LocationCodes locationId, DateTime reportDate, List<string> facilityTypeCodes, int rowNumber)
+        internal int AddBudgetSection(ExcelWorksheet ws, int rowNumber)
         {
 
             int startRowNumber = rowNumber;
@@ -85,7 +85,7 @@ namespace ReportApp
             return rowNumber;
         }
 
-        internal static int AddApartmentsSection(ExcelWorksheet ws, LocationCodes locationId, DateTime reportDate, List<string> facilityTypeCodes, int rowNumber)
+        internal static int AddApartmentsSection(ExcelWorksheet ws, int rowNumber)
         {
             WLRApartmentsActual apartmentsActual = new WLRApartmentsActual
             {
@@ -118,7 +118,7 @@ namespace ReportApp
             return rowNumber;
         }
 
-        internal static int AddCottagesSection(ExcelWorksheet ws, LocationCodes locationId, DateTime reportDate, List<string> facilityTypeCodes, int rowNumber)
+        internal static int AddCottagesSection(ExcelWorksheet ws, int rowNumber)
         {
             WLRCottagesActual cottagesActual = new WLRCottagesActual
             {

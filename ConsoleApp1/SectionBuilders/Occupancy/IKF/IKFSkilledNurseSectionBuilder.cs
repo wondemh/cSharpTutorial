@@ -14,40 +14,42 @@ namespace ReportApp
 {
     public class IKFSkilledNurseSectionBuilder : OccupancySectionBuilder
     {
+        private readonly IKFSkilledNurseActual skilledNurseActual;
+        private readonly IKFSkilledNurseBudget skilledNurseBudget;
 
-        //internal static int AddSkilledNurseSection(ExcelWorksheet ws, int locationId, DateTime reportDate, int rowNumber)
-        //{
-        //    List<string> facilityTypeCodes = new List<string> { "HC" };
-        //    rowNumber = BuildSectionHeader(ws, "Skilled Nursing Occupancy Statistics", rowNumber);
-        //    rowNumber = AddActualSection(ws, locationId, reportDate, facilityTypeCodes, rowNumber);
-        //    rowNumber = AddBudgetSection(ws, locationId, reportDate, facilityTypeCodes, ++rowNumber);
-        //    return rowNumber;
-        //}
-
-        internal override int BuildActualSection(ExcelWorksheet ws, LocationCodes locationId, DateTime reportDate, List<string> facilityTypeCodes, int rowNumber)
+        internal IKFSkilledNurseSectionBuilder(DateTime reportDate)
         {
-            SkilledNurseDAO dao = new SkilledNurseDAO();
+            this.ReportDate = reportDate;
 
-            IKFSkilledNurseActual skilledNurseActual = new IKFSkilledNurseActual
+            skilledNurseActual = new IKFSkilledNurseActual
             {
-                BedsAvailable = dao.GetBedsAvailableData(locationId, facilityTypeCodes, reportDate.Year, reportDate.Month),
-                AveragePrivatePay = dao.GetAverageLCFirstData(locationId, facilityTypeCodes, reportDate.Year, reportDate.Month),
-                AverageprivatePrivateMedicaidPending = dao.GetAverageLCSecondData(locationId, facilityTypeCodes, reportDate.Year, reportDate.Month),
-                AverageMedicare = dao.GetFFSDirectAdmitData(locationId, facilityTypeCodes, reportDate.Year, reportDate.Month),
-                AverageMemoryCare = dao.GetAverageMemoryCareData(locationId, facilityTypeCodes, reportDate.Year, reportDate.Month),
-                AverageMedicare = dao.GetAverageMedicareData(locationId, facilityTypeCodes, reportDate.Year, reportDate.Month),
-                AverageMedicaid = dao.GetAverageMedicaidData(locationId, facilityTypeCodes, reportDate.Year, reportDate.Month),
+                BedsAvailable = new OccupancyRecord(),
+                AveragePrivatePay = new OccupancyRecord(),
+                AveragePrivateMedicaidPending = new OccupancyRecord(),
+                AverageMedicare = new OccupancyRecord(),
+                AverageMedicaid = new OccupancyRecord()
             };
+
+            skilledNurseBudget = new IKFSkilledNurseBudget
+            {
+                SkilledNurseActual = skilledNurseActual,
+                PrivatePay = new OccupancyRecord(),
+                Medicare = new OccupancyRecord(),
+                Medicaid = new OccupancyRecord()
+            };
+
+        }
+
+        internal int BuildActualSection(ExcelWorksheet ws, int rowNumber)
+        {
 
             int startRowNumber = rowNumber;
             rowNumber = BuildColumnHeaders(ws, rowNumber);
             rowNumber = BuildGridRow(ws, skilledNurseActual.BedsAvailable, "Beds Available:", rowNumber);
-            rowNumber = BuildGridRow(ws, skilledNurseActual.AveragePrivatePay, "Avg. LC 1st:", rowNumber);
-            rowNumber = BuildGridRow(ws, skilledNurseActual.AverageprivatePrivateMedicaidPending, "Avg. LC 2nd:", rowNumber);
-            rowNumber = BuildGridRow(ws, skilledNurseActual.AverageMedicare, "FFS/Direct Admit:", rowNumber);
-            rowNumber = BuildGridRow(ws, skilledNurseActual.AverageMemoryCare, "Avg. Memory Care:", rowNumber);
-            rowNumber = BuildGridRow(ws, skilledNurseActual.AverageMedicare, "Avg Medicare:", rowNumber);
-            rowNumber = BuildGridRow(ws, skilledNurseActual.AverageMedicaid, "Avg Medicaid:", rowNumber);
+            rowNumber = BuildGridRow(ws, skilledNurseActual.AveragePrivatePay, "Avg. Private Pay:", rowNumber);
+            rowNumber = BuildGridRow(ws, skilledNurseActual.AveragePrivateMedicaidPending, "Avg. Private-Medicaid Pending:", rowNumber);
+            rowNumber = BuildGridRow(ws, skilledNurseActual.AverageMedicare, "Avg. Medicare:", rowNumber);
+            rowNumber = BuildGridRow(ws, skilledNurseActual.AverageMedicaid, "Avg. Medicaid:", rowNumber);
             rowNumber = BuildGridRow(ws, skilledNurseActual.TotalAverageOccupancy, "Total Avg. Occupancy:", rowNumber);
             rowNumber = BuildGridRow(ws, skilledNurseActual.PercentOccupancy, "% Occupancy:", rowNumber, "0%");
 
@@ -57,36 +59,15 @@ namespace ReportApp
             return rowNumber;
         }
 
-        internal override int BuildBudgetSection(ExcelWorksheet ws, LocationCodes locationId, DateTime reportDate, List<string> facilityTypeCodes, int rowNumber)
+        internal int BuildBudgetSection(ExcelWorksheet ws, int rowNumber)
         {
-            IKFSkilledNurseBudget skilledNurseBudget = new IKFSkilledNurseBudget
-            {
-                AverageLCFirst = new OccupancyRecord(),
-                LCFirstVarianceFromBudget = new OccupancyRecord(),
-                AverageLCSecond = new OccupancyRecord(),
-                LCSecondVarianceFromBudget = new OccupancyRecord(),
-                MemoryCare = new OccupancyRecord(),
-                MemoryCareVarianceFromBudget = new OccupancyRecord(),
-                FFSDirectAdmit = new OccupancyRecord(),
-                FFSDirectAdmitVarianceFromBudget = new OccupancyRecord(),
-                Medicare = new OccupancyRecord(),
-                MedicareVarianceFromBudget = new OccupancyRecord(),
-                Medicaid = new OccupancyRecord(),
-                MedicaidVarianceFromBudget = new OccupancyRecord(),
-                TotalOccupancy = new OccupancyRecord(),
-                TotalOccupancyVarianceFromBudget = new OccupancyRecord()
-            };
-
+            
             int startRowNumber = rowNumber;
             rowNumber = BuildColumnHeaders(ws, rowNumber);
-            rowNumber = BuildGridRow(ws, skilledNurseBudget.AverageLCFirst, "Avg. LC 1st:", rowNumber);
-            rowNumber = BuildGridRow(ws, skilledNurseBudget.LCFirstVarianceFromBudget, "Variance from Budget:", rowNumber);
-            rowNumber = BuildGridRow(ws, skilledNurseBudget.AverageLCSecond, "Avg. LC 2nd:", rowNumber);
-            rowNumber = BuildGridRow(ws, skilledNurseBudget.LCSecondVarianceFromBudget, "Variance from Budget:", rowNumber);
-            rowNumber = BuildGridRow(ws, skilledNurseBudget.MemoryCare, "Memory Care:", rowNumber, "0%");
-            rowNumber = BuildGridRow(ws, skilledNurseBudget.MemoryCareVarianceFromBudget, "Variance from Budget:", rowNumber);
-            rowNumber = BuildGridRow(ws, skilledNurseBudget.FFSDirectAdmit, "FFS/Direct Admit:", rowNumber);
-            rowNumber = BuildGridRow(ws, skilledNurseBudget.FFSDirectAdmitVarianceFromBudget, "Variance from Budget:", rowNumber);
+            rowNumber = BuildGridRow(ws, skilledNurseBudget.PrivatePay, "Avg. LC 1st:", rowNumber);
+            rowNumber = BuildGridRow(ws, skilledNurseBudget.PrivatePayVarianceFromBudget, "Variance from Budget:", rowNumber);
+            rowNumber = BuildGridRow(ws, skilledNurseBudget.PrivateMedicaidPending, "Private-Medicaid Pending:", rowNumber);
+            rowNumber = BuildGridRow(ws, skilledNurseBudget.PrivateMedicaidPendingVarianceFromBudget, "Variance from Budget:", rowNumber);
             rowNumber = BuildGridRow(ws, skilledNurseBudget.Medicare, "Medicare:", rowNumber);
             rowNumber = BuildGridRow(ws, skilledNurseBudget.MedicareVarianceFromBudget, "Variance from Budget:", rowNumber);
             rowNumber = BuildGridRow(ws, skilledNurseBudget.Medicaid, "Medicaid:", rowNumber);

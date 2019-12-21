@@ -8,6 +8,9 @@ namespace ReportApp.Model.Occupancy
     {
         public IKFSkilledNurseActual SkilledNurseActual { get; set; }
         public OccupancyRecord PrivatePay { get; set; }
+        public OccupancyRecord Medicare { get; set; }
+        public OccupancyRecord Medicaid { get; set; }
+
         public OccupancyRecord PrivatePayVarianceFromBudget
         {
             get
@@ -43,41 +46,18 @@ namespace ReportApp.Model.Occupancy
             get
             {
                 OccupancyRecord record = new OccupancyRecord();
-                record.January = SkilledNurseActual.AverageprivatePrivateMedicaidPending.January ?? ZeroIfNull(SkilledNurseActual.AverageprivatePrivateMedicaidPending.January) - ZeroIfNull(PrivateMedicaidPending.January);
-                record.February = SkilledNurseActual.AverageprivatePrivateMedicaidPending.February ?? ZeroIfNull(SkilledNurseActual.AverageprivatePrivateMedicaidPending.February) - ZeroIfNull(PrivateMedicaidPending.February);
-                record.March = SkilledNurseActual.AverageprivatePrivateMedicaidPending.March ?? ZeroIfNull(SkilledNurseActual.AverageprivatePrivateMedicaidPending.March) - ZeroIfNull(PrivateMedicaidPending.March);
-                record.April = SkilledNurseActual.AverageprivatePrivateMedicaidPending.April ?? ZeroIfNull(SkilledNurseActual.AverageprivatePrivateMedicaidPending.April) - ZeroIfNull(PrivateMedicaidPending.April);
-                record.May = SkilledNurseActual.AverageprivatePrivateMedicaidPending.May ?? ZeroIfNull(SkilledNurseActual.AverageprivatePrivateMedicaidPending.May) - ZeroIfNull(PrivateMedicaidPending.May);
-                record.June = SkilledNurseActual.AverageprivatePrivateMedicaidPending.June ?? ZeroIfNull(SkilledNurseActual.AverageprivatePrivateMedicaidPending.June) - ZeroIfNull(PrivateMedicaidPending.June);
-                record.July = SkilledNurseActual.AverageprivatePrivateMedicaidPending.July ?? ZeroIfNull(SkilledNurseActual.AverageprivatePrivateMedicaidPending.July) - ZeroIfNull(PrivateMedicaidPending.July);
-                record.August = SkilledNurseActual.AverageprivatePrivateMedicaidPending.August ?? ZeroIfNull(SkilledNurseActual.AverageprivatePrivateMedicaidPending.August) - ZeroIfNull(PrivateMedicaidPending.August);
-                record.September = SkilledNurseActual.AverageprivatePrivateMedicaidPending.September ?? ZeroIfNull(SkilledNurseActual.AverageprivatePrivateMedicaidPending.September) - ZeroIfNull(PrivateMedicaidPending.September);
-                record.October = SkilledNurseActual.AverageprivatePrivateMedicaidPending.October ?? ZeroIfNull(SkilledNurseActual.AverageprivatePrivateMedicaidPending.October) - ZeroIfNull(PrivateMedicaidPending.October);
-                record.November = SkilledNurseActual.AverageprivatePrivateMedicaidPending.November ?? ZeroIfNull(SkilledNurseActual.AverageprivatePrivateMedicaidPending.November) - ZeroIfNull(PrivateMedicaidPending.November);
-                record.December = SkilledNurseActual.AverageprivatePrivateMedicaidPending.December ?? ZeroIfNull(SkilledNurseActual.AverageprivatePrivateMedicaidPending.December) - ZeroIfNull(PrivateMedicaidPending.December);
-                record.TotalOrAverage = record.CalculateAverageValue();
-                return record;
-            }
-        }
-        public OccupancyRecord Medicare 
-        {
-            get
-            {
-                OccupancyRecord record = new OccupancyRecord
-                {
-                    January = 3,
-                    February = 3,
-                    March = 3,
-                    April = 3,
-                    May = 3,
-                    June = 3,
-                    July = 3,
-                    August = 3,
-                    September = 3,
-                    October = 3,
-                    November = 3,
-                    December = 3
-                };
+                record.January = SkilledNurseActual.AveragePrivateMedicaidPending.January ?? ZeroIfNull(SkilledNurseActual.AveragePrivateMedicaidPending.January) - ZeroIfNull(PrivateMedicaidPending.January);
+                record.February = SkilledNurseActual.AveragePrivateMedicaidPending.February ?? ZeroIfNull(SkilledNurseActual.AveragePrivateMedicaidPending.February) - ZeroIfNull(PrivateMedicaidPending.February);
+                record.March = SkilledNurseActual.AveragePrivateMedicaidPending.March ?? ZeroIfNull(SkilledNurseActual.AveragePrivateMedicaidPending.March) - ZeroIfNull(PrivateMedicaidPending.March);
+                record.April = SkilledNurseActual.AveragePrivateMedicaidPending.April ?? ZeroIfNull(SkilledNurseActual.AveragePrivateMedicaidPending.April) - ZeroIfNull(PrivateMedicaidPending.April);
+                record.May = SkilledNurseActual.AveragePrivateMedicaidPending.May ?? ZeroIfNull(SkilledNurseActual.AveragePrivateMedicaidPending.May) - ZeroIfNull(PrivateMedicaidPending.May);
+                record.June = SkilledNurseActual.AveragePrivateMedicaidPending.June ?? ZeroIfNull(SkilledNurseActual.AveragePrivateMedicaidPending.June) - ZeroIfNull(PrivateMedicaidPending.June);
+                record.July = SkilledNurseActual.AveragePrivateMedicaidPending.July ?? ZeroIfNull(SkilledNurseActual.AveragePrivateMedicaidPending.July) - ZeroIfNull(PrivateMedicaidPending.July);
+                record.August = SkilledNurseActual.AveragePrivateMedicaidPending.August ?? ZeroIfNull(SkilledNurseActual.AveragePrivateMedicaidPending.August) - ZeroIfNull(PrivateMedicaidPending.August);
+                record.September = SkilledNurseActual.AveragePrivateMedicaidPending.September ?? ZeroIfNull(SkilledNurseActual.AveragePrivateMedicaidPending.September) - ZeroIfNull(PrivateMedicaidPending.September);
+                record.October = SkilledNurseActual.AveragePrivateMedicaidPending.October ?? ZeroIfNull(SkilledNurseActual.AveragePrivateMedicaidPending.October) - ZeroIfNull(PrivateMedicaidPending.October);
+                record.November = SkilledNurseActual.AveragePrivateMedicaidPending.November ?? ZeroIfNull(SkilledNurseActual.AveragePrivateMedicaidPending.November) - ZeroIfNull(PrivateMedicaidPending.November);
+                record.December = SkilledNurseActual.AveragePrivateMedicaidPending.December ?? ZeroIfNull(SkilledNurseActual.AveragePrivateMedicaidPending.December) - ZeroIfNull(PrivateMedicaidPending.December);
                 record.TotalOrAverage = record.CalculateAverageValue();
                 return record;
             }
@@ -106,30 +86,7 @@ namespace ReportApp.Model.Occupancy
                 return record;
             }
         }
-
-        public OccupancyRecord Medicaid 
-        {
-            get
-            {
-                OccupancyRecord record = new OccupancyRecord
-                {
-                    January = 6,
-                    February = 6,
-                    March = 6,
-                    April = 6,
-                    May = 6,
-                    June = 6,
-                    July = 6,
-                    August = 6,
-                    September = 6,
-                    October = 6,
-                    November = 6,
-                    December = 6
-                };
-                record.TotalOrAverage = record.CalculateAverageValue();
-                return record;
-            }
-        }
+        
         public OccupancyRecord MedicaidVarianceFromBudget 
         {
             get

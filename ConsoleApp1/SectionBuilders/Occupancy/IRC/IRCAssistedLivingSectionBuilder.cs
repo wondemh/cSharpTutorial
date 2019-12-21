@@ -12,36 +12,50 @@ using ReportApp.Model.Occupancy;
 
 namespace ReportApp
 {
-    public class IRCAssistedLivingSectionBuilder : OccupancySectionBuilder
+    internal class IRCAssistedLivingSectionBuilder : OccupancySectionBuilder
     {
+        private readonly IRCAssistedLivingActual assistedLivingActual;
+        private readonly IRCAssistedLivingBudget assistedLivingBudget;
 
-        //internal static int AddAssistedLivingSection(ExcelWorksheet ws, LocationCodes locationId, DateTime reportDate, int rowNumber)
-        //{
-        //    List<string> facilityTypeCodes = new List<string> { "AL" };
-        //    rowNumber = BuildSectionHeader(ws, "Assisted Living Occupancy Statistics", rowNumber);
-        //    rowNumber = BuildActualSection(ws, locationId, reportDate, facilityTypeCodes, rowNumber);
-        //    rowNumber = BuildBudgetSection(ws, locationId, reportDate, facilityTypeCodes, ++rowNumber);
-        //    return rowNumber;
-        //}
-
-        internal override int BuildActualSection(ExcelWorksheet ws, LocationCodes locationId, DateTime reportDate, List<string> facilityTypeCodes, int rowNumber)
+        internal IRCAssistedLivingSectionBuilder(DateTime reportDate)
         {
-           
-            IRCAssistedLivingActual assistedLivingActual = new IRCAssistedLivingActual
+            this.ReportDate = reportDate;
+            List<String> facilityTypeCodes = new List<string> { "HC" };
+
+            assistedLivingActual = new IRCAssistedLivingActual
             {
-                UnitsAvailable = OccupancyReportDAO.GetUnitsAvailableData(locationId, facilityTypeCodes),
-                AverageFFS = AssistedLivingDAO.GetAverageFFS(locationId, facilityTypeCodes, reportDate),
-                AverageLC = AssistedLivingDAO.GetAverageLC(locationId, facilityTypeCodes, reportDate),
+                UnitsAvailable = OccupancyReportDAO.GetUnitsAvailableData(LocationCodes.IRC, facilityTypeCodes),
+                LicensedFor = new OccupancyRecord(),
+                AverageFFSFirst = AssistedLivingDAO.GetAverageFFS(LocationCodes.IRC, facilityTypeCodes, reportDate),
+                AverageFFSSecond = AssistedLivingDAO.GetAverageFFS(LocationCodes.IRC, facilityTypeCodes, reportDate),
+                AverageLCFirst = AssistedLivingDAO.GetAverageLC(LocationCodes.IRC, facilityTypeCodes, reportDate),
+                AverageLCSecond = AssistedLivingDAO.GetAverageLC(LocationCodes.IRC, facilityTypeCodes, reportDate),
             };
 
+            assistedLivingBudget = new IRCAssistedLivingBudget
+            {
+                AssistedLivingActual = assistedLivingActual,
+                AverageFFSFirst = new OccupancyRecord(),
+                AverageFFSSecond = new OccupancyRecord(),
+                AverageLCFirst = new OccupancyRecord(),
+                AverageLCSecond = new OccupancyRecord()
+            };
+        }
+
+        internal int BuildActualSection(ExcelWorksheet ws, int rowNumber)
+        {
             int startRowNumber = rowNumber;
             rowNumber = BuildColumnHeaders(ws, rowNumber);
             rowNumber = BuildGridRow(ws, assistedLivingActual.UnitsAvailable, "Units Available:", rowNumber);
-            rowNumber = BuildGridRow(ws, assistedLivingActual.AverageFFS, "Average FFS:", rowNumber);
-            rowNumber = BuildGridRow(ws, assistedLivingActual.AverageLC, "Average LC:", rowNumber);
-            rowNumber = BuildGridRow(ws, assistedLivingActual.AverageOccupancy, "Average Occupancy:", rowNumber);
+            rowNumber = BuildGridRow(ws, assistedLivingActual.LicensedFor, "Licensed For:", rowNumber);
+            rowNumber = BuildGridRow(ws, assistedLivingActual.AverageFFSFirst, "Average FFS 1st:", rowNumber);
+            rowNumber = BuildGridRow(ws, assistedLivingActual.AverageFFSSecond, "Average FFS 2nd:", rowNumber);
+            rowNumber = BuildGridRow(ws, assistedLivingActual.AverageLCFirst, "Average LC 1st:", rowNumber);
+            rowNumber = BuildGridRow(ws, assistedLivingActual.AverageLCSecond, "Average LC 2nd:", rowNumber);
+            rowNumber = BuildGridRow(ws, assistedLivingActual.EndingAverageOccupancy, "Ending Avg. Occupancy:", rowNumber);
             rowNumber = BuildGridRow(ws, assistedLivingActual.PercentUnitOccupancy, "% Unit Occupancy:", rowNumber, "0%");
-            rowNumber = BuildGridRow(ws, assistedLivingActual.UnoccupiedUnits, "Unoccupied Units:", rowNumber);
+            rowNumber = BuildGridRow(ws, assistedLivingActual.EndingAveragePersonOccupancy, "Ending Avg. Person Occupancy:", rowNumber);
+            rowNumber = BuildGridRow(ws, assistedLivingActual.PercentLicensedOccupancy, "% Licensed Occupancy:", rowNumber, "0%");
 
             //This adds the sidebar
             BuildSectionSideBar(ws, "Actual", startRowNumber, rowNumber - 1, ActualSectionColor);
@@ -49,24 +63,18 @@ namespace ReportApp
             return ++rowNumber;
         }
 
-        internal override int BuildBudgetSection(ExcelWorksheet ws, LocationCodes locationId, DateTime reportDate, List<string> facilityTypeCodes, int rowNumber)
+        internal int BuildBudgetSection(ExcelWorksheet ws, int rowNumber)
         {
-            IRCAssistedLivingBudget assistedLivingBudget = new IRCAssistedLivingBudget
-            {
-                AverageFFSFirst = new OccupancyRecord(),
-                AverLCFirst = new OccupancyRecord(),
-                EndingAverageOccupance = new OccupancyRecord(),
-                PercentOccupancy = new OccupancyRecord(),
-                VarianceFromBudget = new OccupancyRecord()
-            };
-
             int startRowNumber = rowNumber;
             rowNumber = BuildColumnHeaders(ws, rowNumber);
             rowNumber = BuildGridRow(ws, assistedLivingBudget.AverageFFSFirst, "Average FFS 1st:", rowNumber);
-            rowNumber = BuildGridRow(ws, assistedLivingBudget.AverLCFirst, "Averaget LC 1st:", rowNumber);
-            rowNumber = BuildGridRow(ws, assistedLivingBudget.EndingAverageOccupance, "Ending Avg. Occupancy:", rowNumber);
-            rowNumber = BuildGridRow(ws, assistedLivingBudget.VarianceFromBudget, "Variance from Budget:", rowNumber);
-            rowNumber = BuildGridRow(ws, assistedLivingBudget.PercentOccupancy, "% Occupancy:", rowNumber, "0%");
+            rowNumber = BuildGridRow(ws, assistedLivingBudget.AverageFFSSecond, "Average FFS 2nd:", rowNumber);
+            rowNumber = BuildGridRow(ws, assistedLivingBudget.AverageLCFirst, "Averaget LC 1st:", rowNumber);
+            rowNumber = BuildGridRow(ws, assistedLivingBudget.AverageLCSecond, "Averaget LC 2nd:", rowNumber);
+            rowNumber = BuildGridRow(ws, assistedLivingBudget.EndingAverageOccupancy, "Ending Avg. Occupancy:", rowNumber);
+            rowNumber = BuildGridRow(ws, assistedLivingBudget.EndingAverageOccupancyVarianceFromBudget, "Variance from Budget:", rowNumber);
+            rowNumber = BuildGridRow(ws, assistedLivingBudget.EndingAveragePersonOccupancy, "Ending Avg. Person Occupancy:", rowNumber);
+            rowNumber = BuildGridRow(ws, assistedLivingBudget.EndingAveragePersonOccupancyVarianceFromBudget, "Variance from Budget:", rowNumber);
 
             //This adds the sidebar
             BuildSectionSideBar(ws, "Budget", startRowNumber, rowNumber - 1, BudgetSectionColor);
