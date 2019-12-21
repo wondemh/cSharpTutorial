@@ -88,20 +88,22 @@ namespace ReportApp.Model.Occupancy
             {
                 if (EndingAveragePersonOccupancy != null && LicensedFor != null)
                 {
-                    OccupancyRecord record = new OccupancyRecord();
-                    record.January = EndingAveragePersonOccupancy.January ?? (float)Math.Round(Divide(EndingAveragePersonOccupancy.January, LicensedFor.January), 0);
-                    record.February = EndingAveragePersonOccupancy.February ?? (float)Math.Round(Divide(EndingAveragePersonOccupancy.February, LicensedFor.February), 0);
-                    record.March = EndingAveragePersonOccupancy.March ?? (float)Math.Round(Divide(EndingAveragePersonOccupancy.March, LicensedFor.March), 0);
-                    record.April = EndingAveragePersonOccupancy.April ?? (float)Math.Round(Divide(EndingAveragePersonOccupancy.April, LicensedFor.April), 0);
-                    record.May = EndingAveragePersonOccupancy.May ?? (float)Math.Round(Divide(EndingAveragePersonOccupancy.May, LicensedFor.May), 0);
-                    record.June = EndingAveragePersonOccupancy.June ?? (float)Math.Round(Divide(EndingAveragePersonOccupancy.June, LicensedFor.June), 0);
-                    record.July = EndingAveragePersonOccupancy.July ?? (float)Math.Round(Divide(EndingAveragePersonOccupancy.July, LicensedFor.July), 0);
-                    record.August = EndingAveragePersonOccupancy.August ?? (float)Math.Round(Divide(EndingAveragePersonOccupancy.August, LicensedFor.August), 0);
-                    record.September = EndingAveragePersonOccupancy.September ?? (float)Math.Round(Divide(EndingAveragePersonOccupancy.September, LicensedFor.September), 0);
-                    record.October = EndingAveragePersonOccupancy.October ?? (float)Math.Round(Divide(EndingAveragePersonOccupancy.October, LicensedFor.October), 0);
-                    record.November = EndingAveragePersonOccupancy.November ?? (float)Math.Round(Divide(EndingAveragePersonOccupancy.November, LicensedFor.November), 0);
-                    record.December = EndingAveragePersonOccupancy.December ?? (float)Math.Round(Divide(EndingAveragePersonOccupancy.December, LicensedFor.December), 0);
-                    record.TotalOrAverage = (float)Math.Round(Divide(EndingAveragePersonOccupancy.TotalOrAverage, LicensedFor.TotalOrAverage), 0);
+                    OccupancyRecord record = new OccupancyRecord
+                    {
+                        January = EndingAveragePersonOccupancy.January ?? (float)Math.Round(Divide(EndingAveragePersonOccupancy.January, LicensedFor.January), 0),
+                        February = EndingAveragePersonOccupancy.February ?? (float)Math.Round(Divide(EndingAveragePersonOccupancy.February, LicensedFor.February), 0),
+                        March = EndingAveragePersonOccupancy.March ?? (float)Math.Round(Divide(EndingAveragePersonOccupancy.March, LicensedFor.March), 0),
+                        April = EndingAveragePersonOccupancy.April ?? (float)Math.Round(Divide(EndingAveragePersonOccupancy.April, LicensedFor.April), 0),
+                        May = EndingAveragePersonOccupancy.May ?? (float)Math.Round(Divide(EndingAveragePersonOccupancy.May, LicensedFor.May), 0),
+                        June = EndingAveragePersonOccupancy.June ?? (float)Math.Round(Divide(EndingAveragePersonOccupancy.June, LicensedFor.June), 0),
+                        July = EndingAveragePersonOccupancy.July ?? (float)Math.Round(Divide(EndingAveragePersonOccupancy.July, LicensedFor.July), 0),
+                        August = EndingAveragePersonOccupancy.August ?? (float)Math.Round(Divide(EndingAveragePersonOccupancy.August, LicensedFor.August), 0),
+                        September = EndingAveragePersonOccupancy.September ?? (float)Math.Round(Divide(EndingAveragePersonOccupancy.September, LicensedFor.September), 0),
+                        October = EndingAveragePersonOccupancy.October ?? (float)Math.Round(Divide(EndingAveragePersonOccupancy.October, LicensedFor.October), 0),
+                        November = EndingAveragePersonOccupancy.November ?? (float)Math.Round(Divide(EndingAveragePersonOccupancy.November, LicensedFor.November), 0),
+                        December = EndingAveragePersonOccupancy.December ?? (float)Math.Round(Divide(EndingAveragePersonOccupancy.December, LicensedFor.December), 0),
+                        TotalOrAverage = (float)Math.Round(Divide(EndingAveragePersonOccupancy.TotalOrAverage, LicensedFor.TotalOrAverage), 0)
+                    };
                     return record;
                 }
                 return new OccupancyRecord(true);

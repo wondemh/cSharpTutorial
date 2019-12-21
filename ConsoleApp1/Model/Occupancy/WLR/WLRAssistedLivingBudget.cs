@@ -36,19 +36,21 @@ namespace ReportApp.Model.Occupancy
         {
             get
             {
-                OccupancyRecord record = new OccupancyRecord();
-                record.January = AssistedLivingActual.AverageOccupancy.January ?? Subtract(AssistedLivingActual.AverageOccupancy.January, EndingAverageOccupancy.January);
-                record.February = AssistedLivingActual.AverageOccupancy.February ?? Subtract(AssistedLivingActual.AverageOccupancy.February, EndingAverageOccupancy.February);
-                record.March = AssistedLivingActual.AverageOccupancy.March ?? Subtract(AssistedLivingActual.AverageOccupancy.March, EndingAverageOccupancy.March);
-                record.April = AssistedLivingActual.AverageOccupancy.April ?? Subtract(AssistedLivingActual.AverageOccupancy.April, EndingAverageOccupancy.April);
-                record.May = AssistedLivingActual.AverageOccupancy.May ?? Subtract(AssistedLivingActual.AverageOccupancy.May, EndingAverageOccupancy.May);
-                record.June = AssistedLivingActual.AverageOccupancy.June ?? Subtract(AssistedLivingActual.AverageOccupancy.June, EndingAverageOccupancy.June);
-                record.July = AssistedLivingActual.AverageOccupancy.July ?? Subtract(AssistedLivingActual.AverageOccupancy.July, EndingAverageOccupancy.July);
-                record.August = AssistedLivingActual.AverageOccupancy.August ?? Subtract(AssistedLivingActual.AverageOccupancy.August, EndingAverageOccupancy.August);
-                record.September = AssistedLivingActual.AverageOccupancy.September ?? Subtract(AssistedLivingActual.AverageOccupancy.September, EndingAverageOccupancy.September);
-                record.October = AssistedLivingActual.AverageOccupancy.October ?? Subtract(AssistedLivingActual.AverageOccupancy.October, EndingAverageOccupancy.October);
-                record.November = AssistedLivingActual.AverageOccupancy.November ?? Subtract(AssistedLivingActual.AverageOccupancy.November, EndingAverageOccupancy.November);
-                record.December = AssistedLivingActual.AverageOccupancy.December ?? Subtract(AssistedLivingActual.AverageOccupancy.December, EndingAverageOccupancy.December);
+                OccupancyRecord record = new OccupancyRecord
+                {
+                    January = AssistedLivingActual.AverageOccupancy.January ?? Subtract(AssistedLivingActual.AverageOccupancy.January, EndingAverageOccupancy.January),
+                    February = AssistedLivingActual.AverageOccupancy.February ?? Subtract(AssistedLivingActual.AverageOccupancy.February, EndingAverageOccupancy.February),
+                    March = AssistedLivingActual.AverageOccupancy.March ?? Subtract(AssistedLivingActual.AverageOccupancy.March, EndingAverageOccupancy.March),
+                    April = AssistedLivingActual.AverageOccupancy.April ?? Subtract(AssistedLivingActual.AverageOccupancy.April, EndingAverageOccupancy.April),
+                    May = AssistedLivingActual.AverageOccupancy.May ?? Subtract(AssistedLivingActual.AverageOccupancy.May, EndingAverageOccupancy.May),
+                    June = AssistedLivingActual.AverageOccupancy.June ?? Subtract(AssistedLivingActual.AverageOccupancy.June, EndingAverageOccupancy.June),
+                    July = AssistedLivingActual.AverageOccupancy.July ?? Subtract(AssistedLivingActual.AverageOccupancy.July, EndingAverageOccupancy.July),
+                    August = AssistedLivingActual.AverageOccupancy.August ?? Subtract(AssistedLivingActual.AverageOccupancy.August, EndingAverageOccupancy.August),
+                    September = AssistedLivingActual.AverageOccupancy.September ?? Subtract(AssistedLivingActual.AverageOccupancy.September, EndingAverageOccupancy.September),
+                    October = AssistedLivingActual.AverageOccupancy.October ?? Subtract(AssistedLivingActual.AverageOccupancy.October, EndingAverageOccupancy.October),
+                    November = AssistedLivingActual.AverageOccupancy.November ?? Subtract(AssistedLivingActual.AverageOccupancy.November, EndingAverageOccupancy.November),
+                    December = AssistedLivingActual.AverageOccupancy.December ?? Subtract(AssistedLivingActual.AverageOccupancy.December, EndingAverageOccupancy.December)
+                };
                 return record;
             }
         }
