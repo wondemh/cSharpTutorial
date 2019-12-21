@@ -8,6 +8,7 @@ namespace ReportApp.Model.Occupancy
     {
         private OccupancyRecord _varianceFromBudget;
 
+        //TODO: CHANGE THIS TO OccupancyRecord ActualUnitsAvailable and fetch it once in constructor of section builder and set it in actual and budget
         public IndependentLivingActual ILActual { get; set; }
         public OccupancyRecord BeginningOccupancy { get; set; }
         public OccupancyRecord MoveIns { get; set; }

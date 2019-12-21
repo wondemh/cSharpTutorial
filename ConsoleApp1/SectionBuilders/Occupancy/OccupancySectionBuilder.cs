@@ -19,6 +19,9 @@ namespace ReportApp
         public const string ActualSectionColor = "#FF8633";
         public const string BudgetSectionColor = "#3FC3E1";
 
+        internal LocationCodes Location { get; set; }
+        internal DateTime ReportDate { get; set; }
+
         internal static int BuildPageHeader(ExcelWorksheet ws, string locationName, DateTime reportDate, int rowNumber)
         {
             int initialRowNumber = rowNumber;
@@ -55,7 +58,7 @@ namespace ReportApp
             return ++rowNumber;
         }
 
-        internal void BuildSectionSideBar(ExcelWorksheet ws, string sidebarText, int startRowNumber, int endRowNumber, string hexColor)
+        internal static void BuildSectionSideBar(ExcelWorksheet ws, string sidebarText, int startRowNumber, int endRowNumber, string hexColor)
         {
             ExcelRange range = ws.Cells[startRowNumber, 1, endRowNumber, 1];
             range.Merge = true;
@@ -72,7 +75,7 @@ namespace ReportApp
             range.AutoFitColumns();
         }
 
-        internal int BuildColumnHeaders(ExcelWorksheet ws, int rowNumber)
+        internal static int BuildColumnHeaders(ExcelWorksheet ws, int rowNumber)
         {
             ws.Cells[rowNumber, 3].Value = "Jan";
             ws.Cells[rowNumber, 4].Value = "Feb";
@@ -94,7 +97,7 @@ namespace ReportApp
             return ++rowNumber;
         }
 
-        internal int BuildGridRow(ExcelWorksheet ws, OccupancyRecord record, string description, int rowNumber, string rowFormat = null)
+        internal static int BuildGridRow(ExcelWorksheet ws, OccupancyRecord record, string description, int rowNumber, string rowFormat = null)
         {
             if (record != null)
             {
@@ -128,7 +131,7 @@ namespace ReportApp
             return rowNumber;
         }
 
-        internal abstract int BuildActualSection(ExcelWorksheet ws, LocationCodes locationId, DateTime reportDate, List<string> facilityTypeCodes, int rowNumber);
-        internal abstract int BuildBudgetSection(ExcelWorksheet ws, LocationCodes locationId, DateTime reportDate, List<string> facilityTypeCodes, int rowNumber);
+        //internal abstract int BuildActualSection(ExcelWorksheet ws, LocationCodes locationId, DateTime reportDate, int rowNumber);
+        //internal abstract int BuildBudgetSection(ExcelWorksheet ws, LocationCodes locationId, DateTime reportDate, int rowNumber);
     }
 }

@@ -11,7 +11,7 @@ namespace ReportApp
     public class OccupancyReportService
     {
         
-        public static void BuildReport(LocationCodes locationId, DateTime reportDate)
+        public void BuildReport(LocationCodes locationId, DateTime reportDate)
         {
 
             using var p = new ExcelPackage();
@@ -24,7 +24,14 @@ namespace ReportApp
             switch(locationId)
             {
                 case LocationCodes.IKF:
-
+                    buildIKFReport(location, reportDate);
+                    break;
+                case LocationCodes.IRC:
+                    buildIRCReport(location, reportDate);
+                    break;
+                case LocationCodes.WLR:
+                    buildWLRReport(location, reportDate);
+                    break;
             }
 
             ws.PrinterSettings.PaperSize = ePaperSize.A4;
@@ -43,16 +50,45 @@ namespace ReportApp
             p.SaveAs(new FileInfo(@"C:\Users\wondemh\source\repos\cSharpTutorial\OccupancyReport.xlsx"));
         }
 
-        private byte[] buildIKFReport(Location location, DateTime reportDate)
+        private byte[] buildIKFReport(DateTime reportDate)
         {
+            IndependentLivingSectionBuilder independentLivingSectionBuilder = new IndependentLivingSectionBuilder(LocationCodes.IKF, reportDate);
+            IKFAssistedLivingSectionBuilder assistedLivingSectionBuilder = new IKFAssistedLivingSectionBuilder(reportDate);
+            IKFMemorySupportSectionBuilder memorySupportSectionBuilder = new IKFMemorySupportSectionBuilder(reportDate);
+            IKFSkilledNurseSectionBuilder skilledNursingSectionBuilder = new IKFSkilledNurseSectionBuilder(reportDate);
+
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Occupancy Report");
             int rowNumber = 1;
+            
             rowNumber = OccupancySectionBuilder.BuildPageHeader(ws, location.Name, reportDate, rowNumber);
-            row
+            
+            rowNumber = independentLivingSectionBuilder.BuildSectionHeader(ws, "Independent Living Occupancy Statistics", rowNumber);
+            rowNumber = independentLivingSectionBuilder.BuildActualSection(ws, "Independent Living Occupancy Statistics", rowNumber);
+            rowNumber = independentLivingSectionBuilder.BuildBudgetSection(ws, "Independent Living Occupancy Statistics", rowNumber);
+
+            rowNumber = assistedLivingSectionBuilder.BuildActualSection(ws, "Independent Living Occupancy Statistics", rowNumber);
+            rowNumber = assistedLivingSectionBuilder.BuildBudgetSection(ws, "Independent Living Occupancy Statistics", rowNumber);
+
+            rowNumber = memorySupportSectionBuilder.BuildActualSection(ws, "Independent Living Occupancy Statistics", rowNumber);
+            rowNumber = memorySupportSectionBuilder.BuildBudgetSection(ws, "Independent Living Occupancy Statistics", rowNumber);
+
+            rowNumber = memorySupportSectionBuilder.BuildActualSection(ws, "Independent Living Occupancy Statistics", rowNumber);
+            rowNumber = memorySupportSectionBuilder.BuildBudgetSection(ws, "Independent Living Occupancy Statistics", rowNumber);
+
             return null;
 
         }
-        
+
+        private byte[] buildIRCReport(Location location, DateTime reportDate)
+        {
+            return null;
+
+        }
+
+        private byte[] buildWLRReport(Location location, DateTime reportDate)
+        {
+            return null;
+
+        }
     }
-}
