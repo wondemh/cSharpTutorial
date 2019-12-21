@@ -12,27 +12,33 @@ using ReportApp.Model.Occupancy;
 
 namespace ReportApp
 {
-    public class WLRAssistedLivingSectionBuilder : OccupancySectionBuilder
+    internal class WLRAssistedLivingSectionBuilder : OccupancySectionBuilder
     {
+        private readonly WLRAssistedLivingActual assistedLivingActual;
+        private readonly WLRAssistedLivingBudget assistedLivingBudget;
 
-        //internal static int AddAssistedLivingSection(ExcelWorksheet ws, LocationCodes locationId, DateTime reportDate, int rowNumber)
-        //{
-        //    List<string> facilityTypeCodes = new List<string> { "AL" };
-        //    rowNumber = BuildSectionHeader(ws, "Assisted Living Occupancy Statistics", rowNumber);
-        //    rowNumber = BuildActualSection(ws, locationId, reportDate, facilityTypeCodes, rowNumber);
-        //    rowNumber = BuildBudgetSection(ws, locationId, reportDate, facilityTypeCodes, ++rowNumber);
-        //    return rowNumber;
-        //}
-
-        internal override int BuildActualSection(ExcelWorksheet ws, LocationCodes locationId, DateTime reportDate, List<string> facilityTypeCodes, int rowNumber)
+        internal WLRAssistedLivingSectionBuilder(DateTime reportDate)
         {
-           
-            WLRAssistedLivingActual assistedLivingActual = new WLRAssistedLivingActual
+            this.ReportDate = reportDate;
+            List<String> facilityTypeCodes = new List<string> { "AL" };
+            assistedLivingActual = new WLRAssistedLivingActual
             {
-                UnitsAvailable = OccupancyReportDAO.GetUnitsAvailableData(locationId, facilityTypeCodes),
-                AverageFFS = AssistedLivingDAO.GetAverageFFS(locationId, facilityTypeCodes, reportDate),
-                AverageLC = AssistedLivingDAO.GetAverageLC(locationId, facilityTypeCodes, reportDate),
+                UnitsAvailable = OccupancyReportDAO.GetUnitsAvailableData(LocationCodes.WLR, facilityTypeCodes),
+                AverageFFS = AssistedLivingDAO.GetAverageFFS(LocationCodes.WLR, facilityTypeCodes, reportDate),
+                AverageLC = AssistedLivingDAO.GetAverageLC(LocationCodes.WLR, facilityTypeCodes, reportDate),
             };
+
+            assistedLivingBudget = new WLRAssistedLivingBudget
+            {
+                AssistedLivingActual = assistedLivingActual,
+                AverageFFSFirst = new OccupancyRecord(),
+                AverageLCFirst = new OccupancyRecord(),
+            };
+
+        }
+
+        internal int BuildActualSection(ExcelWorksheet ws, int rowNumber)
+        {
 
             int startRowNumber = rowNumber;
             rowNumber = BuildColumnHeaders(ws, rowNumber);
@@ -49,17 +55,8 @@ namespace ReportApp
             return ++rowNumber;
         }
 
-        internal override int BuildBudgetSection(ExcelWorksheet ws, LocationCodes locationId, DateTime reportDate, List<string> facilityTypeCodes, int rowNumber)
+        internal int BuildBudgetSection(ExcelWorksheet ws, int rowNumber)
         {
-            WLRAssistedLivingBudget assistedLivingBudget = new WLRAssistedLivingBudget
-            {
-                AverageFFSFirst = new OccupancyRecord(),
-                AverageLCFirst = new OccupancyRecord(),
-                EndingAverageOccupance = new OccupancyRecord(),
-                PercentOccupancy = new OccupancyRecord(),
-                VarianceFromBudget = new OccupancyRecord()
-            };
-
             int startRowNumber = rowNumber;
             rowNumber = BuildColumnHeaders(ws, rowNumber);
             rowNumber = BuildGridRow(ws, assistedLivingBudget.AverageFFSFirst, "Average FFS 1st:", rowNumber);

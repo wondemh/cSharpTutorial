@@ -46,7 +46,7 @@ namespace ReportApp
 
         }
 
-        internal int AddActualSection(ExcelWorksheet ws, int rowNumber)
+        internal int BuildActualSection(ExcelWorksheet ws, int rowNumber)
         {
 
             int startRowNumber = rowNumber;
@@ -67,7 +67,7 @@ namespace ReportApp
             return rowNumber;
         }
 
-        internal int AddBudgetSection(ExcelWorksheet ws, int rowNumber)
+        internal int BuildBudgetSection(ExcelWorksheet ws, int rowNumber)
         {
 
             int startRowNumber = rowNumber;
@@ -85,7 +85,7 @@ namespace ReportApp
             return rowNumber;
         }
 
-        internal static int AddApartmentsSection(ExcelWorksheet ws, int rowNumber)
+        internal int BuildApartmentsSection(ExcelWorksheet ws, int rowNumber)
         {
             WLRApartmentsActual apartmentsActual = new WLRApartmentsActual
             {
@@ -118,7 +118,7 @@ namespace ReportApp
             return rowNumber;
         }
 
-        internal static int AddCottagesSection(ExcelWorksheet ws, int rowNumber)
+        internal int BuildCottagesSection(ExcelWorksheet ws, int rowNumber)
         {
             WLRCottagesActual cottagesActual = new WLRCottagesActual
             {

@@ -46,7 +46,7 @@ namespace ReportApp
             return rowNumber + 3;
         }
 
-        internal int BuildSectionHeader(ExcelWorksheet ws, string headerText, int rowNumber)
+        internal static int BuildSectionHeader(ExcelWorksheet ws, string headerText, int rowNumber)
         {
             ExcelRange range = ws.Cells[rowNumber, 1, rowNumber, 15];
             range.Merge = true;

@@ -41,7 +41,7 @@ namespace ReportApp
             };
         }
 
-        internal int BuildActualSection(ExcelWorksheet ws, LocationCodes locationId, DateTime reportDate, int rowNumber)
+        internal int BuildActualSection(ExcelWorksheet ws, int rowNumber)
         {
             int startRowNumber = rowNumber;
             rowNumber = BuildColumnHeaders(ws, rowNumber);
@@ -63,7 +63,7 @@ namespace ReportApp
             return ++rowNumber;
         }
 
-        internal int BuildBudgetSection(ExcelWorksheet ws, LocationCodes locationId, DateTime reportDate, int rowNumber)
+        internal int BuildBudgetSection(ExcelWorksheet ws, int rowNumber)
         {
             int startRowNumber = rowNumber;
             rowNumber = BuildColumnHeaders(ws, rowNumber);

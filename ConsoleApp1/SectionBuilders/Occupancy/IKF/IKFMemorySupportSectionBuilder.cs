@@ -38,7 +38,7 @@ namespace ReportApp
             };
         }
 
-        internal int BuildActualSection(ExcelWorksheet ws, LocationCodes locationId, DateTime reportDate, List<string> facilityTypeCodes, int rowNumber)
+        internal int BuildActualSection(ExcelWorksheet ws, int rowNumber)
         {
 
             int startRowNumber = rowNumber;
@@ -59,7 +59,7 @@ namespace ReportApp
             return rowNumber;
         }
 
-        internal int BuildBudgetSection(ExcelWorksheet ws, LocationCodes locationId, DateTime reportDate, List<string> facilityTypeCodes, int rowNumber)
+        internal int BuildBudgetSection(ExcelWorksheet ws, int rowNumber)
         {
             
             int startRowNumber = rowNumber;
