@@ -24,10 +24,10 @@ namespace ReportApp
             List<string> facilityTypeCodes = new List<string> { "MS" };
             memorySupportActual = new IKFMemorySupportActual
             {
-                UnitsAvailable = OccupancyReportDAO.GetUnitsAvailableData(LocationCodes.IKF, facilityTypeCodes),
-                LicensedFor = MemorySupportDAO.GetLicensedForData(LocationCodes.IKF, facilityTypeCodes),
-                PrivateMCFirstPerson = MemorySupportDAO.GetPrivateMCFirstPersonData(LocationCodes.IKF, facilityTypeCodes),
-                PrivateMCSecondPerson = MemorySupportDAO.GetPrivateMCSecondPersonData(LocationCodes.IKF, facilityTypeCodes),
+                UnitsAvailable = OccupancyReportDAO.GetUnitsAvailableData(LocationCode.IKF, facilityTypeCodes),
+                LicensedFor = MemorySupportDAO.GetLicensedForData(LocationCode.IKF, facilityTypeCodes),
+                PrivateMCFirstPerson = MemorySupportDAO.GetPrivateMCFirstPersonData(LocationCode.IKF, facilityTypeCodes),
+                PrivateMCSecondPerson = MemorySupportDAO.GetPrivateMCSecondPersonData(LocationCode.IKF, facilityTypeCodes),
             };
 
             memorySupportBudget = new IKFMemorySupportBudget

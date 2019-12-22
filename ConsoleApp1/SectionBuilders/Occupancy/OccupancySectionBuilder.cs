@@ -19,7 +19,7 @@ namespace ReportApp
         public const string ActualSectionColor = "#FF8633";
         public const string BudgetSectionColor = "#3FC3E1";
 
-        internal LocationCodes Location { get; set; }
+        internal LocationCode Location { get; set; }
         internal DateTime ReportDate { get; set; }
 
         internal static int BuildPageHeader(ExcelWorksheet ws, string locationName, DateTime reportDate, int rowNumber)

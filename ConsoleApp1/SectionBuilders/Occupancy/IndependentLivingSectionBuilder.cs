@@ -17,7 +17,7 @@ namespace ReportApp
         private readonly IndependentLivingActual independentLivingActual;
         private readonly IndependentLivingBudget independentLivingBudget;
 
-        internal IndependentLivingSectionBuilder(LocationCodes locationId, DateTime reportDate)
+        internal IndependentLivingSectionBuilder(LocationCode locationId, DateTime reportDate)
         {
             this.Location = locationId;
             this.ReportDate = reportDate;
@@ -87,15 +87,16 @@ namespace ReportApp
 
         internal int BuildApartmentsSection(ExcelWorksheet ws, int rowNumber)
         {
+            List<string> facilityTypeCodes = new List<string> { "AP" };
             WLRApartmentsActual apartmentsActual = new WLRApartmentsActual
             {
-                UnitsAvailable = new OccupancyRecord(),
-                BeginningOccupancy = new OccupancyRecord(),
-                MoveIns = new OccupancyRecord(),
-                MoveOuts = new OccupancyRecord(),
-                TransferFromCottage = new OccupancyRecord(),
-                TransferToCottage = new OccupancyRecord(),
-                TransferToALHC = new OccupancyRecord()
+                UnitsAvailable = OccupancyReportDAO.GetUnitsAvailableData(LocationCode.WLR, facilityTypeCodes),
+                BeginningOccupancy = IndependentLivingDAO.GetActualBeginningOccupancyData(LocationCode.WLR, facilityTypeCodes, ReportDate),
+                MoveIns = IndependentLivingDAO.GetActualCensusCountsByMonth(LocationCode.WLR, facilityTypeCodes, new List<string> { "A" }, ReportDate.Year, false),
+                MoveOuts = IndependentLivingDAO.GetActualCensusCountsByMonth(LocationCode.WLR, facilityTypeCodes, new List<string> { "D", "DH", "L" }, ReportDate.Year, true),
+                TransferFromCottage = IndependentLivingDAO.GetActualCensusCountsByMonth(LocationCode.WLR, facilityTypeCodes, new List<string> { "PT", "TT" }, ReportDate.Year, true),
+                TransferToCottage = IndependentLivingDAO.GetActualCensusCountsByMonth(LocationCode.WLR, facilityTypeCodes, new List<string> { "PT", "TT" }, ReportDate.Year, true),
+                TransferToALHC = IndependentLivingDAO.GetActualCensusCountsByMonth(LocationCode.WLR, facilityTypeCodes, new List<string> { "PT", "TT" }, ReportDate.Year, true),
             };
             apartmentsActual.SetEndingOccupancy(ReportDate.Month);
 
@@ -121,15 +122,16 @@ namespace ReportApp
 
         internal int BuildCottagesSection(ExcelWorksheet ws, int rowNumber)
         {
+            List<string> facilityTypeCodes = new List<string> { "CO" };
             WLRCottagesActual cottagesActual = new WLRCottagesActual
             {
-                UnitsAvailable = new OccupancyRecord(),
-                BeginningOccupancy = new OccupancyRecord(),
-                MoveIns = new OccupancyRecord(),
-                MoveOuts = new OccupancyRecord(),
-                TransferFromApt = new OccupancyRecord(),
-                TransferToApt = new OccupancyRecord(),
-                TransferToALHC = new OccupancyRecord()
+                UnitsAvailable = OccupancyReportDAO.GetUnitsAvailableData(LocationCode.WLR, facilityTypeCodes),
+                BeginningOccupancy = IndependentLivingDAO.GetActualBeginningOccupancyData(LocationCode.WLR, facilityTypeCodes, ReportDate),
+                MoveIns = IndependentLivingDAO.GetActualCensusCountsByMonth(LocationCode.WLR, facilityTypeCodes, new List<string> { "A" }, ReportDate.Year, false),
+                MoveOuts = IndependentLivingDAO.GetActualCensusCountsByMonth(LocationCode.WLR, facilityTypeCodes, new List<string> { "D", "DH", "L" }, ReportDate.Year, true),
+                TransferFromApt = IndependentLivingDAO.GetActualCensusCountsByMonth(LocationCode.WLR, facilityTypeCodes, new List<string> { "PT", "TT" }, ReportDate.Year, true),
+                TransferToApt = IndependentLivingDAO.GetActualCensusCountsByMonth(LocationCode.WLR, facilityTypeCodes, new List<string> { "PT", "TT" }, ReportDate.Year, true),
+                TransferToALHC = IndependentLivingDAO.GetActualCensusCountsByMonth(LocationCode.WLR, facilityTypeCodes, new List<string> { "PT", "TT" }, ReportDate.Year, true),
             };
             cottagesActual.SetEndingOccupancy(ReportDate.Month);
 

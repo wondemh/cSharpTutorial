@@ -15,7 +15,7 @@ namespace ReportApp.DAO
     {
         
 
-        public static OccupancyRecord GetActualBeginningOccupancyData(LocationCodes locationId, List<string> facilityTypeCodes, DateTime reportDate)
+        public static OccupancyRecord GetActualBeginningOccupancyData(LocationCode locationId, List<string> facilityTypeCodes, DateTime reportDate)
         {
             OccupancyRecord record = new OccupancyRecord
             {
@@ -35,7 +35,7 @@ namespace ReportApp.DAO
             return record;
         }
 
-        public static OccupancyRecord GetActualCensusCountsByMonth(LocationCodes locationId, List<string> facilityTypeCodes, List<String> admissionStatusCodes, int year, bool negate)
+        public static OccupancyRecord GetActualCensusCountsByMonth(LocationCode locationId, List<string> facilityTypeCodes, List<String> admissionStatusCodes, int year, bool negate)
         {
             OccupancyRecord record = new OccupancyRecord
             {
@@ -55,7 +55,7 @@ namespace ReportApp.DAO
             return record;
         }
 
-        private static int GetOccupancyCount(LocationCodes locationId, List<string> facilityTypeCodes, int year, int month, int day)
+        private static int GetOccupancyCount(LocationCode locationId, List<string> facilityTypeCodes, int year, int month, int day)
         {
             using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ingAnalyticsConnection"].ConnectionString);
             return conn.ExecuteScalar<int>(
@@ -79,7 +79,7 @@ namespace ReportApp.DAO
                 new { LocationId = (int)locationId, FacilityTypeCodes = facilityTypeCodes, Year = year, Month = month, Day = day });
         }
 
-        private static int GetCensusCount(LocationCodes locationId, List<string> facilityTypeCodes, List<string> admissionStatusCodes, int year, int month)
+        private static int GetCensusCount(LocationCode locationId, List<string> facilityTypeCodes, List<string> admissionStatusCodes, int year, int month)
         {
             using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ingAnalyticsConnection"].ConnectionString);
             return conn.ExecuteScalar<int>(

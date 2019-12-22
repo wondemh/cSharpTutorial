@@ -20,15 +20,15 @@ namespace ReportApp
         internal IKFAssistedLivingSectionBuilder(DateTime reportDate)
         {
             ReportDate = reportDate;
+            List<string> facilityTypeCodes = new List<string> { "AL" };
 
             assistedLivingActual = new IKFAssistedLivingActual
             {
-                UnitsAvailable = OccupancyReportDAO.GetUnitsAvailableData(LocationCodes.IKF, new List<string> { "AL" }),
-                LicensedFor = new OccupancyRecord(),
-                AverageLevelOne  = new OccupancyRecord(),
-                AverageLevelTwo = new OccupancyRecord(),
-                AverageLevelThree = new OccupancyRecord(),
-                AverageSecondPerson = new OccupancyRecord()
+                UnitsAvailable = OccupancyReportDAO.GetUnitsAvailableData(LocationCode.IKF, facilityTypeCodes),
+                AverageLevelOne  = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IRC, facilityTypeCodes, new List<string> { "AL11" }, reportDate),
+                AverageLevelTwo = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IRC, facilityTypeCodes, new List<string> { "AL12" }, reportDate),
+                AverageLevelThree = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IRC, facilityTypeCodes, new List<string> { "AL13" }, reportDate),
+                AverageSecondPerson = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IRC, facilityTypeCodes, new List<string> { "AL23" }, reportDate)
             };
 
             assistedLivingBudget = new IKFAssistedLivingBudget
@@ -81,6 +81,5 @@ namespace ReportApp
 
             return ++rowNumber;
         }
-
     }
 }

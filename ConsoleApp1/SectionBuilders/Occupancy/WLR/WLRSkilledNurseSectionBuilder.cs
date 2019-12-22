@@ -20,16 +20,16 @@ namespace ReportApp
         internal WLRSkilledNurseSectionBuilder(DateTime reportDate)
         {
             this.ReportDate = reportDate;
-
+            List<string> facilityTypeCodes = new List<string> { "HC" };
             skilledNurseActual = new WLRSkilledNurseActual
             {
-                BedsAvailable = new OccupancyRecord(),
-                AverageLCFirst = new OccupancyRecord(),
-                AverageLCSecond = new OccupancyRecord(),
-                FFSDirectAdmit = new OccupancyRecord(),
-                AverageMemoryCare = new OccupancyRecord(),
-                AverageMedicare = new OccupancyRecord(),
-                AverageMedicaid = new OccupancyRecord()
+                BedsAvailable = OccupancyReportDAO.GetUnitsAvailableData(LocationCode.WLR, facilityTypeCodes),
+                AverageLCFirst = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.WLR, facilityTypeCodes, new List<string> { "A11", "A12", "A12D", "A1DL", "A1DN", "C11", "C12", "C12D", "FREE", "LIF1", "RESP", "TLC1" }, reportDate, "PRIV"),
+                AverageLCSecond = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.WLR, facilityTypeCodes, new List<string> { "LIF2", "TLC2" }, reportDate, "PRIV"),
+                FFSDirectAdmit = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.WLR, facilityTypeCodes, new List<string> { "FFH1", "FFS1", "FFS2", "NF" }, reportDate, "PRIV"),
+                AverageMemoryCare = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.WLR, facilityTypeCodes, new List<string> { "MC" }, reportDate, "PRIV"),
+                AverageMedicare = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.WLR, facilityTypeCodes, new List<string> { "SNF" }, reportDate, "MCA"),
+                AverageMedicaid = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.WLR, facilityTypeCodes, new List<string> { "NF" }, reportDate, "MCD")
             };
 
             skilledNurseBudget = new WLRSkilledNurseBudget

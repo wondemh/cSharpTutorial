@@ -7,7 +7,28 @@ namespace ReportApp.Model.Occupancy
     class IKFAssistedLivingActual : OccupancyRecordsContainer
     {
         public OccupancyRecord UnitsAvailable { get; set; }
-        public OccupancyRecord LicensedFor { get; set; }
+        public OccupancyRecord LicensedFor
+        {
+            get
+            {
+                return new OccupancyRecord
+                {
+                    January = 46,
+                    February = 46,
+                    March = 46,
+                    April = 46,
+                    May = 46,
+                    June = 46,
+                    July = 46,
+                    August = 46,
+                    September = 46,
+                    October = 46,
+                    November = 46,
+                    December = 46,
+                    TotalOrAverage = 46
+                };
+            }
+        }
         public OccupancyRecord AverageLevelOne { get; set; }
         public OccupancyRecord AverageLevelTwo { get; set; }
         public OccupancyRecord AverageLevelThree { get; set; }

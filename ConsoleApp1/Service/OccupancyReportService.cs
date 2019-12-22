@@ -11,7 +11,7 @@ namespace ReportApp
     public static class OccupancyReportService
     {
 
-        public static byte[] BuildReport(LocationCodes locationId, DateTime reportDate)
+        public static byte[] BuildReport(LocationCode locationId, DateTime reportDate)
         {
 
             using var p = new ExcelPackage();
@@ -19,13 +19,13 @@ namespace ReportApp
 
             switch (locationId)
             {
-                case LocationCodes.IKF:
+                case LocationCode.IKF:
                     BuildIKFReport(reportDate, ws);
                     break;
-                case LocationCodes.IRC:
+                case LocationCode.IRC:
                     BuildIRCReport(reportDate, ws);
                     break;
-                case LocationCodes.WLR:
+                case LocationCode.WLR:
                     BuildWLRReport(reportDate, ws);
                     break;
             }
@@ -46,14 +46,14 @@ namespace ReportApp
 
         private static void BuildIKFReport(DateTime reportDate, ExcelWorksheet ws)
         {
-            IndependentLivingSectionBuilder independentLivingSectionBuilder = new IndependentLivingSectionBuilder(LocationCodes.IKF, reportDate);
+            IndependentLivingSectionBuilder independentLivingSectionBuilder = new IndependentLivingSectionBuilder(LocationCode.IKF, reportDate);
             IKFAssistedLivingSectionBuilder assistedLivingSectionBuilder = new IKFAssistedLivingSectionBuilder(reportDate);
             IKFMemorySupportSectionBuilder memorySupportSectionBuilder = new IKFMemorySupportSectionBuilder(reportDate);
             IKFSkilledNurseSectionBuilder skilledNursingSectionBuilder = new IKFSkilledNurseSectionBuilder(reportDate);
 
             int rowNumber = 1;
 
-            Location location = OccupancyReportDAO.GetLocation(LocationCodes.IKF);
+            Location location = OccupancyReportDAO.GetLocation(LocationCode.IKF);
             rowNumber = OccupancySectionBuilder.BuildPageHeader(ws, location.Name, reportDate, rowNumber);
 
             rowNumber = OccupancySectionBuilder.BuildSectionHeader(ws, "Independent Living Occupancy Statistics", rowNumber);
@@ -75,14 +75,14 @@ namespace ReportApp
 
         private static void BuildIRCReport(DateTime reportDate, ExcelWorksheet ws)
         {
-            IndependentLivingSectionBuilder independentLivingSectionBuilder = new IndependentLivingSectionBuilder(LocationCodes.IKF, reportDate);
+            IndependentLivingSectionBuilder independentLivingSectionBuilder = new IndependentLivingSectionBuilder(LocationCode.IKF, reportDate);
             IRCAssistedLivingSectionBuilder assistedLivingSectionBuilder = new IRCAssistedLivingSectionBuilder(reportDate);
             IRCMemorySupportSectionBuilder memorySupportSectionBuilder = new IRCMemorySupportSectionBuilder(reportDate);
             IRCSkilledNurseSectionBuilder skilledNursingSectionBuilder = new IRCSkilledNurseSectionBuilder(reportDate);
 
             int rowNumber = 1;
 
-            Location location = OccupancyReportDAO.GetLocation(LocationCodes.IRC);
+            Location location = OccupancyReportDAO.GetLocation(LocationCode.IRC);
             rowNumber = OccupancySectionBuilder.BuildPageHeader(ws, location.Name, reportDate, rowNumber);
 
             rowNumber = OccupancySectionBuilder.BuildSectionHeader(ws, "Independent Living Occupancy Statistics", rowNumber);
@@ -105,13 +105,13 @@ namespace ReportApp
 
         private static void BuildWLRReport(DateTime reportDate, ExcelWorksheet ws)
         {
-            IndependentLivingSectionBuilder independentLivingSectionBuilder = new IndependentLivingSectionBuilder(LocationCodes.IKF, reportDate);
+            IndependentLivingSectionBuilder independentLivingSectionBuilder = new IndependentLivingSectionBuilder(LocationCode.IKF, reportDate);
             WLRAssistedLivingSectionBuilder assistedLivingSectionBuilder = new WLRAssistedLivingSectionBuilder(reportDate);
             WLRSkilledNurseSectionBuilder skilledNursingSectionBuilder = new WLRSkilledNurseSectionBuilder(reportDate);
 
             int rowNumber = 1;
 
-            Location location = OccupancyReportDAO.GetLocation(LocationCodes.WLR);
+            Location location = OccupancyReportDAO.GetLocation(LocationCode.WLR);
             rowNumber = OccupancySectionBuilder.BuildPageHeader(ws, location.Name, reportDate, rowNumber);
 
             rowNumber = OccupancySectionBuilder.BuildSectionHeader(ws, "Independent Living Occupancy Statistics", rowNumber);
