@@ -25,10 +25,10 @@ namespace ReportApp
             assistedLivingActual = new IRCAssistedLivingActual
             {
                 UnitsAvailable = OccupancyReportDAO.GetUnitsAvailableData(LocationCode.IRC, facilityTypeCodes),
-                AverageFFSFirst = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IRC, facilityTypeCodes, new List<string> { "F11", "F21", "F31" }, reportDate),
-                AverageFFSSecond = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IRC, facilityTypeCodes, new List<string> { "F12", "F22", "F32" }, reportDate),
-                AverageLCFirst = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IRC, facilityTypeCodes, new List<string> { "L11", "L21", "L31", "M11", "M21", "M31" }, reportDate),
-                AverageLCSecond = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IRC, facilityTypeCodes, new List<string> { "L12", "L22", "L32", "M12", "M22", "M32" }, reportDate),
+                AverageFFSFirst = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IRC, facilityTypeCodes, reportDate, new List<string> { "F11", "F21", "F31" }),
+                AverageFFSSecond = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IRC, facilityTypeCodes, reportDate, new List<string> { "F12", "F22", "F32" }),
+                AverageLCFirst = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IRC, facilityTypeCodes, reportDate, new List<string> { "L11", "L21", "L31", "M11", "M21", "M31" }),
+                AverageLCSecond = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IRC, facilityTypeCodes, reportDate, new List<string> { "L12", "L22", "L32", "M12", "M22", "M32" }),
             };
 
             assistedLivingBudget = new IRCAssistedLivingBudget

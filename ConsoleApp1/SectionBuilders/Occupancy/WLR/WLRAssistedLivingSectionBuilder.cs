@@ -24,8 +24,8 @@ namespace ReportApp
             assistedLivingActual = new WLRAssistedLivingActual
             {
                 UnitsAvailable = OccupancyReportDAO.GetUnitsAvailableData(LocationCode.WLR, facilityTypeCodes),
-                AverageFFS = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.WLR, facilityTypeCodes, new List<string> { "FFH1", "FFS1", "FFS2", "RESP" }, reportDate),
-                AverageLC = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.WLR, facilityTypeCodes, new List<string> { "A11", "A12", "A12D", "A1DL", "A1DN", "AL11", "C11", "C12", "C12D", "FREE", "LIF1", "LIF2", "TLC1", "TLC2" }, reportDate),
+                AverageFFS = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.WLR, facilityTypeCodes, reportDate, new List<string> { "FFH1", "FFS1", "FFS2", "RESP" }),
+                AverageLC = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.WLR, facilityTypeCodes, reportDate, new List<string> { "A11", "A12", "A12D", "A1DL", "A1DN", "AL11", "C11", "C12", "C12D", "FREE", "LIF1", "LIF2", "TLC1", "TLC2" }),
             };
 
             assistedLivingBudget = new WLRAssistedLivingBudget

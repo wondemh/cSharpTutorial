@@ -60,34 +60,38 @@ namespace ReportApp.DAO
             return Location;
         }
 
-        public static OccupancyRecord GetCensusCountDailyAverages(LocationCode locationId, List<string> facilityTypeCodes, List<string> levelsOfCare, DateTime reportDate, string payorTypeCode = null)
+        public static OccupancyRecord GetCensusCountDailyAverages(LocationCode locationId, List<string> facilityTypeCodes, DateTime reportDate, List<string> levelsOfCare = null, string payorTypeCode = null)
         {
             int year = reportDate.Year;
             OccupancyRecord record = new OccupancyRecord
             {
-                January = GetCensusCountDailyAverage(locationId, facilityTypeCodes, levelsOfCare, year, 1, payorTypeCode),
-                February = GetCensusCountDailyAverage(locationId, facilityTypeCodes, levelsOfCare, year, 2, payorTypeCode),
-                March = GetCensusCountDailyAverage(locationId, facilityTypeCodes, levelsOfCare, year, 3, payorTypeCode),
-                April = GetCensusCountDailyAverage(locationId, facilityTypeCodes, levelsOfCare, year, 4, payorTypeCode),
-                May = GetCensusCountDailyAverage(locationId, facilityTypeCodes, levelsOfCare, year, 5, payorTypeCode),
-                June = GetCensusCountDailyAverage(locationId, facilityTypeCodes, levelsOfCare, year, 6, payorTypeCode),
-                July = GetCensusCountDailyAverage(locationId, facilityTypeCodes, levelsOfCare, year, 7, payorTypeCode),
-                August = GetCensusCountDailyAverage(locationId, facilityTypeCodes, levelsOfCare, year, 8, payorTypeCode),
-                September = GetCensusCountDailyAverage(locationId, facilityTypeCodes, levelsOfCare, year, 9, payorTypeCode),
-                October = GetCensusCountDailyAverage(locationId, facilityTypeCodes, levelsOfCare, year, 10, payorTypeCode),
-                November = GetCensusCountDailyAverage(locationId, facilityTypeCodes, levelsOfCare, year, 11, payorTypeCode),
-                December = GetCensusCountDailyAverage(locationId, facilityTypeCodes, levelsOfCare, year, 12, payorTypeCode)
+                January = GetCensusCountDailyAverage(locationId, facilityTypeCodes, year, 1, levelsOfCare, payorTypeCode),
+                February = GetCensusCountDailyAverage(locationId, facilityTypeCodes, year, 2, levelsOfCare, payorTypeCode),
+                March = GetCensusCountDailyAverage(locationId, facilityTypeCodes, year, 3, levelsOfCare, payorTypeCode),
+                April = GetCensusCountDailyAverage(locationId, facilityTypeCodes, year, 4, levelsOfCare, payorTypeCode),
+                May = GetCensusCountDailyAverage(locationId, facilityTypeCodes, year, 5, levelsOfCare, payorTypeCode),
+                June = GetCensusCountDailyAverage(locationId, facilityTypeCodes, year, 6, levelsOfCare, payorTypeCode),
+                July = GetCensusCountDailyAverage(locationId, facilityTypeCodes, year, 7, levelsOfCare, payorTypeCode),
+                August = GetCensusCountDailyAverage(locationId, facilityTypeCodes, year, 8, levelsOfCare, payorTypeCode),
+                September = GetCensusCountDailyAverage(locationId, facilityTypeCodes, year, 9, levelsOfCare, payorTypeCode),
+                October = GetCensusCountDailyAverage(locationId, facilityTypeCodes, year, 10, levelsOfCare, payorTypeCode),
+                November = GetCensusCountDailyAverage(locationId, facilityTypeCodes, year, 11, levelsOfCare, payorTypeCode),
+                December = GetCensusCountDailyAverage(locationId, facilityTypeCodes, year, 12, levelsOfCare, payorTypeCode)
             };
             record.TotalOrAverage = record.CalculateAverageValue();
             return record;
         }
 
-        private static float GetCensusCountDailyAverage(LocationCode locationId, List<string> facilityTypeCodes, List<string> levelsOfCare, int year, int month, string payorTypeCode = null)
+        private static float GetCensusCountDailyAverage(LocationCode locationId, List<string> facilityTypeCodes, int year, int month, List<string> levelsOfCare = null, string payorTypeCode = null)
         {
-            DynamicParameters parameters = new DynamicParameters(new { LocationId = (int)locationId, FacilityTypeCodes = facilityTypeCodes, LevelsOfCare = levelsOfCare, Year = year, Month = month });
+            DynamicParameters parameters = new DynamicParameters(new { LocationId = (int)locationId, FacilityTypeCodes = facilityTypeCodes, Year = year, Month = month });
+            if (levelsOfCare != null)
+            {
+                parameters.Add("LevelsOfCare", levelsOfCare);
+            }
             if (payorTypeCode != null)
             {
-                parameters.Add("PayorType", payorTypeCode);
+                parameters.Add("PayorTypeCode", payorTypeCode);
             }
 
             using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ingAnalyticsConnection"].ConnectionString);
@@ -105,7 +109,7 @@ namespace ReportApp.DAO
                 .Append("       ON ingUnits.UnitID = ingCensus.UnitID ")
                 .Append("WHERE ingLocations.Id = @LocationId ")
                 .Append("   AND ingFacilityTypes.FacilityType IN @FacilityTypeCodes ")
-                .Append("   AND ingCensus.LevelOfCare IN @LevelsOfCare ")
+                .Append(levelsOfCare != null ? "   AND ingCensus.LevelOfCare IN @LevelsOfCare " : "")
                 .Append("   AND YEAR(ingCensus.CensusDate) = @Year ")
                 .Append("   AND Month(ingCensus.CensusDate) = @Month ")
                 .Append(payorTypeCode != null ? "   AND PayorType = @PayorTypeCode " : "")

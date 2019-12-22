@@ -20,14 +20,15 @@ namespace ReportApp
         internal IKFSkilledNurseSectionBuilder(DateTime reportDate)
         {
             this.ReportDate = reportDate;
+            List<string> facilityTypeCodes = new List<string> { "HC" };
 
             skilledNurseActual = new IKFSkilledNurseActual
             {
-                BedsAvailable = new OccupancyRecord(),
-                AveragePrivatePay = new OccupancyRecord(),
-                AveragePrivateMedicaidPending = new OccupancyRecord(),
-                AverageMedicare = new OccupancyRecord(),
-                AverageMedicaid = new OccupancyRecord()
+                BedsAvailable = OccupancyReportDAO.GetUnitsAvailableData(LocationCode.IKF, facilityTypeCodes),
+                AveragePrivatePay = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IKF, facilityTypeCodes, reportDate, null, "PRIV"),
+                AveragePrivateMedicaidPending = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IKF, facilityTypeCodes, reportDate, null, "MDPD"),
+                AverageMedicare = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IKF, facilityTypeCodes, reportDate, null, "MCA"),
+                AverageMedicaid = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IKF, facilityTypeCodes, reportDate, null, "MCAD") //MCAD is medicaid payor for IKF location
             };
 
             skilledNurseBudget = new IKFSkilledNurseBudget

@@ -25,10 +25,10 @@ namespace ReportApp
             assistedLivingActual = new IKFAssistedLivingActual
             {
                 UnitsAvailable = OccupancyReportDAO.GetUnitsAvailableData(LocationCode.IKF, facilityTypeCodes),
-                AverageLevelOne  = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IRC, facilityTypeCodes, new List<string> { "AL11" }, reportDate),
-                AverageLevelTwo = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IRC, facilityTypeCodes, new List<string> { "AL12" }, reportDate),
-                AverageLevelThree = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IRC, facilityTypeCodes, new List<string> { "AL13" }, reportDate),
-                AverageSecondPerson = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IRC, facilityTypeCodes, new List<string> { "AL23" }, reportDate)
+                AverageLevelOne  = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IRC, facilityTypeCodes, reportDate, new List<string> { "AL11" }),
+                AverageLevelTwo = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IRC, facilityTypeCodes, reportDate, new List<string> { "AL12" }),
+                AverageLevelThree = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IRC, facilityTypeCodes, reportDate, new List<string> { "AL13" }),
+                AverageSecondPerson = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IRC, facilityTypeCodes, reportDate, new List<string> { "AL23" })
             };
 
             assistedLivingBudget = new IKFAssistedLivingBudget
