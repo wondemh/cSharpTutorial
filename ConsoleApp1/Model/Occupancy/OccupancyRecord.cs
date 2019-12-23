@@ -78,18 +78,30 @@ namespace ReportApp.Model
                 + ZeroIfNull(December);
         }
 
+        public void AddToMonthlyValues(OccupancyRecord record)
+        {
+            if(record != null)
+            {
+                January = ZeroIfNull(January) + ZeroIfNull(record.January);
+                February = ZeroIfNull(February) + ZeroIfNull(record.February);
+                March = ZeroIfNull(March) + ZeroIfNull(record.March);
+                April = ZeroIfNull(April) + ZeroIfNull(record.April);
+                May = ZeroIfNull(May) + ZeroIfNull(record.May);
+                June = ZeroIfNull(June) + ZeroIfNull(record.June);
+                July = ZeroIfNull(July) + ZeroIfNull(record.July);
+                August = ZeroIfNull(August) + ZeroIfNull(record.August);
+                September = ZeroIfNull(September) + ZeroIfNull(record.September);
+                October = ZeroIfNull(October) + ZeroIfNull(record.October);
+                November = ZeroIfNull(November) + ZeroIfNull(record.November);
+                December = ZeroIfNull(December) + ZeroIfNull(record.December);
+            }
+            
+        }
+
         public static float ZeroIfNull(float? value)
         {
             return value ?? 0;
         }
 
-        public static float Divide(float? num, float? denom)
-        {
-            if(num.HasValue && denom.HasValue)
-            {
-                return denom.Value > 0 ? num.Value / denom.Value : 0;
-            }
-            return 0;
-        }
     }
 }

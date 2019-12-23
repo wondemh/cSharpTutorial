@@ -20,15 +20,19 @@ namespace ReportApp
         internal IRCSkilledNurseSectionBuilder(DateTime reportDate)
         {
             this.ReportDate = reportDate;
+            List<string> facilityTypeCodes = new List<string> { "HC" };
+
+            OccupancyRecord ffsDirectAdmit = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IRC, facilityTypeCodes, reportDate, new List<string> { "F33" }, "MC");
+            ffsDirectAdmit.AddToMonthlyValues(OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IRC, facilityTypeCodes, reportDate, new List<string> { "F33", "NF", "SNF" }, "PRIV"));
 
             skilledNurseActual = new IRCSkilledNurseActual
             {
-                BedsAvailable = new OccupancyRecord(),
-                AverageLCFirst = new OccupancyRecord(),
-                AverageLCSecond = new OccupancyRecord(),
-                FFSDirectAdmit = new OccupancyRecord(),
-                AverageMedicare = new OccupancyRecord(),
-                AverageMedicaid = new OccupancyRecord()
+                BedsAvailable = OccupancyReportDAO.GetUnitsAvailableData(LocationCode.IRC, facilityTypeCodes),
+                AverageLCFirst = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IRC, facilityTypeCodes, reportDate, new List<string> { "DB1", "L33", "M33", "TLC" }, "PRIV"),
+                AverageLCSecond = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IRC, facilityTypeCodes, reportDate, new List<string> { "L34" }, "PRIV"),
+                FFSDirectAdmit = ffsDirectAdmit,
+                AverageMedicare = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IRC, facilityTypeCodes, reportDate, new List<string> { "SNF" }, "MCA"),
+                AverageMedicaid = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IRC, facilityTypeCodes, reportDate, new List<string> { "NF", "SNF", "MHOS", "MPND", "F33" }, "MCD"),
             };
 
             skilledNurseBudget = new IRCSkilledNurseBudget

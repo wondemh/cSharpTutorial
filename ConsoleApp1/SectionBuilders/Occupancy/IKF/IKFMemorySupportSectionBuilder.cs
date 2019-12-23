@@ -25,9 +25,8 @@ namespace ReportApp
             memorySupportActual = new IKFMemorySupportActual
             {
                 UnitsAvailable = OccupancyReportDAO.GetUnitsAvailableData(LocationCode.IKF, facilityTypeCodes),
-                LicensedFor = MemorySupportDAO.GetLicensedForData(LocationCode.IKF, facilityTypeCodes),
-                PrivateMCFirstPerson = MemorySupportDAO.GetPrivateMCFirstPersonData(LocationCode.IKF, facilityTypeCodes),
-                PrivateMCSecondPerson = MemorySupportDAO.GetPrivateMCSecondPersonData(LocationCode.IKF, facilityTypeCodes),
+                PrivateMCFirstPerson = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IRC, facilityTypeCodes, reportDate, new List<string> { "ALMC" }),
+                PrivateMCSecondPerson = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IRC, facilityTypeCodes, reportDate, new List<string> { "ALMC" }),
             };
 
             memorySupportBudget = new IKFMemorySupportBudget

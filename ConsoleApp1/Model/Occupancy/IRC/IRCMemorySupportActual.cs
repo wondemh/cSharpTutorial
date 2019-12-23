@@ -7,7 +7,28 @@ namespace ReportApp.Model.Occupancy
     class IRCMemorySupportActual : OccupancyRecordsContainer
     {
         public OccupancyRecord UnitsAvailable { get; set; }
-        public OccupancyRecord LicensedFor { get; set; }
+        public OccupancyRecord LicensedFor
+        {
+            get
+            {
+                return new OccupancyRecord
+                {
+                    January = 27,
+                    February = 27,
+                    March = 27,
+                    April = 27,
+                    May = 27,
+                    June = 27,
+                    July = 27,
+                    August = 27,
+                    September = 27,
+                    October = 27,
+                    November = 27,
+                    December = 27,
+                    TotalOrAverage = 27
+                };
+            }
+        }
         public OccupancyRecord AverageMSFFSFirst { get; set; }
         public OccupancyRecord AverageMSFFSSecond { get; set; }
         public OccupancyRecord AverageMSLCFirst { get; set; }

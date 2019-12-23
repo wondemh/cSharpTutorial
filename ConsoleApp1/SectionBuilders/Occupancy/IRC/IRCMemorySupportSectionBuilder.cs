@@ -20,15 +20,15 @@ namespace ReportApp
         internal IRCMemorySupportSectionBuilder(DateTime reportDate)
         {
             this.ReportDate = reportDate;
+            List<string> facilityTypeCodes = new List<string> { "MS" };
 
             memorySupportActual = new IRCMemorySupportActual
             {
-                UnitsAvailable = new OccupancyRecord(),
-                LicensedFor = new OccupancyRecord(),
-                AverageMSFFSFirst = new OccupancyRecord(),
-                AverageMSFFSSecond = new OccupancyRecord(),
-                AverageMSLCFirst = new OccupancyRecord(),
-                AverageMSLCSecond = new OccupancyRecord()
+                UnitsAvailable = OccupancyReportDAO.GetUnitsAvailableData(LocationCode.IKF, facilityTypeCodes),
+                AverageMSFFSFirst = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IRC, facilityTypeCodes, reportDate, new List<string> { "F11", "F21", "F31" }),
+                AverageMSFFSSecond = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IRC, facilityTypeCodes, reportDate, new List<string> { "F11", "F21", "F31" }),
+                AverageMSLCFirst = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IRC, facilityTypeCodes, reportDate, new List<string> { "L11", "L21", "L31", "M11", "M21", "M31" }),
+                AverageMSLCSecond = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IRC, facilityTypeCodes, reportDate, new List<string> { "L11", "L21", "L31", "M11", "M21", "M31" }),
             };
 
             memorySupportBudget = new IRCMemorySupportBudget
