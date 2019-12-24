@@ -47,11 +47,11 @@ namespace ReportApp
             int startRowNumber = rowNumber;
             rowNumber = BuildColumnHeaders(ws, rowNumber);
             rowNumber = BuildGridRow(ws, skilledNurseActual.BedsAvailable, "Beds Available:", rowNumber);
-            rowNumber = BuildGridRow(ws, skilledNurseActual.AveragePrivatePay, "Avg. Private Pay:", rowNumber);
-            rowNumber = BuildGridRow(ws, skilledNurseActual.AveragePrivateMedicaidPending, "Avg. Private-Medicaid Pending:", rowNumber);
-            rowNumber = BuildGridRow(ws, skilledNurseActual.AverageMedicare, "Avg. Medicare:", rowNumber);
-            rowNumber = BuildGridRow(ws, skilledNurseActual.AverageMedicaid, "Avg. Medicaid:", rowNumber);
-            rowNumber = BuildGridRow(ws, skilledNurseActual.TotalAverageOccupancy, "Total Avg. Occupancy:", rowNumber);
+            rowNumber = BuildGridRow(ws, skilledNurseActual.AveragePrivatePay, "Avg. Private Pay:", rowNumber, "0.0");
+            rowNumber = BuildGridRow(ws, skilledNurseActual.AveragePrivateMedicaidPending, "Avg. Private-Medicaid Pending:", rowNumber, "0.0");
+            rowNumber = BuildGridRow(ws, skilledNurseActual.AverageMedicare, "Avg. Medicare:", rowNumber, "0.0");
+            rowNumber = BuildGridRow(ws, skilledNurseActual.AverageMedicaid, "Avg. Medicaid:", rowNumber, "0.0");
+            rowNumber = BuildGridRow(ws, skilledNurseActual.TotalAverageOccupancy, "Total Avg. Occupancy:", rowNumber, "0.0");
             rowNumber = BuildGridRow(ws, skilledNurseActual.PercentOccupancy, "% Occupancy:", rowNumber, "0.0\\%");
 
             //This adds the sidebar
@@ -65,16 +65,16 @@ namespace ReportApp
             
             int startRowNumber = rowNumber;
             rowNumber = BuildColumnHeaders(ws, rowNumber);
-            rowNumber = BuildGridRow(ws, skilledNurseBudget.PrivatePay, "Avg. LC 1st:", rowNumber);
-            rowNumber = BuildGridRow(ws, skilledNurseBudget.PrivatePayVarianceFromBudget, "Variance from Budget:", rowNumber);
-            rowNumber = BuildGridRow(ws, skilledNurseBudget.PrivateMedicaidPending, "Private-Medicaid Pending:", rowNumber);
-            rowNumber = BuildGridRow(ws, skilledNurseBudget.PrivateMedicaidPendingVarianceFromBudget, "Variance from Budget:", rowNumber);
-            rowNumber = BuildGridRow(ws, skilledNurseBudget.Medicare, "Medicare:", rowNumber);
-            rowNumber = BuildGridRow(ws, skilledNurseBudget.MedicareVarianceFromBudget, "Variance from Budget:", rowNumber);
-            rowNumber = BuildGridRow(ws, skilledNurseBudget.Medicaid, "Medicaid:", rowNumber);
-            rowNumber = BuildGridRow(ws, skilledNurseBudget.MedicaidVarianceFromBudget, "Variance from Budget:", rowNumber);
-            rowNumber = BuildGridRow(ws, skilledNurseBudget.TotalOccupancy, "Total Occupancy:", rowNumber);
-            rowNumber = BuildGridRow(ws, skilledNurseBudget.TotalOccupancyVarianceFromBudget, "Variance from Budget:", rowNumber);
+            rowNumber = BuildGridRow(ws, skilledNurseBudget.PrivatePay, "Avg. LC 1st:", rowNumber, "0.00");
+            rowNumber = BuildGridRow(ws, skilledNurseBudget.PrivatePayVarianceFromBudget, "Variance from Budget:", rowNumber, "0.00");
+            rowNumber = BuildGridRow(ws, skilledNurseBudget.PrivateMedicaidPending, "Private-Medicaid Pending:", rowNumber, "0.00");
+            rowNumber = BuildGridRow(ws, skilledNurseBudget.PrivateMedicaidPendingVarianceFromBudget, "Variance from Budget:", rowNumber, "0.00");
+            rowNumber = BuildGridRow(ws, skilledNurseBudget.Medicare, "Medicare:", rowNumber, "0.00");
+            rowNumber = BuildGridRow(ws, skilledNurseBudget.MedicareVarianceFromBudget, "Variance from Budget:", rowNumber, "0.00");
+            rowNumber = BuildGridRow(ws, skilledNurseBudget.Medicaid, "Medicaid:", rowNumber, "0.00");
+            rowNumber = BuildGridRow(ws, skilledNurseBudget.MedicaidVarianceFromBudget, "Variance from Budget:", rowNumber, "0.00");
+            rowNumber = BuildGridRow(ws, skilledNurseBudget.TotalOccupancy, "Total Occupancy:", rowNumber, "0.00");
+            rowNumber = BuildGridRow(ws, skilledNurseBudget.TotalOccupancyVarianceFromBudget, "Variance from Budget:", rowNumber, "0.00");
 
             //This adds the sidebar
             BuildSectionSideBar(ws, "Budget", startRowNumber, rowNumber - 1, BudgetSectionColor);

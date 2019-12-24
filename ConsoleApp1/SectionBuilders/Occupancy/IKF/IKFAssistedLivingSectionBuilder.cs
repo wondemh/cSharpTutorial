@@ -47,15 +47,15 @@ namespace ReportApp
             rowNumber = BuildColumnHeaders(ws, rowNumber);
             rowNumber = BuildGridRow(ws, assistedLivingActual.UnitsAvailable, "Units Available:", rowNumber);
             rowNumber = BuildGridRow(ws, IKFAssistedLivingActual.LicensedFor, "Licensed For:", rowNumber);
-            rowNumber = BuildGridRow(ws, assistedLivingActual.AverageLevelOne, "Average Level 1:", rowNumber);
-            rowNumber = BuildGridRow(ws, assistedLivingActual.AverageLevelTwo, "Average Level 2:", rowNumber);
-            rowNumber = BuildGridRow(ws, assistedLivingActual.AverageLevelThree, "Average Level 3:", rowNumber);
-            rowNumber = BuildGridRow(ws, assistedLivingActual.AverageSecondPerson, "Avg. 2nd Person:", rowNumber);
-            rowNumber = BuildGridRow(ws, assistedLivingActual.EndingAverageOccupancy, "Ending Avg. Occupancy:", rowNumber);
-            rowNumber = BuildGridRow(ws, assistedLivingActual.PercentAverageUnitOccupancy, "% Avg. Unit Occupancy:", rowNumber, "0.0\\%");
-            rowNumber = BuildGridRow(ws, assistedLivingActual.AverageUnoccupiedUnits, "Avg. Unoccupied Units:", rowNumber);
-            rowNumber = BuildGridRow(ws, assistedLivingActual.EndingAveragePersonOccupancy, "Ending Avg. Person Occupancy:", rowNumber);
-            rowNumber = BuildGridRow(ws, assistedLivingActual.PercentLicensedOccupancy, "% Licensed Occupancy:", rowNumber, "0.0\\%");
+            rowNumber = BuildGridRow(ws, assistedLivingActual.AverageLevelOne, "Average Level 1:", rowNumber, "0.0");
+            rowNumber = BuildGridRow(ws, assistedLivingActual.AverageLevelTwo, "Average Level 2:", rowNumber, "0.0");
+            rowNumber = BuildGridRow(ws, assistedLivingActual.AverageLevelThree, "Average Level 3:", rowNumber, "0.0");
+            rowNumber = BuildGridRow(ws, assistedLivingActual.AverageSecondPerson, "Avg. 2nd Person:", rowNumber, "0.0");
+            rowNumber = BuildGridRow(ws, assistedLivingActual.EndingAverageOccupancy, "Ending Avg. Occupancy:", rowNumber, "0");
+            rowNumber = BuildGridRow(ws, assistedLivingActual.PercentAverageUnitOccupancy, "% Avg. Unit Occupancy:", rowNumber, "0\\%");
+            rowNumber = BuildGridRow(ws, assistedLivingActual.AverageUnoccupiedUnits, "Avg. Unoccupied Units:", rowNumber, "0");
+            rowNumber = BuildGridRow(ws, assistedLivingActual.EndingAveragePersonOccupancy, "Ending Avg. Person Occupancy:", rowNumber, "0");
+            rowNumber = BuildGridRow(ws, assistedLivingActual.PercentLicensedOccupancy, "% Licensed Occupancy:", rowNumber, "0\\%");
 
             //This adds the sidebar
             BuildSectionSideBar(ws, "Actual", startRowNumber, rowNumber - 1, ActualSectionColor);
@@ -67,14 +67,14 @@ namespace ReportApp
         {
             int startRowNumber = rowNumber;
             rowNumber = BuildColumnHeaders(ws, rowNumber);
-            rowNumber = BuildGridRow(ws, assistedLivingBudget.AverageLevelOne, "Avg. Level 1:", rowNumber);
-            rowNumber = BuildGridRow(ws, assistedLivingBudget.AverageLevelTwo, "Avg. Level 2:", rowNumber);
-            rowNumber = BuildGridRow(ws, assistedLivingBudget.AverageLevelThree, "Avg. Level 3:", rowNumber);
-            rowNumber = BuildGridRow(ws, assistedLivingBudget.AverageSecondPerson, "Avg. 2nd Person:", rowNumber);
-            rowNumber = BuildGridRow(ws, assistedLivingBudget.EndingAverageOccupancy, "Ending Avg. Occupancy:", rowNumber);
-            rowNumber = BuildGridRow(ws, assistedLivingBudget.EndingAverageOccupancyVarianceFromBudget, "Variance from Budget:", rowNumber);
-            rowNumber = BuildGridRow(ws, assistedLivingBudget.EndingAveragePersonOccupancy, "Ending Avg. Person Occupancy:", rowNumber);
-            rowNumber = BuildGridRow(ws, assistedLivingBudget.EndingAveragePersonOccupancyVarianceFromBudget, "Variance from Budget:", rowNumber);
+            rowNumber = BuildGridRow(ws, assistedLivingBudget.AverageLevelOne, "Avg. Level 1:", rowNumber, "0.0");
+            rowNumber = BuildGridRow(ws, assistedLivingBudget.AverageLevelTwo, "Avg. Level 2:", rowNumber, "0.0");
+            rowNumber = BuildGridRow(ws, assistedLivingBudget.AverageLevelThree, "Avg. Level 3:", rowNumber, "0.0");
+            rowNumber = BuildGridRow(ws, assistedLivingBudget.AverageSecondPerson, "Avg. 2nd Person:", rowNumber, "0.0");
+            rowNumber = BuildGridRow(ws, assistedLivingBudget.EndingAverageOccupancy, "Ending Avg. Occupancy:", rowNumber, "0.0");
+            rowNumber = BuildGridRow(ws, assistedLivingBudget.EndingAverageOccupancyVarianceFromBudget, "Variance from Budget:", rowNumber, "0.0");
+            rowNumber = BuildGridRow(ws, assistedLivingBudget.EndingAveragePersonOccupancy, "Ending Avg. Person Occupancy:", rowNumber, "0.0");
+            rowNumber = BuildGridRow(ws, assistedLivingBudget.EndingAveragePersonOccupancyVarianceFromBudget, "Variance from Budget:", rowNumber, "0.0");
 
             //This adds the sidebar
             BuildSectionSideBar(ws, "Budget", startRowNumber, rowNumber - 1, BudgetSectionColor);
