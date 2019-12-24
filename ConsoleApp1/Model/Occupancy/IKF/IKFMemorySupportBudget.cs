@@ -6,6 +6,11 @@ namespace ReportApp.Model.Occupancy
 {
     class IKFMemorySupportBudget : OccupancyRecordsContainer
     {
+        private OccupancyRecord _endingAverageOccupancy;
+        private OccupancyRecord _endingAverageOccupancyVarianceFromBudget;
+        private OccupancyRecord _endingAveragePersonOccupancy;
+        private OccupancyRecord _endingAvgPersonOccupancyVarianceFromBudget;
+
         public IKFMemorySupportActual MemorySupportActual { get; set; }
         public OccupancyRecord PrivateMCFirstPerson { get; set; }
         public OccupancyRecord PrivateMCSecondPerson { get; set; }
@@ -13,27 +18,33 @@ namespace ReportApp.Model.Occupancy
         {
             get
             {
-                if (PrivateMCFirstPerson != null && PrivateMCSecondPerson != null)
+                if (_endingAverageOccupancy == null)
                 {
-                    OccupancyRecord record = new OccupancyRecord
+                    if (PrivateMCFirstPerson != null && PrivateMCSecondPerson != null)
                     {
-                        January = PrivateMCFirstPerson.January ?? ZeroIfNull(PrivateMCFirstPerson.January) + ZeroIfNull(PrivateMCSecondPerson.January),
-                        February = PrivateMCFirstPerson.February ?? ZeroIfNull(PrivateMCFirstPerson.February) + ZeroIfNull(PrivateMCSecondPerson.February),
-                        March = PrivateMCFirstPerson.March ?? ZeroIfNull(PrivateMCFirstPerson.March) + ZeroIfNull(PrivateMCSecondPerson.March),
-                        April = PrivateMCFirstPerson.April ?? ZeroIfNull(PrivateMCFirstPerson.April) + ZeroIfNull(PrivateMCSecondPerson.April),
-                        May = PrivateMCFirstPerson.May ?? ZeroIfNull(PrivateMCFirstPerson.May) + ZeroIfNull(PrivateMCSecondPerson.May),
-                        June = PrivateMCFirstPerson.June ?? ZeroIfNull(PrivateMCFirstPerson.June) + ZeroIfNull(PrivateMCSecondPerson.June),
-                        July = PrivateMCFirstPerson.July ?? ZeroIfNull(PrivateMCFirstPerson.July) + ZeroIfNull(PrivateMCSecondPerson.July),
-                        August = PrivateMCFirstPerson.August ?? ZeroIfNull(PrivateMCFirstPerson.August) + ZeroIfNull(PrivateMCSecondPerson.August),
-                        September = PrivateMCFirstPerson.September ?? ZeroIfNull(PrivateMCFirstPerson.September) + ZeroIfNull(PrivateMCSecondPerson.September),
-                        October = PrivateMCFirstPerson.October ?? ZeroIfNull(PrivateMCFirstPerson.October) + ZeroIfNull(PrivateMCSecondPerson.October),
-                        November = PrivateMCFirstPerson.November ?? ZeroIfNull(PrivateMCFirstPerson.November) + ZeroIfNull(PrivateMCSecondPerson.November),
-                        December = PrivateMCFirstPerson.December ?? ZeroIfNull(PrivateMCFirstPerson.December) + ZeroIfNull(PrivateMCSecondPerson.December)
-                    };
-                    record.TotalOrAverage = record.CalculateAverageValue();
-                    return record;
+                        _endingAverageOccupancy = new OccupancyRecord
+                        {
+                            January = PrivateMCFirstPerson.January.HasValue ? ZeroIfNull(PrivateMCFirstPerson.January) + ZeroIfNull(PrivateMCSecondPerson.January) : (float?)null,
+                            February = PrivateMCFirstPerson.February.HasValue ? ZeroIfNull(PrivateMCFirstPerson.February) + ZeroIfNull(PrivateMCSecondPerson.February) : (float?)null,
+                            March = PrivateMCFirstPerson.March.HasValue ? ZeroIfNull(PrivateMCFirstPerson.March) + ZeroIfNull(PrivateMCSecondPerson.March) : (float?)null,
+                            April = PrivateMCFirstPerson.April.HasValue ? ZeroIfNull(PrivateMCFirstPerson.April) + ZeroIfNull(PrivateMCSecondPerson.April) : (float?)null,
+                            May = PrivateMCFirstPerson.May.HasValue ? ZeroIfNull(PrivateMCFirstPerson.May) + ZeroIfNull(PrivateMCSecondPerson.May) : (float?)null,
+                            June = PrivateMCFirstPerson.June.HasValue ? ZeroIfNull(PrivateMCFirstPerson.June) + ZeroIfNull(PrivateMCSecondPerson.June) : (float?)null,
+                            July = PrivateMCFirstPerson.July.HasValue ? ZeroIfNull(PrivateMCFirstPerson.July) + ZeroIfNull(PrivateMCSecondPerson.July) : (float?)null,
+                            August = PrivateMCFirstPerson.August.HasValue ? ZeroIfNull(PrivateMCFirstPerson.August) + ZeroIfNull(PrivateMCSecondPerson.August) : (float?)null,
+                            September = PrivateMCFirstPerson.September.HasValue ? ZeroIfNull(PrivateMCFirstPerson.September) + ZeroIfNull(PrivateMCSecondPerson.September) : (float?)null,
+                            October = PrivateMCFirstPerson.October.HasValue ? ZeroIfNull(PrivateMCFirstPerson.October) + ZeroIfNull(PrivateMCSecondPerson.October) : (float?)null,
+                            November = PrivateMCFirstPerson.November.HasValue ? ZeroIfNull(PrivateMCFirstPerson.November) + ZeroIfNull(PrivateMCSecondPerson.November) : (float?)null,
+                            December = PrivateMCFirstPerson.December.HasValue ? ZeroIfNull(PrivateMCFirstPerson.December) + ZeroIfNull(PrivateMCSecondPerson.December) : (float?)null
+                        };
+                        _endingAverageOccupancy.TotalOrAverage = _endingAverageOccupancy.CalculateAverageValue();
+                    }
+                    else
+                    {
+                        _endingAverageOccupancy = new OccupancyRecord();
+                    }
                 }
-                return new OccupancyRecord();
+                return _endingAverageOccupancy;
             }
         }
         
@@ -41,22 +52,25 @@ namespace ReportApp.Model.Occupancy
         {
             get
             {
-                OccupancyRecord record = new OccupancyRecord
+                if (_endingAverageOccupancyVarianceFromBudget == null)
                 {
-                    January = MemorySupportActual.EndingAverageOccupancy.January ?? ZeroIfNull(MemorySupportActual.EndingAverageOccupancy.January) - ZeroIfNull(EndingAverageOccupancy.January),
-                    February = MemorySupportActual.EndingAverageOccupancy.February ?? ZeroIfNull(MemorySupportActual.EndingAverageOccupancy.February) - ZeroIfNull(EndingAverageOccupancy.February),
-                    March = MemorySupportActual.EndingAverageOccupancy.March ?? ZeroIfNull(MemorySupportActual.EndingAverageOccupancy.March) - ZeroIfNull(EndingAverageOccupancy.March),
-                    April = MemorySupportActual.EndingAverageOccupancy.April ?? ZeroIfNull(MemorySupportActual.EndingAverageOccupancy.April) - ZeroIfNull(EndingAverageOccupancy.April),
-                    May = MemorySupportActual.EndingAverageOccupancy.May ?? ZeroIfNull(MemorySupportActual.EndingAverageOccupancy.May) - ZeroIfNull(EndingAverageOccupancy.May),
-                    June = MemorySupportActual.EndingAverageOccupancy.June ?? ZeroIfNull(MemorySupportActual.EndingAverageOccupancy.June) - ZeroIfNull(EndingAverageOccupancy.June),
-                    July = MemorySupportActual.EndingAverageOccupancy.July ?? ZeroIfNull(MemorySupportActual.EndingAverageOccupancy.July) - ZeroIfNull(EndingAverageOccupancy.July),
-                    August = MemorySupportActual.EndingAverageOccupancy.August ?? ZeroIfNull(MemorySupportActual.EndingAverageOccupancy.August) - ZeroIfNull(EndingAverageOccupancy.August),
-                    September = MemorySupportActual.EndingAverageOccupancy.September ?? ZeroIfNull(MemorySupportActual.EndingAverageOccupancy.September) - ZeroIfNull(EndingAverageOccupancy.September),
-                    October = MemorySupportActual.EndingAverageOccupancy.October ?? ZeroIfNull(MemorySupportActual.EndingAverageOccupancy.October) - ZeroIfNull(EndingAverageOccupancy.October),
-                    November = MemorySupportActual.EndingAverageOccupancy.November ?? ZeroIfNull(MemorySupportActual.EndingAverageOccupancy.November) - ZeroIfNull(EndingAverageOccupancy.November),
-                    December = MemorySupportActual.EndingAverageOccupancy.December ?? ZeroIfNull(MemorySupportActual.EndingAverageOccupancy.December) - ZeroIfNull(EndingAverageOccupancy.December)
-                };
-                return record;
+                    _endingAverageOccupancyVarianceFromBudget = new OccupancyRecord
+                    {
+                        January = MemorySupportActual.EndingAverageOccupancy.January.HasValue ? ZeroIfNull(MemorySupportActual.EndingAverageOccupancy.January) - ZeroIfNull(EndingAverageOccupancy.January) : (float?)null,
+                        February = MemorySupportActual.EndingAverageOccupancy.February.HasValue ? ZeroIfNull(MemorySupportActual.EndingAverageOccupancy.February) - ZeroIfNull(EndingAverageOccupancy.February) : (float?)null,
+                        March = MemorySupportActual.EndingAverageOccupancy.March.HasValue ? ZeroIfNull(MemorySupportActual.EndingAverageOccupancy.March) - ZeroIfNull(EndingAverageOccupancy.March) : (float?)null,
+                        April = MemorySupportActual.EndingAverageOccupancy.April.HasValue ? ZeroIfNull(MemorySupportActual.EndingAverageOccupancy.April) - ZeroIfNull(EndingAverageOccupancy.April) : (float?)null,
+                        May = MemorySupportActual.EndingAverageOccupancy.May.HasValue ? ZeroIfNull(MemorySupportActual.EndingAverageOccupancy.May) - ZeroIfNull(EndingAverageOccupancy.May) : (float?)null,
+                        June = MemorySupportActual.EndingAverageOccupancy.June.HasValue ? ZeroIfNull(MemorySupportActual.EndingAverageOccupancy.June) - ZeroIfNull(EndingAverageOccupancy.June) : (float?)null,
+                        July = MemorySupportActual.EndingAverageOccupancy.July.HasValue ? ZeroIfNull(MemorySupportActual.EndingAverageOccupancy.July) - ZeroIfNull(EndingAverageOccupancy.July) : (float?)null,
+                        August = MemorySupportActual.EndingAverageOccupancy.August.HasValue ? ZeroIfNull(MemorySupportActual.EndingAverageOccupancy.August) - ZeroIfNull(EndingAverageOccupancy.August) : (float?)null,
+                        September = MemorySupportActual.EndingAverageOccupancy.September.HasValue ? ZeroIfNull(MemorySupportActual.EndingAverageOccupancy.September) - ZeroIfNull(EndingAverageOccupancy.September) : (float?)null,
+                        October = MemorySupportActual.EndingAverageOccupancy.October.HasValue ? ZeroIfNull(MemorySupportActual.EndingAverageOccupancy.October) - ZeroIfNull(EndingAverageOccupancy.October) : (float?)null,
+                        November = MemorySupportActual.EndingAverageOccupancy.November.HasValue ? ZeroIfNull(MemorySupportActual.EndingAverageOccupancy.November) - ZeroIfNull(EndingAverageOccupancy.November) : (float?)null,
+                        December = MemorySupportActual.EndingAverageOccupancy.December.HasValue ? ZeroIfNull(MemorySupportActual.EndingAverageOccupancy.December) - ZeroIfNull(EndingAverageOccupancy.December) : (float?)null
+                    };
+                }
+                return _endingAverageOccupancyVarianceFromBudget;
             }
         }
 
@@ -64,45 +78,51 @@ namespace ReportApp.Model.Occupancy
         {
             get
             {
-                OccupancyRecord record = new OccupancyRecord
+                if (_endingAveragePersonOccupancy == null)
                 {
-                    January = ZeroIfNull(PrivateMCFirstPerson.January) + ZeroIfNull(PrivateMCSecondPerson.January),
-                    February = ZeroIfNull(PrivateMCFirstPerson.February) + ZeroIfNull(PrivateMCSecondPerson.February),
-                    March = ZeroIfNull(PrivateMCFirstPerson.March) + ZeroIfNull(PrivateMCSecondPerson.March),
-                    April = ZeroIfNull(PrivateMCFirstPerson.April) + ZeroIfNull(PrivateMCSecondPerson.April),
-                    May = ZeroIfNull(PrivateMCFirstPerson.May) + ZeroIfNull(PrivateMCSecondPerson.May),
-                    June = ZeroIfNull(PrivateMCFirstPerson.June) + ZeroIfNull(PrivateMCSecondPerson.June),
-                    July = ZeroIfNull(PrivateMCFirstPerson.July) + ZeroIfNull(PrivateMCSecondPerson.July),
-                    August = ZeroIfNull(PrivateMCFirstPerson.August) + ZeroIfNull(PrivateMCSecondPerson.August),
-                    September = ZeroIfNull(PrivateMCFirstPerson.September) + ZeroIfNull(PrivateMCSecondPerson.September),
-                    October = ZeroIfNull(PrivateMCFirstPerson.October) + ZeroIfNull(PrivateMCSecondPerson.October),
-                    November = ZeroIfNull(PrivateMCFirstPerson.November) + ZeroIfNull(PrivateMCSecondPerson.November),
-                    December = ZeroIfNull(PrivateMCFirstPerson.December) + ZeroIfNull(PrivateMCSecondPerson.December)
-                };
-                record.TotalOrAverage = record.CalculateAverageValue();
-                return record;
+                    _endingAveragePersonOccupancy = new OccupancyRecord
+                    {
+                        January = ZeroIfNull(PrivateMCFirstPerson.January) + ZeroIfNull(PrivateMCSecondPerson.January),
+                        February = ZeroIfNull(PrivateMCFirstPerson.February) + ZeroIfNull(PrivateMCSecondPerson.February),
+                        March = ZeroIfNull(PrivateMCFirstPerson.March) + ZeroIfNull(PrivateMCSecondPerson.March),
+                        April = ZeroIfNull(PrivateMCFirstPerson.April) + ZeroIfNull(PrivateMCSecondPerson.April),
+                        May = ZeroIfNull(PrivateMCFirstPerson.May) + ZeroIfNull(PrivateMCSecondPerson.May),
+                        June = ZeroIfNull(PrivateMCFirstPerson.June) + ZeroIfNull(PrivateMCSecondPerson.June),
+                        July = ZeroIfNull(PrivateMCFirstPerson.July) + ZeroIfNull(PrivateMCSecondPerson.July),
+                        August = ZeroIfNull(PrivateMCFirstPerson.August) + ZeroIfNull(PrivateMCSecondPerson.August),
+                        September = ZeroIfNull(PrivateMCFirstPerson.September) + ZeroIfNull(PrivateMCSecondPerson.September),
+                        October = ZeroIfNull(PrivateMCFirstPerson.October) + ZeroIfNull(PrivateMCSecondPerson.October),
+                        November = ZeroIfNull(PrivateMCFirstPerson.November) + ZeroIfNull(PrivateMCSecondPerson.November),
+                        December = ZeroIfNull(PrivateMCFirstPerson.December) + ZeroIfNull(PrivateMCSecondPerson.December)
+                    };
+                    _endingAveragePersonOccupancy.TotalOrAverage = _endingAveragePersonOccupancy.CalculateAverageValue();
+                }
+                return _endingAveragePersonOccupancy;
             }
         }
         public OccupancyRecord EndingAvgPersonOccupancyVarianceFromBudget 
         {
             get
             {
-                OccupancyRecord record = new OccupancyRecord
+                if (_endingAvgPersonOccupancyVarianceFromBudget == null)
                 {
-                    January = MemorySupportActual.EndingAveragePersonOccupancy.January ?? ZeroIfNull(MemorySupportActual.EndingAveragePersonOccupancy.January) - ZeroIfNull(EndingAveragePersonOccupancy.January),
-                    February = MemorySupportActual.EndingAveragePersonOccupancy.February ?? ZeroIfNull(MemorySupportActual.EndingAveragePersonOccupancy.February) - ZeroIfNull(EndingAveragePersonOccupancy.February),
-                    March = MemorySupportActual.EndingAveragePersonOccupancy.March ?? ZeroIfNull(MemorySupportActual.EndingAveragePersonOccupancy.March) - ZeroIfNull(EndingAveragePersonOccupancy.March),
-                    April = MemorySupportActual.EndingAveragePersonOccupancy.April ?? ZeroIfNull(MemorySupportActual.EndingAveragePersonOccupancy.April) - ZeroIfNull(EndingAveragePersonOccupancy.April),
-                    May = MemorySupportActual.EndingAveragePersonOccupancy.May ?? ZeroIfNull(MemorySupportActual.EndingAveragePersonOccupancy.May) - ZeroIfNull(EndingAveragePersonOccupancy.May),
-                    June = MemorySupportActual.EndingAveragePersonOccupancy.June ?? ZeroIfNull(MemorySupportActual.EndingAveragePersonOccupancy.June) - ZeroIfNull(EndingAveragePersonOccupancy.June),
-                    July = MemorySupportActual.EndingAveragePersonOccupancy.July ?? ZeroIfNull(MemorySupportActual.EndingAveragePersonOccupancy.July) - ZeroIfNull(EndingAveragePersonOccupancy.July),
-                    August = MemorySupportActual.EndingAveragePersonOccupancy.August ?? ZeroIfNull(MemorySupportActual.EndingAveragePersonOccupancy.August) - ZeroIfNull(EndingAveragePersonOccupancy.August),
-                    September = MemorySupportActual.EndingAveragePersonOccupancy.September ?? ZeroIfNull(MemorySupportActual.EndingAveragePersonOccupancy.September) - ZeroIfNull(EndingAveragePersonOccupancy.September),
-                    October = MemorySupportActual.EndingAveragePersonOccupancy.October ?? ZeroIfNull(MemorySupportActual.EndingAveragePersonOccupancy.October) - ZeroIfNull(EndingAveragePersonOccupancy.October),
-                    November = MemorySupportActual.EndingAveragePersonOccupancy.November ?? ZeroIfNull(MemorySupportActual.EndingAveragePersonOccupancy.November) - ZeroIfNull(EndingAveragePersonOccupancy.November),
-                    December = MemorySupportActual.EndingAveragePersonOccupancy.December ?? ZeroIfNull(MemorySupportActual.EndingAveragePersonOccupancy.December) - ZeroIfNull(EndingAveragePersonOccupancy.December)
-                };
-                return record;
+                    _endingAvgPersonOccupancyVarianceFromBudget = new OccupancyRecord
+                    {
+                        January = MemorySupportActual.EndingAveragePersonOccupancy.January.HasValue ? ZeroIfNull(MemorySupportActual.EndingAveragePersonOccupancy.January) - ZeroIfNull(EndingAveragePersonOccupancy.January) : (float?)null,
+                        February = MemorySupportActual.EndingAveragePersonOccupancy.February.HasValue ? ZeroIfNull(MemorySupportActual.EndingAveragePersonOccupancy.February) - ZeroIfNull(EndingAveragePersonOccupancy.February) : (float?)null,
+                        March = MemorySupportActual.EndingAveragePersonOccupancy.March.HasValue ? ZeroIfNull(MemorySupportActual.EndingAveragePersonOccupancy.March) - ZeroIfNull(EndingAveragePersonOccupancy.March) : (float?)null,
+                        April = MemorySupportActual.EndingAveragePersonOccupancy.April.HasValue ? ZeroIfNull(MemorySupportActual.EndingAveragePersonOccupancy.April) - ZeroIfNull(EndingAveragePersonOccupancy.April) : (float?)null,
+                        May = MemorySupportActual.EndingAveragePersonOccupancy.May.HasValue ? ZeroIfNull(MemorySupportActual.EndingAveragePersonOccupancy.May) - ZeroIfNull(EndingAveragePersonOccupancy.May) : (float?)null,
+                        June = MemorySupportActual.EndingAveragePersonOccupancy.June.HasValue ? ZeroIfNull(MemorySupportActual.EndingAveragePersonOccupancy.June) - ZeroIfNull(EndingAveragePersonOccupancy.June) : (float?)null,
+                        July = MemorySupportActual.EndingAveragePersonOccupancy.July.HasValue ? ZeroIfNull(MemorySupportActual.EndingAveragePersonOccupancy.July) - ZeroIfNull(EndingAveragePersonOccupancy.July) : (float?)null,
+                        August = MemorySupportActual.EndingAveragePersonOccupancy.August.HasValue ? ZeroIfNull(MemorySupportActual.EndingAveragePersonOccupancy.August) - ZeroIfNull(EndingAveragePersonOccupancy.August) : (float?)null,
+                        September = MemorySupportActual.EndingAveragePersonOccupancy.September.HasValue ? ZeroIfNull(MemorySupportActual.EndingAveragePersonOccupancy.September) - ZeroIfNull(EndingAveragePersonOccupancy.September) : (float?)null,
+                        October = MemorySupportActual.EndingAveragePersonOccupancy.October.HasValue ? ZeroIfNull(MemorySupportActual.EndingAveragePersonOccupancy.October) - ZeroIfNull(EndingAveragePersonOccupancy.October) : (float?)null,
+                        November = MemorySupportActual.EndingAveragePersonOccupancy.November.HasValue ? ZeroIfNull(MemorySupportActual.EndingAveragePersonOccupancy.November) - ZeroIfNull(EndingAveragePersonOccupancy.November) : (float?)null,
+                        December = MemorySupportActual.EndingAveragePersonOccupancy.December.HasValue ? ZeroIfNull(MemorySupportActual.EndingAveragePersonOccupancy.December) - ZeroIfNull(EndingAveragePersonOccupancy.December) : (float?)null
+                    };
+                }
+                return _endingAvgPersonOccupancyVarianceFromBudget;
             }
         }
 

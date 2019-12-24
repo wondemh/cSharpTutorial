@@ -46,15 +46,15 @@ namespace ReportApp
             int startRowNumber = rowNumber;
             rowNumber = BuildColumnHeaders(ws, rowNumber);
             rowNumber = BuildGridRow(ws, assistedLivingActual.UnitsAvailable, "Units Available:", rowNumber);
-            rowNumber = BuildGridRow(ws, assistedLivingActual.LicensedFor, "Licensed For:", rowNumber);
+            rowNumber = BuildGridRow(ws, IRCAssistedLivingActual.LicensedFor, "Licensed For:", rowNumber);
             rowNumber = BuildGridRow(ws, assistedLivingActual.AverageFFSFirst, "Average FFS 1st:", rowNumber);
             rowNumber = BuildGridRow(ws, assistedLivingActual.AverageFFSSecond, "Average FFS 2nd:", rowNumber);
             rowNumber = BuildGridRow(ws, assistedLivingActual.AverageLCFirst, "Average LC 1st:", rowNumber);
             rowNumber = BuildGridRow(ws, assistedLivingActual.AverageLCSecond, "Average LC 2nd:", rowNumber);
             rowNumber = BuildGridRow(ws, assistedLivingActual.EndingAverageOccupancy, "Ending Avg. Occupancy:", rowNumber);
-            rowNumber = BuildGridRow(ws, assistedLivingActual.PercentUnitOccupancy, "% Unit Occupancy:", rowNumber, "0%");
+            rowNumber = BuildGridRow(ws, assistedLivingActual.PercentUnitOccupancy, "% Unit Occupancy:", rowNumber, "0.0\\%");
             rowNumber = BuildGridRow(ws, assistedLivingActual.EndingAveragePersonOccupancy, "Ending Avg. Person Occupancy:", rowNumber);
-            rowNumber = BuildGridRow(ws, assistedLivingActual.PercentLicensedOccupancy, "% Licensed Occupancy:", rowNumber, "0%");
+            rowNumber = BuildGridRow(ws, assistedLivingActual.PercentLicensedOccupancy, "% Licensed Occupancy:", rowNumber, "0.0\\%");
 
             //This adds the sidebar
             BuildSectionSideBar(ws, "Actual", startRowNumber, rowNumber - 1, ActualSectionColor);

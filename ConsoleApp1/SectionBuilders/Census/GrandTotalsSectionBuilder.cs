@@ -33,8 +33,6 @@ namespace ReportApp
             string totalOccupiedPercent = (((float)totalOccupied / (float)allUnitsCount) * 100).ToString("0.00", CultureInfo.CurrentCulture);
             bool sectionIsForDateRange = endDate.HasValue;
 
-            Console.WriteLine($"totalOccupied: {totalOccupied},  allUnitsCount : {allUnitsCount}, occupiedPercent: {totalOccupiedPercent}");
-
             int initialRowNumber = rowNumber;
 
             ExcelRange range = ws.Cells[rowNumber, 1, rowNumber, 14];

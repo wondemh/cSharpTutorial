@@ -15,7 +15,7 @@ namespace ReportApp.DAO
     {
         
 
-        public static OccupancyRecord GetActualBeginningOccupancyData(LocationCode locationId, List<string> facilityTypeCodes, DateTime reportDate)
+        public static OccupancyRecord GetBeginningOccupancyData(LocationCode locationId, List<string> facilityTypeCodes, DateTime reportDate)
         {
             OccupancyRecord record = new OccupancyRecord
             {
@@ -35,7 +35,7 @@ namespace ReportApp.DAO
             return record;
         }
 
-        public static OccupancyRecord GetActualCensusCountsByMonth(LocationCode locationId, List<string> facilityTypeCodes, List<String> admissionStatusCodes, int year, bool negate)
+        public static OccupancyRecord GetCensusCountsByAdmissionStatus(LocationCode locationId, List<string> facilityTypeCodes, List<String> admissionStatusCodes, int year, bool negate)
         {
             OccupancyRecord record = new OccupancyRecord
             {
@@ -51,6 +51,26 @@ namespace ReportApp.DAO
                 October = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 10) * (negate ? -1 : 1),
                 November = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 11) * (negate ? -1 : 1),
                 December = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 12) * (negate ? -1 : 1)
+            };
+            return record;
+        }
+
+        public static OccupancyRecord GetCountsOfTransfersToOtherLevelOrFacility(LocationCode locationId, List<string> originalFacilityTypeCodes, List<string> transferedToFacilityTypeCodes, int year, bool negate)
+        {
+            OccupancyRecord record = new OccupancyRecord
+            {
+                January = GetCountOfTransfersToOtherLevelOrFacility(locationId, originalFacilityTypeCodes, transferedToFacilityTypeCodes, year, 1) * (negate ? -1 : 1),
+                February = GetCountOfTransfersToOtherLevelOrFacility(locationId, originalFacilityTypeCodes, transferedToFacilityTypeCodes, year, 2) * (negate ? -1 : 1),
+                March = GetCountOfTransfersToOtherLevelOrFacility(locationId, originalFacilityTypeCodes, transferedToFacilityTypeCodes, year, 3) * (negate ? -1 : 1),
+                April = GetCountOfTransfersToOtherLevelOrFacility(locationId, originalFacilityTypeCodes, transferedToFacilityTypeCodes, year, 4) * (negate ? -1 : 1),
+                May = GetCountOfTransfersToOtherLevelOrFacility(locationId, originalFacilityTypeCodes, transferedToFacilityTypeCodes, year, 5) * (negate ? -1 : 1),
+                June = GetCountOfTransfersToOtherLevelOrFacility(locationId, originalFacilityTypeCodes, transferedToFacilityTypeCodes, year, 6) * (negate ? -1 : 1),
+                July = GetCountOfTransfersToOtherLevelOrFacility(locationId, originalFacilityTypeCodes, transferedToFacilityTypeCodes, year, 7) * (negate ? -1 : 1),
+                August = GetCountOfTransfersToOtherLevelOrFacility(locationId, originalFacilityTypeCodes, transferedToFacilityTypeCodes, year, 8) * (negate ? -1 : 1),
+                September = GetCountOfTransfersToOtherLevelOrFacility(locationId, originalFacilityTypeCodes, transferedToFacilityTypeCodes, year, 9) * (negate ? -1 : 1),
+                October = GetCountOfTransfersToOtherLevelOrFacility(locationId, originalFacilityTypeCodes, transferedToFacilityTypeCodes, year, 10) * (negate ? -1 : 1),
+                November = GetCountOfTransfersToOtherLevelOrFacility(locationId, originalFacilityTypeCodes, transferedToFacilityTypeCodes, year, 11) * (negate ? -1 : 1),
+                December = GetCountOfTransfersToOtherLevelOrFacility(locationId, originalFacilityTypeCodes, transferedToFacilityTypeCodes, year, 12) * (negate ? -1 : 1)
             };
             return record;
         }
@@ -100,6 +120,42 @@ namespace ReportApp.DAO
                 .Append("   AND YEAR(ingCensus.CensusDate) = @Year ")
                 .Append("   AND Month(ingCensus.CensusDate) = @Month ").ToString(),
                 new { LocationId = (int)locationId, FacilityTypeCodes = facilityTypeCodes, AdmissionStatusCodes = admissionStatusCodes, Year = year, Month = month });
+        }
+
+        private static int GetCountOfTransfersToOtherLevelOrFacility(LocationCode locationId, List<string> originalFacilityTypeCodes, List<string> transferedToFacilityTypeCodes, int year, int month)
+        {
+            using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ingAnalyticsConnection"].ConnectionString);
+            return conn.ExecuteScalar<int>(
+                new StringBuilder()
+                .Append("SELECT COUNT(1) ")
+                .Append("FROM ")
+                .Append("   ingLocations ")
+                .Append("   INNER JOIN ingFacilityTypes ")
+                .Append("       ON ingLocations.Id = ingFacilityTypes.Location ")
+                .Append("   INNER JOIN ingUnits ")
+                .Append("       ON ingFacilityTypes.Location = ingUnits.Location ")
+                .Append("       AND ingFacilityTypes.FacilityType = ingUnits.FacilityType ")
+                .Append("   LEFT OUTER JOIN ingCensus A ")
+                .Append("       ON ingUnits.UnitID = A.UnitID ")
+                .Append("WHERE ingLocations.Id = @LocationId ")
+                .Append("   AND ingFacilityTypes.FacilityType IN @FacilityTypeCodes ")
+                .Append("   AND A.AdmissionStatus IN ('D', 'PT' ") //Discharged from current facility
+                .Append("   AND YEAR(A.CensusDate) = @Year ")
+                .Append("   AND Month(A.CensusDate) = @Month ")
+                .Append("   AND EXISTS ")
+                .Append("   ( ")
+                .Append("       SELECT 1 ")
+                .Append("       FROM ingCensus B, ingUnits C ")
+                .Append("       WHERE B.ResidentID = A.ResidentID ")
+                .Append("       AND B.AdmissionStatus IN('A') ")
+                .Append("       AND YEAR(B.CensusDate) = @Year ")
+                .Append("       AND Month(B.CensusDate) = @Month ")
+                .Append("       AND(B.LevelOfCare != A.LevelOfCare OR B.UnitID != A.UnitID) ")  //New level of care or new unit
+                .Append("       AND C.UnitID = B.UnitID ")
+                .Append("       AND C.FacilityType IN @TransferedToFacilityTypeCodes ")
+                .Append("   ) ")
+                .ToString(),
+                new { LocationId = (int)locationId, FacilityTypeCodes = originalFacilityTypeCodes, TransferedToFacilityTypeCodes = transferedToFacilityTypeCodes, Year = year, Month = month });
         }
     }
 }

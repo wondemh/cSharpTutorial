@@ -7,9 +7,11 @@ namespace ReportApp.Model.Occupancy
     class IndependentLivingBudget : OccupancyRecordsContainer
     {
         private OccupancyRecord _varianceFromBudget;
+        private OccupancyRecord _endingOccupancy;
+        private OccupancyRecord _percentOccupancy;
 
         //TODO: CHANGE THIS TO OccupancyRecord ActualUnitsAvailable and fetch it once in constructor of section builder and set it in actual and budget
-        public IndependentLivingActual ILActual { get; set; }
+        public IndependentLivingActual IndependentLivingActual { get; set; }
         public OccupancyRecord BeginningOccupancy { get; set; }
         public OccupancyRecord MoveIns { get; set; }
         public OccupancyRecord MoveOuts { get; set; }
@@ -17,46 +19,52 @@ namespace ReportApp.Model.Occupancy
         {
             get
             {
-                OccupancyRecord record = new OccupancyRecord
+                if (_endingOccupancy == null)
                 {
-                    January = ZeroIfNull(BeginningOccupancy.January) + ZeroIfNull(MoveIns.January) + ZeroIfNull(MoveOuts.January),
-                    February = ZeroIfNull(BeginningOccupancy.February) + ZeroIfNull(MoveIns.February) + ZeroIfNull(MoveOuts.February),
-                    March = ZeroIfNull(BeginningOccupancy.March) + ZeroIfNull(MoveIns.March) + ZeroIfNull(MoveOuts.March),
-                    April = ZeroIfNull(BeginningOccupancy.April) + ZeroIfNull(MoveIns.April) + ZeroIfNull(MoveOuts.April),
-                    May = ZeroIfNull(BeginningOccupancy.May) + ZeroIfNull(MoveIns.May) + ZeroIfNull(MoveOuts.May),
-                    June = ZeroIfNull(BeginningOccupancy.June) + ZeroIfNull(MoveIns.June) + ZeroIfNull(MoveOuts.June),
-                    July = ZeroIfNull(BeginningOccupancy.July) + ZeroIfNull(MoveIns.July) + ZeroIfNull(MoveOuts.July),
-                    August = ZeroIfNull(BeginningOccupancy.August) + ZeroIfNull(MoveIns.August) + ZeroIfNull(MoveOuts.August),
-                    September = ZeroIfNull(BeginningOccupancy.September) + ZeroIfNull(MoveIns.September) + ZeroIfNull(MoveOuts.September),
-                    October = ZeroIfNull(BeginningOccupancy.October) + ZeroIfNull(MoveIns.October) + ZeroIfNull(MoveOuts.October),
-                    November = ZeroIfNull(BeginningOccupancy.November) + ZeroIfNull(MoveIns.November) + ZeroIfNull(MoveOuts.November),
-                    December = ZeroIfNull(BeginningOccupancy.December) + ZeroIfNull(MoveIns.December) + ZeroIfNull(MoveOuts.December)
-                };
-                record.TotalOrAverage = record.CalculateAverageValue();
-                return record;
+                    _endingOccupancy = new OccupancyRecord
+                    {
+                        January = ZeroIfNull(BeginningOccupancy.January) + ZeroIfNull(MoveIns.January) + ZeroIfNull(MoveOuts.January),
+                        February = ZeroIfNull(BeginningOccupancy.February) + ZeroIfNull(MoveIns.February) + ZeroIfNull(MoveOuts.February),
+                        March = ZeroIfNull(BeginningOccupancy.March) + ZeroIfNull(MoveIns.March) + ZeroIfNull(MoveOuts.March),
+                        April = ZeroIfNull(BeginningOccupancy.April) + ZeroIfNull(MoveIns.April) + ZeroIfNull(MoveOuts.April),
+                        May = ZeroIfNull(BeginningOccupancy.May) + ZeroIfNull(MoveIns.May) + ZeroIfNull(MoveOuts.May),
+                        June = ZeroIfNull(BeginningOccupancy.June) + ZeroIfNull(MoveIns.June) + ZeroIfNull(MoveOuts.June),
+                        July = ZeroIfNull(BeginningOccupancy.July) + ZeroIfNull(MoveIns.July) + ZeroIfNull(MoveOuts.July),
+                        August = ZeroIfNull(BeginningOccupancy.August) + ZeroIfNull(MoveIns.August) + ZeroIfNull(MoveOuts.August),
+                        September = ZeroIfNull(BeginningOccupancy.September) + ZeroIfNull(MoveIns.September) + ZeroIfNull(MoveOuts.September),
+                        October = ZeroIfNull(BeginningOccupancy.October) + ZeroIfNull(MoveIns.October) + ZeroIfNull(MoveOuts.October),
+                        November = ZeroIfNull(BeginningOccupancy.November) + ZeroIfNull(MoveIns.November) + ZeroIfNull(MoveOuts.November),
+                        December = ZeroIfNull(BeginningOccupancy.December) + ZeroIfNull(MoveIns.December) + ZeroIfNull(MoveOuts.December)
+                    };
+                    _endingOccupancy.TotalOrAverage = _endingOccupancy.CalculateAverageValue();
+                }
+                return _endingOccupancy;
             }
         }
         public OccupancyRecord PercentOccupancy
         {
             get
             {
-                OccupancyRecord record = new OccupancyRecord
+                if (_percentOccupancy == null)
                 {
-                    January = EndingOccupancy.January ?? (float)Math.Round(Divide(EndingOccupancy.January, ILActual.UnitsAvailable.January), 0),
-                    February = EndingOccupancy.February ?? (float)Math.Round(Divide(EndingOccupancy.February, ILActual.UnitsAvailable.February), 0),
-                    March = EndingOccupancy.March ?? (float)Math.Round(Divide(EndingOccupancy.March, ILActual.UnitsAvailable.March), 0),
-                    April = EndingOccupancy.April ?? (float)Math.Round(Divide(EndingOccupancy.April, ILActual.UnitsAvailable.April), 0),
-                    May = EndingOccupancy.May ?? (float)Math.Round(Divide(EndingOccupancy.May, ILActual.UnitsAvailable.May), 0),
-                    June = EndingOccupancy.June ?? (float)Math.Round(Divide(EndingOccupancy.June, ILActual.UnitsAvailable.June), 0),
-                    July = EndingOccupancy.July ?? (float)Math.Round(Divide(EndingOccupancy.July, ILActual.UnitsAvailable.July), 0),
-                    August = EndingOccupancy.August ?? (float)Math.Round(Divide(EndingOccupancy.August, ILActual.UnitsAvailable.August), 0),
-                    September = EndingOccupancy.September ?? (float)Math.Round(Divide(EndingOccupancy.September, ILActual.UnitsAvailable.September), 0),
-                    October = EndingOccupancy.October ?? (float)Math.Round(Divide(EndingOccupancy.October, ILActual.UnitsAvailable.October), 0),
-                    November = EndingOccupancy.November ?? (float)Math.Round(Divide(EndingOccupancy.November, ILActual.UnitsAvailable.November), 0),
-                    December = EndingOccupancy.December ?? (float)Math.Round(Divide(EndingOccupancy.December, ILActual.UnitsAvailable.December), 0),
-                };
-                record.TotalOrAverage = record.CalculateAverageValue();
-                return record;
+                    _percentOccupancy = new OccupancyRecord
+                    {
+                        January = EndingOccupancy.January.HasValue ? (float)Math.Round(Divide(EndingOccupancy.January, IndependentLivingActual.UnitsAvailable.January), 0) : (float?)null,
+                        February = EndingOccupancy.February.HasValue ? (float)Math.Round(Divide(EndingOccupancy.February, IndependentLivingActual.UnitsAvailable.February), 0) : (float?)null,
+                        March = EndingOccupancy.March.HasValue ? (float)Math.Round(Divide(EndingOccupancy.March, IndependentLivingActual.UnitsAvailable.March), 0) : (float?)null,
+                        April = EndingOccupancy.April.HasValue ? (float)Math.Round(Divide(EndingOccupancy.April, IndependentLivingActual.UnitsAvailable.April), 0) : (float?)null,
+                        May = EndingOccupancy.May.HasValue ? (float)Math.Round(Divide(EndingOccupancy.May, IndependentLivingActual.UnitsAvailable.May), 0) : (float?)null,
+                        June = EndingOccupancy.June.HasValue ? (float)Math.Round(Divide(EndingOccupancy.June, IndependentLivingActual.UnitsAvailable.June), 0) : (float?)null,
+                        July = EndingOccupancy.July.HasValue ? (float)Math.Round(Divide(EndingOccupancy.July, IndependentLivingActual.UnitsAvailable.July), 0) : (float?)null,
+                        August = EndingOccupancy.August.HasValue ? (float)Math.Round(Divide(EndingOccupancy.August, IndependentLivingActual.UnitsAvailable.August), 0) : (float?)null,
+                        September = EndingOccupancy.September.HasValue ? (float)Math.Round(Divide(EndingOccupancy.September, IndependentLivingActual.UnitsAvailable.September), 0) : (float?)null,
+                        October = EndingOccupancy.October.HasValue ? (float)Math.Round(Divide(EndingOccupancy.October, IndependentLivingActual.UnitsAvailable.October), 0) : (float?)null,
+                        November = EndingOccupancy.November.HasValue ? (float)Math.Round(Divide(EndingOccupancy.November, IndependentLivingActual.UnitsAvailable.November), 0) : (float?)null,
+                        December = EndingOccupancy.December.HasValue ? (float)Math.Round(Divide(EndingOccupancy.December, IndependentLivingActual.UnitsAvailable.December), 0) : (float?)null,
+                    };
+                    _percentOccupancy.TotalOrAverage = _percentOccupancy.CalculateAverageValue();
+                }
+                return _percentOccupancy;
             }
         }
         public OccupancyRecord VarianceFromBudget
@@ -71,40 +79,40 @@ namespace ReportApp.Model.Occupancy
             _varianceFromBudget = new OccupancyRecord
             {
                 January = (reportMonth >= 1)
-                    ? Subtract(ILActual.EndingOccupancy.January, EndingOccupancy.January)
+                    ? Subtract(IndependentLivingActual.EndingOccupancy.January, EndingOccupancy.January)
                     : (float?)null,
                 February = (reportMonth >= 2)
-                    ? Subtract(ILActual.EndingOccupancy.February, EndingOccupancy.February)
+                    ? Subtract(IndependentLivingActual.EndingOccupancy.February, EndingOccupancy.February)
                     : (float?)null,
                 March = (reportMonth >= 3)
-                    ? Subtract(ILActual.EndingOccupancy.March, EndingOccupancy.March)
+                    ? Subtract(IndependentLivingActual.EndingOccupancy.March, EndingOccupancy.March)
                     : (float?)null,
                 April = (reportMonth >= 4)
-                    ? Subtract(ILActual.EndingOccupancy.April, EndingOccupancy.April)
+                    ? Subtract(IndependentLivingActual.EndingOccupancy.April, EndingOccupancy.April)
                     : (float?)null,
                 May = (reportMonth >= 5)
-                    ? Subtract(ILActual.EndingOccupancy.May, EndingOccupancy.May)
+                    ? Subtract(IndependentLivingActual.EndingOccupancy.May, EndingOccupancy.May)
                     : (float?)null,
                 June = (reportMonth >= 6)
-                    ? Subtract(ILActual.EndingOccupancy.June, EndingOccupancy.June)
+                    ? Subtract(IndependentLivingActual.EndingOccupancy.June, EndingOccupancy.June)
                     : (float?)null,
                 July = (reportMonth >= 7)
-                    ? Subtract(ILActual.EndingOccupancy.July, EndingOccupancy.July)
+                    ? Subtract(IndependentLivingActual.EndingOccupancy.July, EndingOccupancy.July)
                     : (float?)null,
                 August = (reportMonth >= 8)
-                    ? Subtract(ILActual.EndingOccupancy.August, EndingOccupancy.August)
+                    ? Subtract(IndependentLivingActual.EndingOccupancy.August, EndingOccupancy.August)
                     : (float?)null,
                 September = (reportMonth >= 9)
-                    ? Subtract(ILActual.EndingOccupancy.September, EndingOccupancy.September)
+                    ? Subtract(IndependentLivingActual.EndingOccupancy.September, EndingOccupancy.September)
                     : (float?)null,
                 October = (reportMonth >= 10)
-                    ? Subtract(ILActual.EndingOccupancy.October, EndingOccupancy.October)
+                    ? Subtract(IndependentLivingActual.EndingOccupancy.October, EndingOccupancy.October)
                     : (float?)null,
                 November = (reportMonth >= 11)
-                    ? Subtract(ILActual.EndingOccupancy.November, EndingOccupancy.November)
+                    ? Subtract(IndependentLivingActual.EndingOccupancy.November, EndingOccupancy.November)
                     : (float?)null,
                 December = (reportMonth >= 12)
-                    ? Subtract(ILActual.EndingOccupancy.December, EndingOccupancy.December)
+                    ? Subtract(IndependentLivingActual.EndingOccupancy.December, EndingOccupancy.December)
                     : (float?)null
             };
         }

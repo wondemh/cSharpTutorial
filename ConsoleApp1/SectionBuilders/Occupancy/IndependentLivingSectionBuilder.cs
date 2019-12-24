@@ -26,24 +26,27 @@ namespace ReportApp
             independentLivingActual = new IndependentLivingActual
             {
                 UnitsAvailable = OccupancyReportDAO.GetUnitsAvailableData(locationId, facilityTypeCodes),
-                BeginningOccupancy = IndependentLivingDAO.GetActualBeginningOccupancyData(locationId, facilityTypeCodes, reportDate),
-                MoveIns = IndependentLivingDAO.GetActualCensusCountsByMonth(locationId, facilityTypeCodes, new List<string> { "A" }, reportDate.Year, false),
-                MoveOuts = IndependentLivingDAO.GetActualCensusCountsByMonth(locationId, facilityTypeCodes, new List<string> { "D", "DH", "L" }, reportDate.Year, true),
-                Transfers = IndependentLivingDAO.GetActualCensusCountsByMonth(locationId, facilityTypeCodes, new List<string> { "PT", "TT" }, reportDate.Year, true)
+                BeginningOccupancy = IndependentLivingDAO.GetBeginningOccupancyData(locationId, facilityTypeCodes, reportDate),
+                MoveIns = IndependentLivingDAO.GetCensusCountsByAdmissionStatus(locationId, facilityTypeCodes, new List<string> { "A" }, reportDate.Year, false),
+                MoveOuts = IndependentLivingDAO.GetCensusCountsByAdmissionStatus(locationId, facilityTypeCodes, new List<string> { "D" }, reportDate.Year, true),
+                Transfers = IndependentLivingDAO.GetCensusCountsByAdmissionStatus(locationId, facilityTypeCodes, new List<string> { "PT" }, reportDate.Year, true)
             };
+            independentLivingActual.SetEndingOccupancy(ReportDate.Month);
             independentLivingActual.BeginningOccupancy.TotalOrAverage = independentLivingActual.BeginningOccupancy.CalculateAverageValue();
             independentLivingActual.MoveIns.TotalOrAverage = independentLivingActual.MoveIns.CalculateTotalValue();
             independentLivingActual.MoveOuts.TotalOrAverage = independentLivingActual.MoveOuts.CalculateTotalValue();
             independentLivingActual.Transfers.TotalOrAverage = independentLivingActual.Transfers.CalculateTotalValue();
+            independentLivingActual.SetUnoccupiedUnits(ReportDate.Month);
 
 
             independentLivingBudget = new IndependentLivingBudget
             {
+                IndependentLivingActual = independentLivingActual,
                 BeginningOccupancy = new OccupancyRecord(),
                 MoveIns = new OccupancyRecord(),
                 MoveOuts = new OccupancyRecord(),
             };
-
+            independentLivingBudget.SetVarianceFromBudget(ReportDate.Month);
         }
 
         internal int BuildActualSection(ExcelWorksheet ws, int rowNumber)
@@ -57,7 +60,7 @@ namespace ReportApp
             rowNumber = BuildGridRow(ws, independentLivingActual.MoveOuts, "Move-outs:", rowNumber);
             rowNumber = BuildGridRow(ws, independentLivingActual.Transfers, "Transfer to AL/HC:", rowNumber);
             rowNumber = BuildGridRow(ws, independentLivingActual.EndingOccupancy, "Ending Occupancy:", rowNumber);
-            rowNumber = BuildGridRow(ws, independentLivingActual.PercentOccupancy, "% Occupancy:", rowNumber, "0%");
+            rowNumber = BuildGridRow(ws, independentLivingActual.PercentOccupancy, "% Occupancy:", rowNumber, "0\\%");
             rowNumber = BuildGridRow(ws, independentLivingActual.UnoccupiedUnits, "Unoccupied Units:", rowNumber);
 
             //This adds the sidebar
@@ -76,7 +79,7 @@ namespace ReportApp
             rowNumber = BuildGridRow(ws, independentLivingBudget.MoveIns, "Move-ins:", rowNumber);
             rowNumber = BuildGridRow(ws, independentLivingBudget.MoveOuts, "Move-outs:", rowNumber);
             rowNumber = BuildGridRow(ws, independentLivingBudget.EndingOccupancy, "Ending Occupancy:", rowNumber);
-            rowNumber = BuildGridRow(ws, independentLivingBudget.PercentOccupancy, "% Occupancy:", rowNumber, "0%");
+            rowNumber = BuildGridRow(ws, independentLivingBudget.PercentOccupancy, "% Occupancy:", rowNumber, "0.0\\%");
             rowNumber = BuildGridRow(ws, independentLivingBudget.VarianceFromBudget, "Variance from Budget:", rowNumber);
 
             //This adds the sidebar
@@ -87,18 +90,19 @@ namespace ReportApp
 
         internal int BuildApartmentsSection(ExcelWorksheet ws, int rowNumber)
         {
-            List<string> facilityTypeCodes = new List<string> { "AP" };
+            List<string> apartmentFacilityTypes = new List<string> { "AP" };
             WLRApartmentsActual apartmentsActual = new WLRApartmentsActual
             {
-                UnitsAvailable = OccupancyReportDAO.GetUnitsAvailableData(LocationCode.WLR, facilityTypeCodes),
-                BeginningOccupancy = IndependentLivingDAO.GetActualBeginningOccupancyData(LocationCode.WLR, facilityTypeCodes, ReportDate),
-                MoveIns = IndependentLivingDAO.GetActualCensusCountsByMonth(LocationCode.WLR, facilityTypeCodes, new List<string> { "A" }, ReportDate.Year, false),
-                MoveOuts = IndependentLivingDAO.GetActualCensusCountsByMonth(LocationCode.WLR, facilityTypeCodes, new List<string> { "D", "DH", "L" }, ReportDate.Year, true),
-                TransferFromCottage = IndependentLivingDAO.GetActualCensusCountsByMonth(LocationCode.WLR, facilityTypeCodes, new List<string> { "PT", "TT" }, ReportDate.Year, true),
-                TransferToCottage = IndependentLivingDAO.GetActualCensusCountsByMonth(LocationCode.WLR, facilityTypeCodes, new List<string> { "PT", "TT" }, ReportDate.Year, true),
-                TransferToALHC = IndependentLivingDAO.GetActualCensusCountsByMonth(LocationCode.WLR, facilityTypeCodes, new List<string> { "PT", "TT" }, ReportDate.Year, true),
+                UnitsAvailable = OccupancyReportDAO.GetUnitsAvailableData(LocationCode.WLR, apartmentFacilityTypes),
+                BeginningOccupancy = IndependentLivingDAO.GetBeginningOccupancyData(LocationCode.WLR, apartmentFacilityTypes, ReportDate),
+                MoveIns = IndependentLivingDAO.GetCensusCountsByAdmissionStatus(LocationCode.WLR, apartmentFacilityTypes, new List<string> { "A" }, ReportDate.Year, false),
+                MoveOuts = IndependentLivingDAO.GetCensusCountsByAdmissionStatus(LocationCode.WLR, apartmentFacilityTypes, new List<string> { "D" }, ReportDate.Year, true),
+                TransferFromCottage = IndependentLivingDAO.GetCountsOfTransfersToOtherLevelOrFacility(LocationCode.WLR, new List<string> { "CO" }, apartmentFacilityTypes, ReportDate.Year, false),
+                TransferToCottage = IndependentLivingDAO.GetCountsOfTransfersToOtherLevelOrFacility(LocationCode.WLR, apartmentFacilityTypes, new List<string> { "CO" }, ReportDate.Year, true),
+                TransferToALHC = IndependentLivingDAO.GetCountsOfTransfersToOtherLevelOrFacility(LocationCode.WLR, apartmentFacilityTypes, new List<string> { "AL", "HC" }, ReportDate.Year, true),
             };
             apartmentsActual.SetEndingOccupancy(ReportDate.Month);
+            apartmentsActual.SetUnoccupiedUnits(ReportDate.Month);
 
             int startRowNumber = rowNumber;
             rowNumber = BuildColumnHeaders(ws, rowNumber);
@@ -111,7 +115,7 @@ namespace ReportApp
             rowNumber = BuildGridRow(ws, apartmentsActual.TransferToCottage, "Transfer To Cottage:", rowNumber);
             rowNumber = BuildGridRow(ws, apartmentsActual.TransferToALHC, "Transfer To AL/HC:", rowNumber);
             rowNumber = BuildGridRow(ws, apartmentsActual.EndingOccupancy, "Ending Occupancy:", rowNumber);
-            rowNumber = BuildGridRow(ws, apartmentsActual.PercentOccupancy, "% Occupancy:", rowNumber, "0%");
+            rowNumber = BuildGridRow(ws, apartmentsActual.PercentOccupancy, "% Occupancy:", rowNumber, "0.0\\%");
             rowNumber = BuildGridRow(ws, apartmentsActual.UnoccupiedUnits, "Unoccupied Units:", rowNumber);
 
             //This adds the sidebar
@@ -122,18 +126,19 @@ namespace ReportApp
 
         internal int BuildCottagesSection(ExcelWorksheet ws, int rowNumber)
         {
-            List<string> facilityTypeCodes = new List<string> { "CO" };
+            List<string> cottageFacilityTypes = new List<string> { "CO" };
             WLRCottagesActual cottagesActual = new WLRCottagesActual
             {
-                UnitsAvailable = OccupancyReportDAO.GetUnitsAvailableData(LocationCode.WLR, facilityTypeCodes),
-                BeginningOccupancy = IndependentLivingDAO.GetActualBeginningOccupancyData(LocationCode.WLR, facilityTypeCodes, ReportDate),
-                MoveIns = IndependentLivingDAO.GetActualCensusCountsByMonth(LocationCode.WLR, facilityTypeCodes, new List<string> { "A" }, ReportDate.Year, false),
-                MoveOuts = IndependentLivingDAO.GetActualCensusCountsByMonth(LocationCode.WLR, facilityTypeCodes, new List<string> { "D", "DH", "L" }, ReportDate.Year, true),
-                TransferFromApt = IndependentLivingDAO.GetActualCensusCountsByMonth(LocationCode.WLR, facilityTypeCodes, new List<string> { "PT", "TT" }, ReportDate.Year, true),
-                TransferToApt = IndependentLivingDAO.GetActualCensusCountsByMonth(LocationCode.WLR, facilityTypeCodes, new List<string> { "PT", "TT" }, ReportDate.Year, true),
-                TransferToALHC = IndependentLivingDAO.GetActualCensusCountsByMonth(LocationCode.WLR, facilityTypeCodes, new List<string> { "PT", "TT" }, ReportDate.Year, true),
+                UnitsAvailable = OccupancyReportDAO.GetUnitsAvailableData(LocationCode.WLR, cottageFacilityTypes),
+                BeginningOccupancy = IndependentLivingDAO.GetBeginningOccupancyData(LocationCode.WLR, cottageFacilityTypes, ReportDate),
+                MoveIns = IndependentLivingDAO.GetCensusCountsByAdmissionStatus(LocationCode.WLR, cottageFacilityTypes, new List<string> { "A" }, ReportDate.Year, false),
+                MoveOuts = IndependentLivingDAO.GetCensusCountsByAdmissionStatus(LocationCode.WLR, cottageFacilityTypes, new List<string> { "D" }, ReportDate.Year, true),
+                TransferFromApt = IndependentLivingDAO.GetCountsOfTransfersToOtherLevelOrFacility(LocationCode.WLR, new List<string> { "AP" }, cottageFacilityTypes, ReportDate.Year, false),
+                TransferToApt = IndependentLivingDAO.GetCountsOfTransfersToOtherLevelOrFacility(LocationCode.WLR, cottageFacilityTypes, new List<string> { "AP" }, ReportDate.Year, true),
+                TransferToALHC = IndependentLivingDAO.GetCountsOfTransfersToOtherLevelOrFacility(LocationCode.WLR, cottageFacilityTypes, new List<string> { "AL", "HC" }, ReportDate.Year, true),
             };
             cottagesActual.SetEndingOccupancy(ReportDate.Month);
+            cottagesActual.SetUnoccupiedUnits(ReportDate.Month);
 
             int startRowNumber = rowNumber;
             rowNumber = BuildColumnHeaders(ws, rowNumber);
@@ -146,7 +151,7 @@ namespace ReportApp
             rowNumber = BuildGridRow(ws, cottagesActual.TransferToApt, "Transfer To Apt:", rowNumber);
             rowNumber = BuildGridRow(ws, cottagesActual.TransferToALHC, "Transfer To AL/HC:", rowNumber);
             rowNumber = BuildGridRow(ws, cottagesActual.EndingOccupancy, "Ending Occupancy:", rowNumber);
-            rowNumber = BuildGridRow(ws, cottagesActual.PercentOccupancy, "% Occupancy:", rowNumber, "0%");
+            rowNumber = BuildGridRow(ws, cottagesActual.PercentOccupancy, "% Occupancy:", rowNumber, "0.0\\%");
             rowNumber = BuildGridRow(ws, cottagesActual.UnoccupiedUnits, "Unoccupied Units:", rowNumber);
 
             //This adds the sidebar

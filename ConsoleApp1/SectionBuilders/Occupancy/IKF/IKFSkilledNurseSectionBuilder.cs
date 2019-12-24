@@ -25,10 +25,10 @@ namespace ReportApp
             skilledNurseActual = new IKFSkilledNurseActual
             {
                 BedsAvailable = OccupancyReportDAO.GetUnitsAvailableData(LocationCode.IKF, facilityTypeCodes),
-                AveragePrivatePay = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IKF, facilityTypeCodes, reportDate, null, "PRIV"),
-                AveragePrivateMedicaidPending = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IKF, facilityTypeCodes, reportDate, null, "MDPD"),
-                AverageMedicare = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IKF, facilityTypeCodes, reportDate, null, "MCA"),
-                AverageMedicaid = OccupancyReportDAO.GetCensusCountDailyAverages(LocationCode.IKF, facilityTypeCodes, reportDate, null, "MCAD") //MCAD is medicaid payor for IKF location
+                AveragePrivatePay = OccupancyReportDAO.GetCensusCountDailyAveragesByPayorTypes(LocationCode.IKF, facilityTypeCodes, reportDate, new List<string> { "PRIV" }), //Private
+                AveragePrivateMedicaidPending = OccupancyReportDAO.GetCensusCountDailyAveragesByPayorTypes(LocationCode.IKF, facilityTypeCodes, reportDate, new List<string> { "MDPD", "MPND" }),//Medicaid Pending
+                AverageMedicare = OccupancyReportDAO.GetCensusCountDailyAveragesByPayorTypes(LocationCode.IKF, facilityTypeCodes, reportDate, new List<string> { "MCA", "MCB" }), //Medicare
+                AverageMedicaid = OccupancyReportDAO.GetCensusCountDailyAveragesByPayorTypes(LocationCode.IKF, facilityTypeCodes, reportDate, new List<string> { "MCAD", "MCOA", "MCOB", "MHOS" }) //Medicaid
             };
 
             skilledNurseBudget = new IKFSkilledNurseBudget
@@ -39,7 +39,6 @@ namespace ReportApp
                 Medicaid = new OccupancyRecord(),
                 PrivateMedicaidPending = new OccupancyRecord()
             };
-
         }
 
         internal int BuildActualSection(ExcelWorksheet ws, int rowNumber)
@@ -53,7 +52,7 @@ namespace ReportApp
             rowNumber = BuildGridRow(ws, skilledNurseActual.AverageMedicare, "Avg. Medicare:", rowNumber);
             rowNumber = BuildGridRow(ws, skilledNurseActual.AverageMedicaid, "Avg. Medicaid:", rowNumber);
             rowNumber = BuildGridRow(ws, skilledNurseActual.TotalAverageOccupancy, "Total Avg. Occupancy:", rowNumber);
-            rowNumber = BuildGridRow(ws, skilledNurseActual.PercentOccupancy, "% Occupancy:", rowNumber, "0%");
+            rowNumber = BuildGridRow(ws, skilledNurseActual.PercentOccupancy, "% Occupancy:", rowNumber, "0.0\\%");
 
             //This adds the sidebar
             BuildSectionSideBar(ws, "Actual", startRowNumber, rowNumber - 1, ActualSectionColor);

@@ -6,6 +6,9 @@ namespace ReportApp.Model.Occupancy
 {
     class WLRAssistedLivingBudget : OccupancyRecordsContainer
     {
+        private OccupancyRecord _endingAverageOccupancy;
+        private OccupancyRecord _varianceFromBudget;
+
         public WLRAssistedLivingActual AssistedLivingActual { get; set; }
         public OccupancyRecord AverageFFSFirst { get; set; }
         public OccupancyRecord AverageLCFirst { get; set; }
@@ -13,45 +16,51 @@ namespace ReportApp.Model.Occupancy
         {
             get
             {
-                OccupancyRecord record = new OccupancyRecord
+                if (_endingAverageOccupancy == null)
                 {
-                    January = ZeroIfNull(AverageFFSFirst.January) + ZeroIfNull(AverageLCFirst.January),
-                    February = ZeroIfNull(AverageFFSFirst.February) + ZeroIfNull(AverageLCFirst.February),
-                    March = ZeroIfNull(AverageFFSFirst.March) + ZeroIfNull(AverageLCFirst.March),
-                    April = ZeroIfNull(AverageFFSFirst.April) + ZeroIfNull(AverageLCFirst.April),
-                    May = ZeroIfNull(AverageFFSFirst.May) + ZeroIfNull(AverageLCFirst.May),
-                    June = ZeroIfNull(AverageFFSFirst.June) + ZeroIfNull(AverageLCFirst.June),
-                    July = ZeroIfNull(AverageFFSFirst.July) + ZeroIfNull(AverageLCFirst.July),
-                    August = ZeroIfNull(AverageFFSFirst.August) + ZeroIfNull(AverageLCFirst.August),
-                    September = ZeroIfNull(AverageFFSFirst.September) + ZeroIfNull(AverageLCFirst.September),
-                    October = ZeroIfNull(AverageFFSFirst.October) + ZeroIfNull(AverageLCFirst.October),
-                    November = ZeroIfNull(AverageFFSFirst.November) + ZeroIfNull(AverageLCFirst.November),
-                    December = ZeroIfNull(AverageFFSFirst.December) + ZeroIfNull(AverageLCFirst.December)
-                };
-                record.TotalOrAverage = record.CalculateAverageValue();
-                return record;
+                    _endingAverageOccupancy = new OccupancyRecord
+                    {
+                        January = ZeroIfNull(AverageFFSFirst.January) + ZeroIfNull(AverageLCFirst.January),
+                        February = ZeroIfNull(AverageFFSFirst.February) + ZeroIfNull(AverageLCFirst.February),
+                        March = ZeroIfNull(AverageFFSFirst.March) + ZeroIfNull(AverageLCFirst.March),
+                        April = ZeroIfNull(AverageFFSFirst.April) + ZeroIfNull(AverageLCFirst.April),
+                        May = ZeroIfNull(AverageFFSFirst.May) + ZeroIfNull(AverageLCFirst.May),
+                        June = ZeroIfNull(AverageFFSFirst.June) + ZeroIfNull(AverageLCFirst.June),
+                        July = ZeroIfNull(AverageFFSFirst.July) + ZeroIfNull(AverageLCFirst.July),
+                        August = ZeroIfNull(AverageFFSFirst.August) + ZeroIfNull(AverageLCFirst.August),
+                        September = ZeroIfNull(AverageFFSFirst.September) + ZeroIfNull(AverageLCFirst.September),
+                        October = ZeroIfNull(AverageFFSFirst.October) + ZeroIfNull(AverageLCFirst.October),
+                        November = ZeroIfNull(AverageFFSFirst.November) + ZeroIfNull(AverageLCFirst.November),
+                        December = ZeroIfNull(AverageFFSFirst.December) + ZeroIfNull(AverageLCFirst.December)
+                    };
+                    _endingAverageOccupancy.TotalOrAverage = _endingAverageOccupancy.CalculateAverageValue();
+                }
+                return _endingAverageOccupancy;
             }
         }
         public OccupancyRecord VarianceFromBudget 
         {
             get
             {
-                OccupancyRecord record = new OccupancyRecord
+                if (_varianceFromBudget == null)
                 {
-                    January = AssistedLivingActual.AverageOccupancy.January ?? Subtract(AssistedLivingActual.AverageOccupancy.January, EndingAverageOccupancy.January),
-                    February = AssistedLivingActual.AverageOccupancy.February ?? Subtract(AssistedLivingActual.AverageOccupancy.February, EndingAverageOccupancy.February),
-                    March = AssistedLivingActual.AverageOccupancy.March ?? Subtract(AssistedLivingActual.AverageOccupancy.March, EndingAverageOccupancy.March),
-                    April = AssistedLivingActual.AverageOccupancy.April ?? Subtract(AssistedLivingActual.AverageOccupancy.April, EndingAverageOccupancy.April),
-                    May = AssistedLivingActual.AverageOccupancy.May ?? Subtract(AssistedLivingActual.AverageOccupancy.May, EndingAverageOccupancy.May),
-                    June = AssistedLivingActual.AverageOccupancy.June ?? Subtract(AssistedLivingActual.AverageOccupancy.June, EndingAverageOccupancy.June),
-                    July = AssistedLivingActual.AverageOccupancy.July ?? Subtract(AssistedLivingActual.AverageOccupancy.July, EndingAverageOccupancy.July),
-                    August = AssistedLivingActual.AverageOccupancy.August ?? Subtract(AssistedLivingActual.AverageOccupancy.August, EndingAverageOccupancy.August),
-                    September = AssistedLivingActual.AverageOccupancy.September ?? Subtract(AssistedLivingActual.AverageOccupancy.September, EndingAverageOccupancy.September),
-                    October = AssistedLivingActual.AverageOccupancy.October ?? Subtract(AssistedLivingActual.AverageOccupancy.October, EndingAverageOccupancy.October),
-                    November = AssistedLivingActual.AverageOccupancy.November ?? Subtract(AssistedLivingActual.AverageOccupancy.November, EndingAverageOccupancy.November),
-                    December = AssistedLivingActual.AverageOccupancy.December ?? Subtract(AssistedLivingActual.AverageOccupancy.December, EndingAverageOccupancy.December)
-                };
-                return record;
+                    _varianceFromBudget = new OccupancyRecord
+                    {
+                        January = AssistedLivingActual.AverageOccupancy.January.HasValue ? Subtract(AssistedLivingActual.AverageOccupancy.January, EndingAverageOccupancy.January) : (float?)null,
+                        February = AssistedLivingActual.AverageOccupancy.February.HasValue ? Subtract(AssistedLivingActual.AverageOccupancy.February, EndingAverageOccupancy.February) : (float?)null,
+                        March = AssistedLivingActual.AverageOccupancy.March.HasValue ? Subtract(AssistedLivingActual.AverageOccupancy.March, EndingAverageOccupancy.March) : (float?)null,
+                        April = AssistedLivingActual.AverageOccupancy.April.HasValue ? Subtract(AssistedLivingActual.AverageOccupancy.April, EndingAverageOccupancy.April) : (float?)null,
+                        May = AssistedLivingActual.AverageOccupancy.May.HasValue ? Subtract(AssistedLivingActual.AverageOccupancy.May, EndingAverageOccupancy.May) : (float?)null,
+                        June = AssistedLivingActual.AverageOccupancy.June.HasValue ? Subtract(AssistedLivingActual.AverageOccupancy.June, EndingAverageOccupancy.June) : (float?)null,
+                        July = AssistedLivingActual.AverageOccupancy.July.HasValue ? Subtract(AssistedLivingActual.AverageOccupancy.July, EndingAverageOccupancy.July) : (float?)null,
+                        August = AssistedLivingActual.AverageOccupancy.August.HasValue ? Subtract(AssistedLivingActual.AverageOccupancy.August, EndingAverageOccupancy.August) : (float?)null,
+                        September = AssistedLivingActual.AverageOccupancy.September.HasValue ? Subtract(AssistedLivingActual.AverageOccupancy.September, EndingAverageOccupancy.September) : (float?)null,
+                        October = AssistedLivingActual.AverageOccupancy.October.HasValue ? Subtract(AssistedLivingActual.AverageOccupancy.October, EndingAverageOccupancy.October) : (float?)null,
+                        November = AssistedLivingActual.AverageOccupancy.November.HasValue ? Subtract(AssistedLivingActual.AverageOccupancy.November, EndingAverageOccupancy.November) : (float?)null,
+                        December = AssistedLivingActual.AverageOccupancy.December.HasValue ? Subtract(AssistedLivingActual.AverageOccupancy.December, EndingAverageOccupancy.December) : (float?)null
+                    };
+                }
+                return _varianceFromBudget;
             }
         }
         public OccupancyRecord PercentOccupancy { get; set; }

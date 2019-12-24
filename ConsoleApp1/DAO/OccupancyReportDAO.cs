@@ -82,6 +82,28 @@ namespace ReportApp.DAO
             return record;
         }
 
+        public static OccupancyRecord GetCensusCountDailyAveragesByPayorTypes(LocationCode locationId, List<string> facilityTypeCodes, DateTime reportDate, List<string> payorTypeCodes)
+        {
+            int year = reportDate.Year;
+            OccupancyRecord record = new OccupancyRecord
+            {
+                January = GetCensusCountDailyAverageByPayorTypes(locationId, facilityTypeCodes, year, 1, payorTypeCodes),
+                February = GetCensusCountDailyAverageByPayorTypes(locationId, facilityTypeCodes, year, 2, payorTypeCodes),
+                March = GetCensusCountDailyAverageByPayorTypes(locationId, facilityTypeCodes, year, 3, payorTypeCodes),
+                April = GetCensusCountDailyAverageByPayorTypes(locationId, facilityTypeCodes, year, 4, payorTypeCodes),
+                May = GetCensusCountDailyAverageByPayorTypes(locationId, facilityTypeCodes, year, 5, payorTypeCodes),
+                June = GetCensusCountDailyAverageByPayorTypes(locationId, facilityTypeCodes, year, 6, payorTypeCodes),
+                July = GetCensusCountDailyAverageByPayorTypes(locationId, facilityTypeCodes, year, 7, payorTypeCodes),
+                August = GetCensusCountDailyAverageByPayorTypes(locationId, facilityTypeCodes, year, 8, payorTypeCodes),
+                September = GetCensusCountDailyAverageByPayorTypes(locationId, facilityTypeCodes, year, 9, payorTypeCodes),
+                October = GetCensusCountDailyAverageByPayorTypes(locationId, facilityTypeCodes, year, 10, payorTypeCodes),
+                November = GetCensusCountDailyAverageByPayorTypes(locationId, facilityTypeCodes, year, 11, payorTypeCodes),
+                December = GetCensusCountDailyAverageByPayorTypes(locationId, facilityTypeCodes, year, 12, payorTypeCodes)
+            };
+            record.TotalOrAverage = record.CalculateAverageValue();
+            return record;
+        }
+
         private static float GetCensusCountDailyAverage(LocationCode locationId, List<string> facilityTypeCodes, int year, int month, List<string> levelsOfCare = null, string payorTypeCode = null)
         {
             DynamicParameters parameters = new DynamicParameters(new { LocationId = (int)locationId, FacilityTypeCodes = facilityTypeCodes, Year = year, Month = month });
@@ -114,6 +136,38 @@ namespace ReportApp.DAO
                 .Append("   AND Month(ingCensus.CensusDate) = @Month ")
                 .Append(payorTypeCode != null ? "   AND PayorType = @PayorTypeCode " : "")
                 .Append("   GROUP BY ingCensus.CensusDate ").ToString(), parameters)
+                .ToDictionary(
+                    row => (DateTime)row.CensusDate,
+                    row => (int)row.CountOfRecords
+                );
+            float averageForMonth = results.Count > 0 ? results.Sum(x => x.Value) / results.Count : 0;
+            return (float)Math.Round(averageForMonth, 1);
+        }
+
+        private static float GetCensusCountDailyAverageByPayorTypes(LocationCode locationId, List<string> facilityTypeCodes, int year, int month, List<string> payorTypeCodes)
+        {
+            DynamicParameters parameters = new DynamicParameters(new { LocationId = (int)locationId, FacilityTypeCodes = facilityTypeCodes, Year = year, Month = month, PayorTypeCodes = payorTypeCodes });
+
+            using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ingAnalyticsConnection"].ConnectionString);
+            Dictionary<DateTime, int> results = conn.Query(
+                new StringBuilder()
+                .Append("SELECT CensusDate, COUNT(1) as CountOfRecords ")
+                .Append("FROM ")
+                .Append("   ingLocations ")
+                .Append("   INNER JOIN ingFacilityTypes ")
+                .Append("       ON ingLocations.Id = ingFacilityTypes.Location ")
+                .Append("   INNER JOIN ingUnits ")
+                .Append("       ON ingFacilityTypes.Location = ingUnits.Location ")
+                .Append("       AND ingFacilityTypes.FacilityType = ingUnits.FacilityType ")
+                .Append("   LEFT OUTER JOIN ingCensus ")
+                .Append("       ON ingUnits.UnitID = ingCensus.UnitID ")
+                .Append("WHERE ingLocations.Id = @LocationId ")
+                .Append("   AND ingFacilityTypes.FacilityType IN @FacilityTypeCodes ")
+                .Append("   AND YEAR(ingCensus.CensusDate) = @Year ")
+                .Append("   AND Month(ingCensus.CensusDate) = @Month ")
+                .Append("   AND PayorType IN @PayorTypeCodes ")
+                .Append("   GROUP BY ingCensus.CensusDate ").ToString(),
+                new { LocationId = (int)locationId, FacilityTypeCodes = facilityTypeCodes, Year = year, Month = month, PayorTypeCodes = payorTypeCodes })
                 .ToDictionary(
                     row => (DateTime)row.CensusDate,
                     row => (int)row.CountOfRecords

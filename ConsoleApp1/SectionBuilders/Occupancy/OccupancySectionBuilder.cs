@@ -103,21 +103,21 @@ namespace ReportApp
                 ws.Cells[rowNumber, 2].Value = description;
                 ws.Cells[rowNumber, 2].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
                 //.Value.ToString() : "";
-                ws.Cells[rowNumber, 3].Value = record.January.HasValue ? record.January.Value : (float?)null;
-                ws.Cells[rowNumber, 4].Value = record.February.HasValue ? record.February.Value : (float?)null;
-                ws.Cells[rowNumber, 5].Value = record.March.HasValue ? record.March.Value : (float?)null;
-                ws.Cells[rowNumber, 6].Value = record.April.HasValue ? record.April.Value : (float?)null;
-                ws.Cells[rowNumber, 7].Value = record.May.HasValue ? record.May.Value : (float?)null;
-                ws.Cells[rowNumber, 8].Value = record.June.HasValue ? record.June.Value : (float?)null;
-                ws.Cells[rowNumber, 9].Value = record.July.HasValue ? record.July.Value : (float?)null;
-                ws.Cells[rowNumber, 10].Value = record.August.HasValue ? record.August.Value : (float?)null;
-                ws.Cells[rowNumber, 11].Value = record.September.HasValue ? record.September.Value : (float?)null;
-                ws.Cells[rowNumber, 12].Value = record.October.HasValue ? record.October.Value : (float?)null;
-                ws.Cells[rowNumber, 13].Value = record.November.HasValue ? record.November.Value : (float?)null;
-                ws.Cells[rowNumber, 14].Value = record.December.HasValue ? record.December.Value : (float?)null;
+                //ws.Cells[rowNumber, 5].Value = record.March.HasValue ? record.March.Value : (float?)null;
+                ws.Cells[rowNumber, 3].Value = record.January;
+                ws.Cells[rowNumber, 4].Value = record.February;
+                ws.Cells[rowNumber, 5].Value = record.March;
+                ws.Cells[rowNumber, 6].Value = record.April;
+                ws.Cells[rowNumber, 7].Value = record.May;
+                ws.Cells[rowNumber, 8].Value = record.June;
+                ws.Cells[rowNumber, 9].Value = record.July;
+                ws.Cells[rowNumber, 10].Value = record.August;
+                ws.Cells[rowNumber, 11].Value = record.September;
+                ws.Cells[rowNumber, 12].Value = record.October;
+                ws.Cells[rowNumber, 13].Value = record.November;
+                ws.Cells[rowNumber, 14].Value = record.December;
 
-                //Console.WriteLine($"TotalOrAverage for {description} is : {record.TotalOrAverage}");
-                ws.Cells[rowNumber, 15].Value = record.TotalOrAverage.HasValue ? record.TotalOrAverage.Value : (float?)null;
+                ws.Cells[rowNumber, 15].Value = record.TotalOrAverage;
                 
                 ws.Cells[rowNumber, 3, rowNumber, 15].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 if (rowFormat != null)
