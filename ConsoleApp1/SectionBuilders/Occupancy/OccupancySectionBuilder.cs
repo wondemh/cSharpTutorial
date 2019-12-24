@@ -118,7 +118,7 @@ namespace ReportApp
                 ws.Cells[rowNumber, 14].Value = record.December;
 
                 ws.Cells[rowNumber, 15].Value = record.TotalOrAverage;
-                
+
                 ws.Cells[rowNumber, 3, rowNumber, 15].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 if (rowFormat != null)
                 {
@@ -129,6 +129,11 @@ namespace ReportApp
                 return ++rowNumber;
             }
             return rowNumber;
+        }
+
+        internal static void DrawRowBottomBorder(ExcelWorksheet ws, int rowNumber)
+        {
+            ws.Cells[rowNumber, 1, rowNumber, 15].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
         }
     }
 }

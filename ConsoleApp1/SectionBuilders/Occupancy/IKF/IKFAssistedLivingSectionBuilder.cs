@@ -43,8 +43,9 @@ namespace ReportApp
 
         internal int BuildActualSection(ExcelWorksheet ws, int rowNumber)
         {
-            int startRowNumber = rowNumber;
             rowNumber = BuildColumnHeaders(ws, rowNumber);
+            int startRowNumber = rowNumber;
+            DrawRowBottomBorder(ws, rowNumber - 1);
             rowNumber = BuildGridRow(ws, assistedLivingActual.UnitsAvailable, "Units Available:", rowNumber);
             rowNumber = BuildGridRow(ws, IKFAssistedLivingActual.LicensedFor, "Licensed For:", rowNumber);
             rowNumber = BuildGridRow(ws, assistedLivingActual.AverageLevelOne, "Average Level 1:", rowNumber, "0.0");
@@ -56,6 +57,7 @@ namespace ReportApp
             rowNumber = BuildGridRow(ws, assistedLivingActual.AverageUnoccupiedUnits, "Avg. Unoccupied Units:", rowNumber, "0");
             rowNumber = BuildGridRow(ws, assistedLivingActual.EndingAveragePersonOccupancy, "Ending Avg. Person Occupancy:", rowNumber, "0");
             rowNumber = BuildGridRow(ws, assistedLivingActual.PercentLicensedOccupancy, "% Licensed Occupancy:", rowNumber, "0\\%");
+            DrawRowBottomBorder(ws, rowNumber - 1);
 
             //This adds the sidebar
             BuildSectionSideBar(ws, "Actual", startRowNumber, rowNumber - 1, ActualSectionColor);
@@ -65,8 +67,9 @@ namespace ReportApp
 
         internal int BuildBudgetSection(ExcelWorksheet ws, int rowNumber)
         {
-            int startRowNumber = rowNumber;
             rowNumber = BuildColumnHeaders(ws, rowNumber);
+            int startRowNumber = rowNumber;
+            DrawRowBottomBorder(ws, rowNumber - 1);
             rowNumber = BuildGridRow(ws, assistedLivingBudget.AverageLevelOne, "Avg. Level 1:", rowNumber, "0.0");
             rowNumber = BuildGridRow(ws, assistedLivingBudget.AverageLevelTwo, "Avg. Level 2:", rowNumber, "0.0");
             rowNumber = BuildGridRow(ws, assistedLivingBudget.AverageLevelThree, "Avg. Level 3:", rowNumber, "0.0");
@@ -75,6 +78,7 @@ namespace ReportApp
             rowNumber = BuildGridRow(ws, assistedLivingBudget.EndingAverageOccupancyVarianceFromBudget, "Variance from Budget:", rowNumber, "0.0");
             rowNumber = BuildGridRow(ws, assistedLivingBudget.EndingAveragePersonOccupancy, "Ending Avg. Person Occupancy:", rowNumber, "0.0");
             rowNumber = BuildGridRow(ws, assistedLivingBudget.EndingAveragePersonOccupancyVarianceFromBudget, "Variance from Budget:", rowNumber, "0.0");
+            DrawRowBottomBorder(ws, rowNumber - 1);
 
             //This adds the sidebar
             BuildSectionSideBar(ws, "Budget", startRowNumber, rowNumber - 1, BudgetSectionColor);

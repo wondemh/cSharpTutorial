@@ -52,8 +52,9 @@ namespace ReportApp
         internal int BuildActualSection(ExcelWorksheet ws, int rowNumber)
         {
 
-            int startRowNumber = rowNumber;
             rowNumber = BuildColumnHeaders(ws, rowNumber);
+            int startRowNumber = rowNumber;
+            DrawRowBottomBorder(ws, rowNumber -1);
             rowNumber = BuildGridRow(ws, independentLivingActual.UnitsAvailable, "Units Available:", rowNumber, "0");
             rowNumber = BuildGridRow(ws, independentLivingActual.BeginningOccupancy, "Beginning Occupancy:", rowNumber, "0");
             rowNumber = BuildGridRow(ws, independentLivingActual.MoveIns, "Move-ins:", rowNumber, "0");
@@ -62,6 +63,7 @@ namespace ReportApp
             rowNumber = BuildGridRow(ws, independentLivingActual.EndingOccupancy, "Ending Occupancy:", rowNumber, "0");
             rowNumber = BuildGridRow(ws, independentLivingActual.PercentOccupancy, "% Occupancy:", rowNumber, "0\\%");
             rowNumber = BuildGridRow(ws, independentLivingActual.UnoccupiedUnits, "Unoccupied Units:", rowNumber, "0");
+            DrawRowBottomBorder(ws, rowNumber - 1);
 
             //This adds the sidebar
             BuildSectionSideBar(ws, "Actual", startRowNumber, rowNumber - 1, ActualSectionColor);
@@ -73,14 +75,16 @@ namespace ReportApp
         internal int BuildBudgetSection(ExcelWorksheet ws, int rowNumber)
         {
 
-            int startRowNumber = rowNumber;
             rowNumber = BuildColumnHeaders(ws, rowNumber);
+            int startRowNumber = rowNumber;
+            DrawRowBottomBorder(ws, rowNumber - 1);
             rowNumber = BuildGridRow(ws, independentLivingBudget.BeginningOccupancy, "Beginning Occupancy:", rowNumber, "0");
             rowNumber = BuildGridRow(ws, independentLivingBudget.MoveIns, "Move-ins:", rowNumber, "0");
             rowNumber = BuildGridRow(ws, independentLivingBudget.MoveOuts, "Move-outs:", rowNumber, "0");
             rowNumber = BuildGridRow(ws, independentLivingBudget.EndingOccupancy, "Ending Occupancy:", rowNumber, "0");
             rowNumber = BuildGridRow(ws, independentLivingBudget.PercentOccupancy, "% Occupancy:", rowNumber, "0.0\\%");
             rowNumber = BuildGridRow(ws, independentLivingBudget.VarianceFromBudget, "Variance from Budget:", rowNumber, "0");
+            DrawRowBottomBorder(ws, rowNumber - 1);
 
             //This adds the sidebar
             BuildSectionSideBar(ws, "Budget", startRowNumber, rowNumber - 1, BudgetSectionColor);
@@ -104,9 +108,9 @@ namespace ReportApp
             apartmentsActual.SetEndingOccupancy(ReportDate.Month);
             apartmentsActual.SetUnoccupiedUnits(ReportDate.Month);
 
-            int startRowNumber = rowNumber;
             rowNumber = BuildColumnHeaders(ws, rowNumber);
-
+            int startRowNumber = rowNumber;
+            DrawRowBottomBorder(ws, rowNumber - 1);
             rowNumber = BuildGridRow(ws, apartmentsActual.UnitsAvailable, "Units Available:", rowNumber, "0");
             rowNumber = BuildGridRow(ws, apartmentsActual.BeginningOccupancy, "Units Available:", rowNumber, "0");
             rowNumber = BuildGridRow(ws, apartmentsActual.MoveIns, "Move-ins:", rowNumber, "0");
@@ -117,6 +121,7 @@ namespace ReportApp
             rowNumber = BuildGridRow(ws, apartmentsActual.EndingOccupancy, "Ending Occupancy:", rowNumber, "0");
             rowNumber = BuildGridRow(ws, apartmentsActual.PercentOccupancy, "% Occupancy:", rowNumber, "0\\%");
             rowNumber = BuildGridRow(ws, apartmentsActual.UnoccupiedUnits, "Unoccupied Units:", rowNumber, "0");
+            DrawRowBottomBorder(ws, rowNumber - 1);
 
             //This adds the sidebar
             BuildSectionSideBar(ws, "Actual", startRowNumber, rowNumber - 1, ActualSectionColor);
@@ -140,9 +145,9 @@ namespace ReportApp
             cottagesActual.SetEndingOccupancy(ReportDate.Month);
             cottagesActual.SetUnoccupiedUnits(ReportDate.Month);
 
-            int startRowNumber = rowNumber;
             rowNumber = BuildColumnHeaders(ws, rowNumber);
-
+            int startRowNumber = rowNumber;
+            DrawRowBottomBorder(ws, rowNumber - 1);
             rowNumber = BuildGridRow(ws, cottagesActual.UnitsAvailable, "Units Available:", rowNumber, "0");
             rowNumber = BuildGridRow(ws, cottagesActual.BeginningOccupancy, "Units Available:", rowNumber, "0");
             rowNumber = BuildGridRow(ws, cottagesActual.MoveIns, "Move-ins:", rowNumber, "0");
@@ -153,6 +158,7 @@ namespace ReportApp
             rowNumber = BuildGridRow(ws, cottagesActual.EndingOccupancy, "Ending Occupancy:", rowNumber, "0");
             rowNumber = BuildGridRow(ws, cottagesActual.PercentOccupancy, "% Occupancy:", rowNumber, "0\\%");
             rowNumber = BuildGridRow(ws, cottagesActual.UnoccupiedUnits, "Unoccupied Units:", rowNumber, "0");
+            DrawRowBottomBorder(ws, rowNumber - 1);
 
             //This adds the sidebar
             BuildSectionSideBar(ws, "Actual", startRowNumber, rowNumber - 1, ActualSectionColor);
