@@ -54,14 +54,14 @@ namespace ReportApp
 
             int startRowNumber = rowNumber;
             rowNumber = BuildColumnHeaders(ws, rowNumber);
-            rowNumber = BuildGridRow(ws, independentLivingActual.UnitsAvailable, "Units Available:", rowNumber);
-            rowNumber = BuildGridRow(ws, independentLivingActual.BeginningOccupancy, "Beginning Occupancy:", rowNumber);
-            rowNumber = BuildGridRow(ws, independentLivingActual.MoveIns, "Move-ins:", rowNumber);
-            rowNumber = BuildGridRow(ws, independentLivingActual.MoveOuts, "Move-outs:", rowNumber);
-            rowNumber = BuildGridRow(ws, independentLivingActual.Transfers, "Transfer to AL/HC:", rowNumber);
+            rowNumber = BuildGridRow(ws, independentLivingActual.UnitsAvailable, "Units Available:", rowNumber, "0");
+            rowNumber = BuildGridRow(ws, independentLivingActual.BeginningOccupancy, "Beginning Occupancy:", rowNumber, "0");
+            rowNumber = BuildGridRow(ws, independentLivingActual.MoveIns, "Move-ins:", rowNumber, "0");
+            rowNumber = BuildGridRow(ws, independentLivingActual.MoveOuts, "Move-outs:", rowNumber, "0");
+            rowNumber = BuildGridRow(ws, independentLivingActual.Transfers, "Transfer to AL/HC:", rowNumber, "0");
             rowNumber = BuildGridRow(ws, independentLivingActual.EndingOccupancy, "Ending Occupancy:", rowNumber, "0");
             rowNumber = BuildGridRow(ws, independentLivingActual.PercentOccupancy, "% Occupancy:", rowNumber, "0\\%");
-            rowNumber = BuildGridRow(ws, independentLivingActual.UnoccupiedUnits, "Unoccupied Units:", rowNumber);
+            rowNumber = BuildGridRow(ws, independentLivingActual.UnoccupiedUnits, "Unoccupied Units:", rowNumber, "0");
 
             //This adds the sidebar
             BuildSectionSideBar(ws, "Actual", startRowNumber, rowNumber - 1, ActualSectionColor);
