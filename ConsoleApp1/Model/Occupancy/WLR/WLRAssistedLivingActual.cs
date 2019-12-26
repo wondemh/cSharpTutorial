@@ -56,19 +56,19 @@ namespace ReportApp.Model.Occupancy
                 {
                     _percentUnitOccupancy = new OccupancyRecord
                     {
-                        January = AverageOccupancy.January.HasValue ? Divide(AverageOccupancy.January, UnitsAvailable.January) : (float?)null,
-                        February = AverageOccupancy.February.HasValue ? Divide(AverageOccupancy.February, UnitsAvailable.February) : (float?)null,
-                        March = AverageOccupancy.March.HasValue ? Divide(AverageOccupancy.March, UnitsAvailable.March) : (float?)null,
-                        April = AverageOccupancy.April.HasValue ? Divide(AverageOccupancy.April, UnitsAvailable.April) : (float?)null,
-                        May = AverageOccupancy.May.HasValue ? Divide(AverageOccupancy.May, UnitsAvailable.May) : (float?)null,
-                        June = AverageOccupancy.June.HasValue ? Divide(AverageOccupancy.June, UnitsAvailable.June) : (float?)null,
-                        July = AverageOccupancy.July.HasValue ? Divide(AverageOccupancy.July, UnitsAvailable.July) : (float?)null,
-                        August = AverageOccupancy.August.HasValue ? Divide(AverageOccupancy.August, UnitsAvailable.August) : (float?)null,
-                        September = AverageOccupancy.September.HasValue ? Divide(AverageOccupancy.September, UnitsAvailable.September) : (float?)null,
-                        October = AverageOccupancy.October.HasValue ? Divide(AverageOccupancy.October, UnitsAvailable.October) : (float?)null,
-                        November = AverageOccupancy.November.HasValue ? Divide(AverageOccupancy.November, UnitsAvailable.November) : (float?)null,
-                        December = AverageOccupancy.December.HasValue ? Divide(AverageOccupancy.December, UnitsAvailable.December) : (float?)null,
-                        TotalOrAverage = Divide(AverageOccupancy.TotalOrAverage, UnitsAvailable.TotalOrAverage)
+                        January = AverageOccupancy.January.HasValue ? Percent(AverageOccupancy.January, UnitsAvailable.January) : (float?)null,
+                        February = AverageOccupancy.February.HasValue ? Percent(AverageOccupancy.February, UnitsAvailable.February) : (float?)null,
+                        March = AverageOccupancy.March.HasValue ? Percent(AverageOccupancy.March, UnitsAvailable.March) : (float?)null,
+                        April = AverageOccupancy.April.HasValue ? Percent(AverageOccupancy.April, UnitsAvailable.April) : (float?)null,
+                        May = AverageOccupancy.May.HasValue ? Percent(AverageOccupancy.May, UnitsAvailable.May) : (float?)null,
+                        June = AverageOccupancy.June.HasValue ? Percent(AverageOccupancy.June, UnitsAvailable.June) : (float?)null,
+                        July = AverageOccupancy.July.HasValue ? Percent(AverageOccupancy.July, UnitsAvailable.July) : (float?)null,
+                        August = AverageOccupancy.August.HasValue ? Percent(AverageOccupancy.August, UnitsAvailable.August) : (float?)null,
+                        September = AverageOccupancy.September.HasValue ? Percent(AverageOccupancy.September, UnitsAvailable.September) : (float?)null,
+                        October = AverageOccupancy.October.HasValue ? Percent(AverageOccupancy.October, UnitsAvailable.October) : (float?)null,
+                        November = AverageOccupancy.November.HasValue ? Percent(AverageOccupancy.November, UnitsAvailable.November) : (float?)null,
+                        December = AverageOccupancy.December.HasValue ? Percent(AverageOccupancy.December, UnitsAvailable.December) : (float?)null,
+                        TotalOrAverage = Percent(AverageOccupancy.TotalOrAverage, UnitsAvailable.TotalOrAverage)
                     };
                 }
                 return _percentUnitOccupancy;

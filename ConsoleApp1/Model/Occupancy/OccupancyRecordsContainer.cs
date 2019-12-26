@@ -20,6 +20,15 @@ namespace ReportApp.Model.Occupancy
             return 0;
         }
 
+        public static float Percent(float? num, float? denom)
+        {
+            if (num.HasValue && denom.HasValue)
+            {
+                return denom.Value > 0 ? (num.Value / denom.Value) * 100 : 0;
+            }
+            return 0;
+        }
+
         public static float Subtract(float? a, float? b)
         {
             if (a.HasValue && b.HasValue)

@@ -75,19 +75,19 @@ namespace ReportApp.Model.Occupancy
                     {
                         _percentUnitOccupancy = new OccupancyRecord
                         {
-                            January = (float)Math.Round(Divide(EndingAverageOccupancy.January, UnitsAvailable.January), 0),
-                            February = (float)Math.Round(Divide(EndingAverageOccupancy.February, UnitsAvailable.February), 0),
-                            March = (float)Math.Round(Divide(EndingAverageOccupancy.March, UnitsAvailable.March), 0),
-                            April = (float)Math.Round(Divide(EndingAverageOccupancy.April, UnitsAvailable.April), 0),
-                            May = (float)Math.Round(Divide(EndingAverageOccupancy.May, UnitsAvailable.May), 0),
-                            June = (float)Math.Round(Divide(EndingAverageOccupancy.June, UnitsAvailable.June), 0),
-                            July = (float)Math.Round(Divide(EndingAverageOccupancy.July, UnitsAvailable.July), 0),
-                            August = (float)Math.Round(Divide(EndingAverageOccupancy.August, UnitsAvailable.August), 0),
-                            September = (float)Math.Round(Divide(EndingAverageOccupancy.September, UnitsAvailable.September), 0),
-                            October = (float)Math.Round(Divide(EndingAverageOccupancy.October, UnitsAvailable.October), 0),
-                            November = (float)Math.Round(Divide(EndingAverageOccupancy.November, UnitsAvailable.November), 0),
-                            December = (float)Math.Round(Divide(EndingAverageOccupancy.December, UnitsAvailable.December), 0),
-                            TotalOrAverage = (float)Math.Round(Divide(EndingAverageOccupancy.TotalOrAverage, UnitsAvailable.TotalOrAverage), 0)
+                            January = (float)Math.Round(Percent(EndingAverageOccupancy.January, UnitsAvailable.January), 0),
+                            February = (float)Math.Round(Percent(EndingAverageOccupancy.February, UnitsAvailable.February), 0),
+                            March = (float)Math.Round(Percent(EndingAverageOccupancy.March, UnitsAvailable.March), 0),
+                            April = (float)Math.Round(Percent(EndingAverageOccupancy.April, UnitsAvailable.April), 0),
+                            May = (float)Math.Round(Percent(EndingAverageOccupancy.May, UnitsAvailable.May), 0),
+                            June = (float)Math.Round(Percent(EndingAverageOccupancy.June, UnitsAvailable.June), 0),
+                            July = (float)Math.Round(Percent(EndingAverageOccupancy.July, UnitsAvailable.July), 0),
+                            August = (float)Math.Round(Percent(EndingAverageOccupancy.August, UnitsAvailable.August), 0),
+                            September = (float)Math.Round(Percent(EndingAverageOccupancy.September, UnitsAvailable.September), 0),
+                            October = (float)Math.Round(Percent(EndingAverageOccupancy.October, UnitsAvailable.October), 0),
+                            November = (float)Math.Round(Percent(EndingAverageOccupancy.November, UnitsAvailable.November), 0),
+                            December = (float)Math.Round(Percent(EndingAverageOccupancy.December, UnitsAvailable.December), 0),
+                            TotalOrAverage = (float)Math.Round(Percent(EndingAverageOccupancy.TotalOrAverage, UnitsAvailable.TotalOrAverage), 0)
                         };
                     }
                 }
@@ -164,19 +164,19 @@ namespace ReportApp.Model.Occupancy
                 {
                     _percentLicensedOccupancy = new OccupancyRecord
                     {
-                        January = (float)Math.Round(Divide(EndingAveragePersonOccupancy.January, LicensedFor.January), 0),
-                        February = (float)Math.Round(Divide(EndingAverageOccupancy.February, LicensedFor.February), 0),
-                        March = (float)Math.Round(Divide(EndingAverageOccupancy.March, LicensedFor.March), 0),
-                        April = (float)Math.Round(Divide(EndingAverageOccupancy.April, LicensedFor.April), 0),
-                        May = (float)Math.Round(Divide(EndingAverageOccupancy.May, LicensedFor.May), 0),
-                        June = (float)Math.Round(Divide(EndingAverageOccupancy.June, LicensedFor.June), 0),
-                        July = (float)Math.Round(Divide(EndingAverageOccupancy.July, LicensedFor.July), 0),
-                        August = (float)Math.Round(Divide(EndingAverageOccupancy.August, LicensedFor.August), 0),
-                        September = (float)Math.Round(Divide(EndingAverageOccupancy.September, LicensedFor.September), 0),
-                        October = (float)Math.Round(Divide(EndingAverageOccupancy.October, LicensedFor.October), 0),
-                        November = (float)Math.Round(Divide(EndingAverageOccupancy.November, LicensedFor.November), 0),
-                        December = (float)Math.Round(Divide(EndingAverageOccupancy.December, LicensedFor.December), 0),
-                        TotalOrAverage = (float)Math.Round(Divide(EndingAveragePersonOccupancy.TotalOrAverage, LicensedFor.TotalOrAverage), 0)
+                        January = (float)Math.Round(Percent(EndingAveragePersonOccupancy.January, LicensedFor.January), 0),
+                        February = (float)Math.Round(Percent(EndingAverageOccupancy.February, LicensedFor.February), 0),
+                        March = (float)Math.Round(Percent(EndingAverageOccupancy.March, LicensedFor.March), 0),
+                        April = (float)Math.Round(Percent(EndingAverageOccupancy.April, LicensedFor.April), 0),
+                        May = (float)Math.Round(Percent(EndingAverageOccupancy.May, LicensedFor.May), 0),
+                        June = (float)Math.Round(Percent(EndingAverageOccupancy.June, LicensedFor.June), 0),
+                        July = (float)Math.Round(Percent(EndingAverageOccupancy.July, LicensedFor.July), 0),
+                        August = (float)Math.Round(Percent(EndingAverageOccupancy.August, LicensedFor.August), 0),
+                        September = (float)Math.Round(Percent(EndingAverageOccupancy.September, LicensedFor.September), 0),
+                        October = (float)Math.Round(Percent(EndingAverageOccupancy.October, LicensedFor.October), 0),
+                        November = (float)Math.Round(Percent(EndingAverageOccupancy.November, LicensedFor.November), 0),
+                        December = (float)Math.Round(Percent(EndingAverageOccupancy.December, LicensedFor.December), 0),
+                        TotalOrAverage = (float)Math.Round(Percent(EndingAveragePersonOccupancy.TotalOrAverage, LicensedFor.TotalOrAverage), 0)
                     };
                 }
                 return _percentLicensedOccupancy;

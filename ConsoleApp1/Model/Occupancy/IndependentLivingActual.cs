@@ -76,19 +76,19 @@ namespace ReportApp.Model.Occupancy
                     {
                         _percentOccupancy = new OccupancyRecord
                         {
-                            January = EndingOccupancy.January.HasValue ? (float)Math.Round(Divide(EndingOccupancy.January, UnitsAvailable.January), 0) : (float?)null,
-                            February = EndingOccupancy.February.HasValue ? (float)Math.Round(Divide(EndingOccupancy.February, UnitsAvailable.February), 0) : (float?)null,
-                            March = EndingOccupancy.March.HasValue ? (float)Math.Round(Divide(EndingOccupancy.March, UnitsAvailable.March), 0) : (float?)null,
-                            April = EndingOccupancy.April.HasValue ? (float)Math.Round(Divide(EndingOccupancy.April, UnitsAvailable.April), 0) : (float?)null,
-                            May = EndingOccupancy.May.HasValue ? (float)Math.Round(Divide(EndingOccupancy.May, UnitsAvailable.May), 0) : (float?)null,
-                            June = EndingOccupancy.June.HasValue ? (float)Math.Round(Divide(EndingOccupancy.June, UnitsAvailable.June), 0) : (float?)null,
-                            July = EndingOccupancy.July.HasValue ? (float)Math.Round(Divide(EndingOccupancy.July, UnitsAvailable.July), 0) : (float?)null,
-                            August = EndingOccupancy.August.HasValue ? (float)Math.Round(Divide(EndingOccupancy.August, UnitsAvailable.August), 0) : (float?)null,
-                            September = EndingOccupancy.September.HasValue ? (float)Math.Round(Divide(EndingOccupancy.September, UnitsAvailable.September), 0) : (float?)null,
-                            October = EndingOccupancy.October.HasValue ? (float)Math.Round(Divide(EndingOccupancy.October, UnitsAvailable.October), 0) : (float?)null,
-                            November = EndingOccupancy.November.HasValue ? (float)Math.Round(Divide(EndingOccupancy.November, UnitsAvailable.November), 0) : (float?)null,
-                            December = EndingOccupancy.December.HasValue ? (float)Math.Round(Divide(EndingOccupancy.December, UnitsAvailable.December), 0) : (float?)null,
-                            TotalOrAverage = (float)Math.Round(Divide(EndingOccupancy.TotalOrAverage, UnitsAvailable.TotalOrAverage), 0)
+                            January = EndingOccupancy.January.HasValue ? (float)Math.Round(Percent(EndingOccupancy.January, UnitsAvailable.January), 0) : (float?)null,
+                            February = EndingOccupancy.February.HasValue ? (float)Math.Round(Percent(EndingOccupancy.February, UnitsAvailable.February), 0) : (float?)null,
+                            March = EndingOccupancy.March.HasValue ? (float)Math.Round(Percent(EndingOccupancy.March, UnitsAvailable.March), 0) : (float?)null,
+                            April = EndingOccupancy.April.HasValue ? (float)Math.Round(Percent(EndingOccupancy.April, UnitsAvailable.April), 0) : (float?)null,
+                            May = EndingOccupancy.May.HasValue ? (float)Math.Round(Percent(EndingOccupancy.May, UnitsAvailable.May), 0) : (float?)null,
+                            June = EndingOccupancy.June.HasValue ? (float)Math.Round(Percent(EndingOccupancy.June, UnitsAvailable.June), 0) : (float?)null,
+                            July = EndingOccupancy.July.HasValue ? (float)Math.Round(Percent(EndingOccupancy.July, UnitsAvailable.July), 0) : (float?)null,
+                            August = EndingOccupancy.August.HasValue ? (float)Math.Round(Percent(EndingOccupancy.August, UnitsAvailable.August), 0) : (float?)null,
+                            September = EndingOccupancy.September.HasValue ? (float)Math.Round(Percent(EndingOccupancy.September, UnitsAvailable.September), 0) : (float?)null,
+                            October = EndingOccupancy.October.HasValue ? (float)Math.Round(Percent(EndingOccupancy.October, UnitsAvailable.October), 0) : (float?)null,
+                            November = EndingOccupancy.November.HasValue ? (float)Math.Round(Percent(EndingOccupancy.November, UnitsAvailable.November), 0) : (float?)null,
+                            December = EndingOccupancy.December.HasValue ? (float)Math.Round(Percent(EndingOccupancy.December, UnitsAvailable.December), 0) : (float?)null,
+                            TotalOrAverage = (float)Math.Round(Percent(EndingOccupancy.TotalOrAverage, UnitsAvailable.TotalOrAverage), 0)
                         };
                     }
                     else

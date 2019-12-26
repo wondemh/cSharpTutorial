@@ -50,19 +50,19 @@ namespace ReportApp.Model.Occupancy
                 {
                     _percentOccupancy = new OccupancyRecord
                     {
-                        January = TotalAverageOccupancy.January.HasValue ? (float)Math.Round(Divide(TotalAverageOccupancy.January, BedsAvailable.January), 1) : (float?)null,
-                        February = TotalAverageOccupancy.February.HasValue ? (float)Math.Round(Divide(TotalAverageOccupancy.February, BedsAvailable.February), 1) : (float?)null,
-                        March = TotalAverageOccupancy.March.HasValue ? (float)Math.Round(Divide(TotalAverageOccupancy.March, BedsAvailable.March), 1) : (float?)null,
-                        April = TotalAverageOccupancy.April.HasValue ? (float)Math.Round(Divide(TotalAverageOccupancy.April, BedsAvailable.April), 1) : (float?)null,
-                        May = TotalAverageOccupancy.May.HasValue ? (float)Math.Round(Divide(TotalAverageOccupancy.May, BedsAvailable.May), 1) : (float?)null,
-                        June = TotalAverageOccupancy.June.HasValue ? (float)Math.Round(Divide(TotalAverageOccupancy.June, BedsAvailable.June), 1) : (float?)null,
-                        July = TotalAverageOccupancy.July.HasValue ? (float)Math.Round(Divide(TotalAverageOccupancy.July, BedsAvailable.July), 1) : (float?)null,
-                        August = TotalAverageOccupancy.August.HasValue ? (float)Math.Round(Divide(TotalAverageOccupancy.August, BedsAvailable.August), 1) : (float?)null,
-                        September = TotalAverageOccupancy.September.HasValue ? (float)Math.Round(Divide(TotalAverageOccupancy.September, BedsAvailable.September), 1) : (float?)null,
-                        October = TotalAverageOccupancy.October.HasValue ? (float)Math.Round(Divide(TotalAverageOccupancy.October, BedsAvailable.October), 1) : (float?)null,
-                        November = TotalAverageOccupancy.November.HasValue ? (float)Math.Round(Divide(TotalAverageOccupancy.November, BedsAvailable.November), 1) : (float?)null,
-                        December = TotalAverageOccupancy.December.HasValue ? (float)Math.Round(Divide(TotalAverageOccupancy.December, BedsAvailable.December), 1) : (float?)null,
-                        TotalOrAverage = BedsAvailable.TotalOrAverage.HasValue ? (float)Math.Round(Divide(TotalAverageOccupancy.TotalOrAverage, BedsAvailable.TotalOrAverage), 1) : (float?)null
+                        January = TotalAverageOccupancy.January.HasValue ? (float)Math.Round(Percent(TotalAverageOccupancy.January, BedsAvailable.January), 1) : (float?)null,
+                        February = TotalAverageOccupancy.February.HasValue ? (float)Math.Round(Percent(TotalAverageOccupancy.February, BedsAvailable.February), 1) : (float?)null,
+                        March = TotalAverageOccupancy.March.HasValue ? (float)Math.Round(Percent(TotalAverageOccupancy.March, BedsAvailable.March), 1) : (float?)null,
+                        April = TotalAverageOccupancy.April.HasValue ? (float)Math.Round(Percent(TotalAverageOccupancy.April, BedsAvailable.April), 1) : (float?)null,
+                        May = TotalAverageOccupancy.May.HasValue ? (float)Math.Round(Percent(TotalAverageOccupancy.May, BedsAvailable.May), 1) : (float?)null,
+                        June = TotalAverageOccupancy.June.HasValue ? (float)Math.Round(Percent(TotalAverageOccupancy.June, BedsAvailable.June), 1) : (float?)null,
+                        July = TotalAverageOccupancy.July.HasValue ? (float)Math.Round(Percent(TotalAverageOccupancy.July, BedsAvailable.July), 1) : (float?)null,
+                        August = TotalAverageOccupancy.August.HasValue ? (float)Math.Round(Percent(TotalAverageOccupancy.August, BedsAvailable.August), 1) : (float?)null,
+                        September = TotalAverageOccupancy.September.HasValue ? (float)Math.Round(Percent(TotalAverageOccupancy.September, BedsAvailable.September), 1) : (float?)null,
+                        October = TotalAverageOccupancy.October.HasValue ? (float)Math.Round(Percent(TotalAverageOccupancy.October, BedsAvailable.October), 1) : (float?)null,
+                        November = TotalAverageOccupancy.November.HasValue ? (float)Math.Round(Percent(TotalAverageOccupancy.November, BedsAvailable.November), 1) : (float?)null,
+                        December = TotalAverageOccupancy.December.HasValue ? (float)Math.Round(Percent(TotalAverageOccupancy.December, BedsAvailable.December), 1) : (float?)null,
+                        TotalOrAverage = BedsAvailable.TotalOrAverage.HasValue ? (float)Math.Round(Percent(TotalAverageOccupancy.TotalOrAverage, BedsAvailable.TotalOrAverage), 1) : (float?)null
                     };
                 }
                 return _percentOccupancy;

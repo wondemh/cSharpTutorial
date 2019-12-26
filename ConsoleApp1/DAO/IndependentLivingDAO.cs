@@ -191,7 +191,7 @@ namespace ReportApp.DAO
                 .Append("       ON ingUnits.UnitID = A.UnitID ")
                 .Append("WHERE ingLocations.Id = @LocationId ")
                 .Append("   AND ingFacilityTypes.FacilityType IN @FacilityTypeCodes ")
-                .Append("   AND A.AdmissionStatus IN ('D', 'PT' ") //Discharged from current facility
+                .Append("   AND A.AdmissionStatus IN ('D', 'PT') ") //Discharged from current facility
                 .Append("   AND YEAR(A.CensusDate) = @Year ")
                 .Append("   AND Month(A.CensusDate) = @Month ")
                 .Append("   AND EXISTS ")
