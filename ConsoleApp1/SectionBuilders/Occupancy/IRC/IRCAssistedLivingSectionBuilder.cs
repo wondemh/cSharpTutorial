@@ -34,10 +34,10 @@ namespace ReportApp
             assistedLivingBudget = new IRCAssistedLivingBudget
             {
                 AssistedLivingActual = assistedLivingActual,
-                AverageFFSFirst = new OccupancyRecord(),
-                AverageFFSSecond = new OccupancyRecord(),
-                AverageLCFirst = new OccupancyRecord(),
-                AverageLCSecond = new OccupancyRecord()
+                AverageFFSFirst = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "AL", "Private - Level 1 - 1st Person", 2020),
+                AverageFFSSecond = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "AL", "Private - Level 1 - 2nd Person", 2020),
+                AverageLCFirst = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "AL", "Life Care - 1st Person", 2020),
+                AverageLCSecond = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "AL", "Life Care - 2nd Person", 2020)
             };
         }
 

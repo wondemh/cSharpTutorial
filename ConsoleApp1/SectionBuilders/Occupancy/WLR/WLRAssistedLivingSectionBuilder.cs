@@ -31,8 +31,8 @@ namespace ReportApp
             assistedLivingBudget = new WLRAssistedLivingBudget
             {
                 AssistedLivingActual = assistedLivingActual,
-                AverageFFSFirst = new OccupancyRecord(),
-                AverageLCFirst = new OccupancyRecord(),
+                AverageFFSFirst = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "AL", "Private - FFS Level 1", 2020),
+                AverageLCFirst = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "AL", "Private - LC Level 1", 2020),
             };
 
         }

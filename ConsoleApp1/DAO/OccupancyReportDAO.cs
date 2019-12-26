@@ -18,8 +18,45 @@ namespace ReportApp.DAO
         WLR = 4
     };
 
-    public static class OccupancyReportDAO
+    internal static class OccupancyReportDAO
     {
+
+        internal static OccupancyRecord GetBudgetData(LocationCode locationId, string facilityTypeCode, string name, int year)
+        {
+            using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ingAnalyticsConnection"].ConnectionString);
+            Dictionary<int, int> results = conn.Query(
+                new StringBuilder()
+                .Append("SELECT Month, Value ")
+                .Append("FROM ")
+                .Append("   ingBudgetLookup ")
+                .Append("WHERE Location = @LocationId ")
+                .Append("   AND FacilityType = @FacilityTypeCode ")
+                .Append("   AND Year = @Year ")
+                .Append("   AND Name = @Name ").ToString(),
+                new { LocationId = (int)locationId, FacilityTypeCode = facilityTypeCode, Year = year, Name = name, })
+                .ToDictionary(
+                    row => (int)row.Month,
+                    row => (int)row.Value
+                );
+            OccupancyRecord record = new OccupancyRecord
+            {
+                January = results.GetValueOrDefault(1, 0),
+                February = results.GetValueOrDefault(2, 0),
+                March = results.GetValueOrDefault(3, 0),
+                April = results.GetValueOrDefault(4, 0),
+                May = results.GetValueOrDefault(5, 0),
+                June = results.GetValueOrDefault(6, 0),
+                July = results.GetValueOrDefault(7, 0),
+                August = results.GetValueOrDefault(8, 0),
+                September = results.GetValueOrDefault(9, 0),
+                October = results.GetValueOrDefault(10, 0),
+                November = results.GetValueOrDefault(11, 0),
+                December = results.GetValueOrDefault(12, 0)
+            };
+            record.TotalOrAverage = record.CalculateAverageValue();
+            return record;
+        }
+
         public static OccupancyRecord GetUnitsAvailableData(LocationCode locationId, List<string> facilityTypeCodes)
         {
             int countOfAllUnits = GetCountOfAllUnits(locationId, facilityTypeCodes);
@@ -42,14 +79,14 @@ namespace ReportApp.DAO
             return record;
         }
 
-        public static int GetCountOfAllUnits(LocationCode locationId, List<string> facilityTypeCodes)
+        internal static int GetCountOfAllUnits(LocationCode locationId, List<string> facilityTypeCodes)
         {
             using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ingAnalyticsConnection"].ConnectionString);
             return conn.ExecuteScalar<int>("SELECT COUNT(UnitID) FROM ingUnits WHERE Location = @LocationId AND FacilityType IN @FacilityTypeCodes",
                 new { LocationId = (int)locationId, FacilityTypeCodes = facilityTypeCodes });
         }
 
-        public static Location GetLocation(LocationCode id)
+        internal static Location GetLocation(LocationCode id)
         {
             string sql = "SELECT * FROM ingLocations WHERE Id = @LocationId";
             using var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["ingAnalyticsConnection"].ConnectionString);
@@ -60,7 +97,7 @@ namespace ReportApp.DAO
             return Location;
         }
 
-        public static OccupancyRecord GetCensusCountDailyAverages(LocationCode locationId, List<string> facilityTypeCodes, DateTime reportDate, List<string> levelsOfCare = null, string payorTypeCode = null)
+        internal static OccupancyRecord GetCensusCountDailyAverages(LocationCode locationId, List<string> facilityTypeCodes, DateTime reportDate, List<string> levelsOfCare = null, string payorTypeCode = null)
         {
             int year = reportDate.Year;
             OccupancyRecord record = new OccupancyRecord
@@ -82,7 +119,7 @@ namespace ReportApp.DAO
             return record;
         }
 
-        public static OccupancyRecord GetCensusCountDailyAveragesByPayorTypes(LocationCode locationId, List<string> facilityTypeCodes, DateTime reportDate, List<string> payorTypeCodes)
+        internal static OccupancyRecord GetCensusCountDailyAveragesByPayorTypes(LocationCode locationId, List<string> facilityTypeCodes, DateTime reportDate, List<string> payorTypeCodes)
         {
             int year = reportDate.Year;
             OccupancyRecord record = new OccupancyRecord
@@ -146,8 +183,6 @@ namespace ReportApp.DAO
 
         private static float GetCensusCountDailyAverageByPayorTypes(LocationCode locationId, List<string> facilityTypeCodes, int year, int month, List<string> payorTypeCodes)
         {
-            DynamicParameters parameters = new DynamicParameters(new { LocationId = (int)locationId, FacilityTypeCodes = facilityTypeCodes, Year = year, Month = month, PayorTypeCodes = payorTypeCodes });
-
             using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ingAnalyticsConnection"].ConnectionString);
             Dictionary<DateTime, int> results = conn.Query(
                 new StringBuilder()

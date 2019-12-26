@@ -35,12 +35,12 @@ namespace ReportApp
             skilledNurseBudget = new WLRSkilledNurseBudget
             {
                 SkilledNurseActual = skilledNurseActual,
-                AverageLCFirst = new OccupancyRecord(),
-                AverageLCSecond = new OccupancyRecord(),
-                MemoryCare = new OccupancyRecord(),
-                FFSDirectAdmit = new OccupancyRecord(),
-                Medicare = new OccupancyRecord(),
-                Medicaid = new OccupancyRecord()                
+                AverageLCFirst = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "HC", "Private - LC", 2020),
+                AverageLCSecond = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "HC", "Private - LC", 2020),
+                MemoryCare = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "HC", "Memory Care - LC", 2020),
+                FFSDirectAdmit = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "HC", "Memory Care - FFS", 2020),
+                Medicare = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "HC", "Medicare A", 2020),
+                Medicaid = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "HC", "Medicaid", 2020)
             };
         }
 

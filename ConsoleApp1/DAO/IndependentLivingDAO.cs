@@ -11,11 +11,10 @@ using ReportApp.Model;
 
 namespace ReportApp.DAO
 {
-    public static class IndependentLivingDAO
+    internal static class IndependentLivingDAO
     {
-        
 
-        public static OccupancyRecord GetBeginningOccupancyData(LocationCode locationId, List<string> facilityTypeCodes, DateTime reportDate)
+        internal static OccupancyRecord GetBeginningOccupancyData(LocationCode locationId, List<string> facilityTypeCodes, DateTime reportDate)
         {
             OccupancyRecord record = new OccupancyRecord
             {
@@ -35,7 +34,7 @@ namespace ReportApp.DAO
             return record;
         }
 
-        public static OccupancyRecord GetCensusCountsByAdmissionStatus(LocationCode locationId, List<string> facilityTypeCodes, List<String> admissionStatusCodes, int year, bool negate)
+        internal static OccupancyRecord GetCensusCountsByAdmissionStatus(LocationCode locationId, List<string> facilityTypeCodes, List<String> admissionStatusCodes, int year, bool negate)
         {
             OccupancyRecord record = new OccupancyRecord
             {
@@ -55,7 +54,7 @@ namespace ReportApp.DAO
             return record;
         }
 
-        public static OccupancyRecord GetCountsOfTransfersToOtherLevelOrFacility(LocationCode locationId, List<string> originalFacilityTypeCodes, List<string> transferedToFacilityTypeCodes, int year, bool negate)
+        internal static OccupancyRecord GetCountsOfTransfersToOtherLevelOrFacility(LocationCode locationId, List<string> originalFacilityTypeCodes, List<string> transferedToFacilityTypeCodes, int year, bool negate)
         {
             OccupancyRecord record = new OccupancyRecord
             {

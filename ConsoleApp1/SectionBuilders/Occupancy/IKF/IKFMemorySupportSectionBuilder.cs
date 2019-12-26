@@ -32,8 +32,8 @@ namespace ReportApp
             memorySupportBudget = new IKFMemorySupportBudget
             {
                 MemorySupportActual = memorySupportActual,
-                PrivateMCFirstPerson = new OccupancyRecord(),
-                PrivateMCSecondPerson = new OccupancyRecord()
+                PrivateMCFirstPerson = OccupancyReportDAO.GetBudgetData(LocationCode.IKF, "MS", "Private -MC - 1st Person", 2020),
+                PrivateMCSecondPerson = OccupancyReportDAO.GetBudgetData(LocationCode.IKF, "MS", "Private -MC - 2nd Person", 2020)
             };
         }
 

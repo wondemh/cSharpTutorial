@@ -34,9 +34,9 @@ namespace ReportApp
             skilledNurseBudget = new IKFSkilledNurseBudget
             {
                 SkilledNurseActual = skilledNurseActual,
-                PrivatePay = new OccupancyRecord(),
-                Medicare = new OccupancyRecord(),
-                Medicaid = new OccupancyRecord(),
+                PrivatePay = OccupancyReportDAO.GetBudgetData(LocationCode.IKF, "HC", "Private", 2020),
+                Medicare = OccupancyReportDAO.GetBudgetData(LocationCode.IKF, "HC", "Medicare A", 2020),
+                Medicaid = OccupancyReportDAO.GetBudgetData(LocationCode.IKF, "HC", "Medicaid", 2020),
                 PrivateMedicaidPending = new OccupancyRecord()
             };
         }

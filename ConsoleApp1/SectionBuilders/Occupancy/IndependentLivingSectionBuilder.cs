@@ -39,12 +39,13 @@ namespace ReportApp
             independentLivingActual.SetUnoccupiedUnits(ReportDate.Month);
 
 
+            //Budget data is location specific for IL section. So using current location here.
             independentLivingBudget = new IndependentLivingBudget
             {
                 IndependentLivingActual = independentLivingActual,
-                BeginningOccupancy = new OccupancyRecord(),
-                MoveIns = new OccupancyRecord(),
-                MoveOuts = new OccupancyRecord(),
+                BeginningOccupancy = OccupancyReportDAO.GetBudgetData(Location, "IL", "Beginning Occupancy", 2020),
+                MoveIns = OccupancyReportDAO.GetBudgetData(Location, "IL", "Move-ins", 2020),
+                MoveOuts = OccupancyReportDAO.GetBudgetData(Location, "IL", "Move-Outs", 2020)
             };
             independentLivingBudget.SetVarianceFromBudget(ReportDate.Month);
         }
