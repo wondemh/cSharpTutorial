@@ -54,6 +54,26 @@ namespace ReportApp.DAO
             return record;
         }
 
+        internal static OccupancyRecord GetMoveIns(LocationCode locationId, List<string> facilityTypeCodes, int year)
+        {
+            OccupancyRecord record = new OccupancyRecord
+            {
+                January = GetMoveInsCount(locationId, facilityTypeCodes, year, 1),
+                February = GetMoveInsCount(locationId, facilityTypeCodes, year, 2),
+                March = GetMoveInsCount(locationId, facilityTypeCodes, year, 3),
+                April = GetMoveInsCount(locationId, facilityTypeCodes, year, 4),
+                May = GetMoveInsCount(locationId, facilityTypeCodes, year, 5),
+                June = GetMoveInsCount(locationId, facilityTypeCodes, year, 6),
+                July = GetMoveInsCount(locationId, facilityTypeCodes, year, 7),
+                August = GetMoveInsCount(locationId, facilityTypeCodes, year, 8),
+                September = GetMoveInsCount(locationId, facilityTypeCodes, year, 9),
+                October = GetMoveInsCount(locationId, facilityTypeCodes, year, 10),
+                November = GetMoveInsCount(locationId, facilityTypeCodes, year, 11),
+                December = GetMoveInsCount(locationId, facilityTypeCodes, year, 12)
+            };
+            return record;
+        }
+
         internal static OccupancyRecord GetCountsOfTransfersToOtherLevelOrFacility(LocationCode locationId, List<string> originalFacilityTypeCodes, List<string> transferedToFacilityTypeCodes, int year, bool negate)
         {
             OccupancyRecord record = new OccupancyRecord
@@ -119,6 +139,39 @@ namespace ReportApp.DAO
                 .Append("   AND YEAR(ingCensus.CensusDate) = @Year ")
                 .Append("   AND Month(ingCensus.CensusDate) = @Month ").ToString(),
                 new { LocationId = (int)locationId, FacilityTypeCodes = facilityTypeCodes, AdmissionStatusCodes = admissionStatusCodes, Year = year, Month = month });
+        }
+
+        private static int GetMoveInsCount(LocationCode locationId, List<string> facilityTypeCodes, int year, int month)
+        {
+            using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ingAnalyticsConnection"].ConnectionString);
+            return conn.ExecuteScalar<int>(
+                new StringBuilder()
+                .Append("SELECT COUNT(A.UnitID) ")
+                .Append("FROM ")
+                .Append("   ingLocations ")
+                .Append("   INNER JOIN ingFacilityTypes ")
+                .Append("       ON ingLocations.Id = ingFacilityTypes.Location ")
+                .Append("   INNER JOIN ingUnits ")
+                .Append("       ON ingFacilityTypes.Location = ingUnits.Location ")
+                .Append("       AND ingFacilityTypes.FacilityType = ingUnits.FacilityType ")
+                .Append("   LEFT OUTER JOIN ingCensus A ")
+                .Append("       ON ingUnits.UnitID = A.UnitID ")
+                .Append("WHERE ingLocations.Id = @LocationId ")
+                .Append("   AND ingFacilityTypes.FacilityType IN @FacilityTypeCodes ")
+                .Append("   AND A.AdmissionStatus = 'A' ")
+                .Append("   AND YEAR(A.CensusDate) = @Year ")
+                .Append("   AND Month(A.CensusDate) = @Month ")
+                .Append("   AND NOT EXISTS ")
+                //Exclude record if patient had another record from the previous data with 'A' admission status
+                .Append("   ( ")
+                .Append("       SELECT 1 FROM ingCensus B ")
+                .Append("       WHERE B.ResidentID = A.ResidentID ")
+                .Append("       AND B.UnitID = A.UnitID ")
+                .Append("       AND B.AdmissionStatus = A.AdmissionStatus ")
+                .Append("       AND B.CensusDate = DATEADD(DAY, -1, A.CensusDate) ")
+                .Append("   ) ")
+                .ToString(),
+                new { LocationId = (int)locationId, FacilityTypeCodes = facilityTypeCodes, Year = year, Month = month });
         }
 
         private static int GetCountOfTransfersToOtherLevelOrFacility(LocationCode locationId, List<string> originalFacilityTypeCodes, List<string> transferedToFacilityTypeCodes, int year, int month)

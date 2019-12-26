@@ -27,7 +27,7 @@ namespace ReportApp
             {
                 UnitsAvailable = OccupancyReportDAO.GetUnitsAvailableData(locationId, facilityTypeCodes),
                 BeginningOccupancy = IndependentLivingDAO.GetBeginningOccupancyData(locationId, facilityTypeCodes, reportDate),
-                MoveIns = IndependentLivingDAO.GetCensusCountsByAdmissionStatus(locationId, facilityTypeCodes, new List<string> { "A" }, reportDate.Year, false),
+                MoveIns = IndependentLivingDAO.GetMoveIns(locationId, facilityTypeCodes, reportDate.Year),
                 MoveOuts = IndependentLivingDAO.GetCensusCountsByAdmissionStatus(locationId, facilityTypeCodes, new List<string> { "D" }, reportDate.Year, true),
                 Transfers = IndependentLivingDAO.GetCensusCountsByAdmissionStatus(locationId, facilityTypeCodes, new List<string> { "PT" }, reportDate.Year, true)
             };
@@ -100,7 +100,7 @@ namespace ReportApp
             {
                 UnitsAvailable = OccupancyReportDAO.GetUnitsAvailableData(LocationCode.WLR, apartmentFacilityTypes),
                 BeginningOccupancy = IndependentLivingDAO.GetBeginningOccupancyData(LocationCode.WLR, apartmentFacilityTypes, ReportDate),
-                MoveIns = IndependentLivingDAO.GetCensusCountsByAdmissionStatus(LocationCode.WLR, apartmentFacilityTypes, new List<string> { "A" }, ReportDate.Year, false),
+                MoveIns = IndependentLivingDAO.GetMoveIns(LocationCode.WLR, apartmentFacilityTypes, ReportDate.Year),
                 MoveOuts = IndependentLivingDAO.GetCensusCountsByAdmissionStatus(LocationCode.WLR, apartmentFacilityTypes, new List<string> { "D" }, ReportDate.Year, true),
                 TransferFromCottage = IndependentLivingDAO.GetCountsOfTransfersToOtherLevelOrFacility(LocationCode.WLR, new List<string> { "CO" }, apartmentFacilityTypes, ReportDate.Year, false),
                 TransferToCottage = IndependentLivingDAO.GetCountsOfTransfersToOtherLevelOrFacility(LocationCode.WLR, apartmentFacilityTypes, new List<string> { "CO" }, ReportDate.Year, true),
@@ -137,7 +137,7 @@ namespace ReportApp
             {
                 UnitsAvailable = OccupancyReportDAO.GetUnitsAvailableData(LocationCode.WLR, cottageFacilityTypes),
                 BeginningOccupancy = IndependentLivingDAO.GetBeginningOccupancyData(LocationCode.WLR, cottageFacilityTypes, ReportDate),
-                MoveIns = IndependentLivingDAO.GetCensusCountsByAdmissionStatus(LocationCode.WLR, cottageFacilityTypes, new List<string> { "A" }, ReportDate.Year, false),
+                MoveIns = IndependentLivingDAO.GetMoveIns(LocationCode.WLR, cottageFacilityTypes, ReportDate.Year),
                 MoveOuts = IndependentLivingDAO.GetCensusCountsByAdmissionStatus(LocationCode.WLR, cottageFacilityTypes, new List<string> { "D" }, ReportDate.Year, true),
                 TransferFromApt = IndependentLivingDAO.GetCountsOfTransfersToOtherLevelOrFacility(LocationCode.WLR, new List<string> { "AP" }, cottageFacilityTypes, ReportDate.Year, false),
                 TransferToApt = IndependentLivingDAO.GetCountsOfTransfersToOtherLevelOrFacility(LocationCode.WLR, cottageFacilityTypes, new List<string> { "AP" }, ReportDate.Year, true),
