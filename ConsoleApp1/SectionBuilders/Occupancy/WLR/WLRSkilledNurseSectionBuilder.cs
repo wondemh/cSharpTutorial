@@ -35,12 +35,12 @@ namespace ReportApp
             skilledNurseBudget = new WLRSkilledNurseBudget
             {
                 SkilledNurseActual = skilledNurseActual,
-                AverageLCFirst = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "HC", "Private - LC", 2020),
-                AverageLCSecond = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "HC", "Private - LC", 2020),
-                MemoryCare = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "HC", "Memory Care - LC", 2020),
-                FFSDirectAdmit = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "HC", "Memory Care - FFS", 2020),
-                Medicare = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "HC", "Medicare A", 2020),
-                Medicaid = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "HC", "Medicaid", 2020)
+                AverageLCFirst = OccupancyReportDAO.GetBudgetData(LocationCode.WLR, "HC", "Avg. LC 1st", reportDate.Year),
+                AverageLCSecond = OccupancyReportDAO.GetBudgetData(LocationCode.WLR, "HC", "Avg. LC 2nd", reportDate.Year),
+                MemoryCare = OccupancyReportDAO.GetBudgetData(LocationCode.WLR, "HC", "Memory  Care", reportDate.Year),
+                FFSDirectAdmit = OccupancyReportDAO.GetBudgetData(LocationCode.WLR, "HC", "FFS/Direct Admit", reportDate.Year),
+                Medicare = OccupancyReportDAO.GetBudgetData(LocationCode.WLR, "HC", "Medicare", reportDate.Year),
+                Medicaid = OccupancyReportDAO.GetBudgetData(LocationCode.WLR, "HC", "Medicaid", reportDate.Year)
             };
         }
 

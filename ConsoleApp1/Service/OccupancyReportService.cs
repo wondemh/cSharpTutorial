@@ -75,7 +75,7 @@ namespace ReportApp
 
         private static void BuildIRCReport(DateTime reportDate, ExcelWorksheet ws)
         {
-            IndependentLivingSectionBuilder independentLivingSectionBuilder = new IndependentLivingSectionBuilder(LocationCode.IKF, reportDate);
+            IndependentLivingSectionBuilder independentLivingSectionBuilder = new IndependentLivingSectionBuilder(LocationCode.IRC, reportDate);
             IRCAssistedLivingSectionBuilder assistedLivingSectionBuilder = new IRCAssistedLivingSectionBuilder(reportDate);
             IRCMemorySupportSectionBuilder memorySupportSectionBuilder = new IRCMemorySupportSectionBuilder(reportDate);
             IRCSkilledNurseSectionBuilder skilledNursingSectionBuilder = new IRCSkilledNurseSectionBuilder(reportDate);
@@ -105,7 +105,7 @@ namespace ReportApp
 
         private static void BuildWLRReport(DateTime reportDate, ExcelWorksheet ws)
         {
-            IndependentLivingSectionBuilder independentLivingSectionBuilder = new IndependentLivingSectionBuilder(LocationCode.IKF, reportDate);
+            IndependentLivingSectionBuilder independentLivingSectionBuilder = new IndependentLivingSectionBuilder(LocationCode.WLR, reportDate);
             WLRAssistedLivingSectionBuilder assistedLivingSectionBuilder = new WLRAssistedLivingSectionBuilder(reportDate);
             WLRSkilledNurseSectionBuilder skilledNursingSectionBuilder = new WLRSkilledNurseSectionBuilder(reportDate);
 

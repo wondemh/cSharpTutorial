@@ -34,11 +34,12 @@ namespace ReportApp
             assistedLivingBudget = new IRCAssistedLivingBudget
             {
                 AssistedLivingActual = assistedLivingActual,
-                AverageFFSFirst = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "AL", "Private - Level 1 - 1st Person", 2020),
-                AverageFFSSecond = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "AL", "Private - Level 1 - 2nd Person", 2020),
-                AverageLCFirst = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "AL", "Life Care - 1st Person", 2020),
-                AverageLCSecond = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "AL", "Life Care - 2nd Person", 2020)
+                AverageFFSFirst = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "AL", "Average FFS 1st", reportDate.Year),
+                AverageFFSSecond = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "AL", "Average FFS 2nd", reportDate.Year),
+                AverageLCFirst = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "AL", "Average LC 1st", reportDate.Year),
+                AverageLCSecond = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "AL", "Average LC 2nd", reportDate.Year)
             };
+
         }
 
         internal int BuildActualSection(ExcelWorksheet ws, int rowNumber)

@@ -14,7 +14,7 @@ namespace ReportApp
 
             //OccupancyReportService.BuildReport(DAO.LocationCode.IRC, DateTime.Parse("Oct 19, 2012"));
             //OccupancyReportService.BuildReport(DAO.LocationCode.IKF, DateTime.Parse("Oct 19, 2012"));
-            OccupancyReportService.BuildReport(DAO.LocationCode.WLR, DateTime.Parse("Oct 19, 2012"));
+            OccupancyReportService.BuildReport(DAO.LocationCode.WLR, DateTime.Parse("Oct 19, 2019"));
 
         }
     }

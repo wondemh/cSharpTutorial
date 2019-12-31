@@ -38,11 +38,11 @@ namespace ReportApp
             skilledNurseBudget = new IRCSkilledNurseBudget
             {
                 SkilledNurseActual = skilledNurseActual,
-                AverageLCFirst = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "HC", "Private - LC", 2020),
-                AverageLCSecond = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "HC", "Private - LC", 2020),
-                FFSDirectAdmit = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "HC", "Private - FFS", 2020),
-                Medicare = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "HC", "Medicare A", 2020),
-                Medicaid = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "HC", "Medicaid", 2020)
+                AverageLCFirst = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "HC", "Avg. LC 1st", reportDate.Year),
+                AverageLCSecond = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "HC", "Avg. LC 2nd", reportDate.Year),
+                FFSDirectAdmit = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "HC", "FFS/Direct Admit", reportDate.Year),
+                Medicare = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "HC", "Medicare", reportDate.Year),
+                Medicaid = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "HC", "Medicaid", reportDate.Year)
             };
 
         }

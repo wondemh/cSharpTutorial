@@ -43,9 +43,9 @@ namespace ReportApp
             independentLivingBudget = new IndependentLivingBudget
             {
                 IndependentLivingActual = independentLivingActual,
-                BeginningOccupancy = OccupancyReportDAO.GetBudgetData(Location, "IL", "Beginning Occupancy", 2020),
-                MoveIns = OccupancyReportDAO.GetBudgetData(Location, "IL", "Move-ins", 2020),
-                MoveOuts = OccupancyReportDAO.GetBudgetData(Location, "IL", "Move-Outs", 2020)
+                BeginningOccupancy = OccupancyReportDAO.GetBudgetData(Location, "IL", "Beginning Occupancy", reportDate.Year),
+                MoveIns = OccupancyReportDAO.GetBudgetData(Location, "IL", "Move-ins", reportDate.Year, true),
+                MoveOuts = OccupancyReportDAO.GetBudgetData(Location, "IL", "Move-outs", reportDate.Year, true)
             };
             independentLivingBudget.SetVarianceFromBudget(ReportDate.Month);
         }

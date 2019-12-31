@@ -21,39 +21,86 @@ namespace ReportApp.DAO
     internal static class OccupancyReportDAO
     {
 
-        internal static OccupancyRecord GetBudgetData(LocationCode locationId, string facilityTypeCode, string name, int year)
+        //internal static OccupancyRecord GetBudgetData(LocationCode locationId, string facilityTypeCode, string name, int year)
+        //{
+        //    using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ingAnalyticsConnection"].ConnectionString);
+        //    Dictionary<int, int> results = conn.Query(
+        //        new StringBuilder()
+        //        .Append("SELECT Month, Value ")
+        //        .Append("FROM ")
+        //        .Append("   ingBudgetLookup ")
+        //        .Append("WHERE Location = @LocationId ")
+        //        .Append("   AND FacilityType = @FacilityTypeCode ")
+        //        .Append("   AND Year = @Year ")
+        //        .Append("   AND Name = @Name ").ToString(),
+        //        new { LocationId = (int)locationId, FacilityTypeCode = facilityTypeCode, Year = year, Name = name, })
+        //        .ToDictionary(
+        //            row => (int)row.Month,
+        //            row => (int)row.Value
+        //        );
+        //    OccupancyRecord record = new OccupancyRecord
+        //    {
+        //        January = results.GetValueOrDefault(1, 0),
+        //        February = results.GetValueOrDefault(2, 0),
+        //        March = results.GetValueOrDefault(3, 0),
+        //        April = results.GetValueOrDefault(4, 0),
+        //        May = results.GetValueOrDefault(5, 0),
+        //        June = results.GetValueOrDefault(6, 0),
+        //        July = results.GetValueOrDefault(7, 0),
+        //        August = results.GetValueOrDefault(8, 0),
+        //        September = results.GetValueOrDefault(9, 0),
+        //        October = results.GetValueOrDefault(10, 0),
+        //        November = results.GetValueOrDefault(11, 0),
+        //        December = results.GetValueOrDefault(12, 0)
+        //    };
+        //    record.TotalOrAverage = record.CalculateAverageValue();
+        //    return record;
+        //}
+
+        private static float? GetValue(Dictionary<int, float> Items, int Index)
         {
-            using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ingAnalyticsConnection"].ConnectionString);
-            Dictionary<int, int> results = conn.Query(
-                new StringBuilder()
-                .Append("SELECT Month, Value ")
-                .Append("FROM ")
-                .Append("   ingBudgetLookup ")
-                .Append("WHERE Location = @LocationId ")
-                .Append("   AND FacilityType = @FacilityTypeCode ")
-                .Append("   AND Year = @Year ")
-                .Append("   AND Name = @Name ").ToString(),
-                new { LocationId = (int)locationId, FacilityTypeCode = facilityTypeCode, Year = year, Name = name, })
-                .ToDictionary(
-                    row => (int)row.Month,
-                    row => (int)row.Value
-                );
-            OccupancyRecord record = new OccupancyRecord
+            return (Items.ContainsKey(Index)) ? Items[Index] : (float?)null;
+        }
+
+        internal static OccupancyRecord GetBudgetData(LocationCode locationId, string facilityTypeCode, string name, int year, bool createTotal = false)
+        {
+            OccupancyRecord record = null;
+
+            using (IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ingAnalyticsConnection"].ConnectionString))
             {
-                January = results.GetValueOrDefault(1, 0),
-                February = results.GetValueOrDefault(2, 0),
-                March = results.GetValueOrDefault(3, 0),
-                April = results.GetValueOrDefault(4, 0),
-                May = results.GetValueOrDefault(5, 0),
-                June = results.GetValueOrDefault(6, 0),
-                July = results.GetValueOrDefault(7, 0),
-                August = results.GetValueOrDefault(8, 0),
-                September = results.GetValueOrDefault(9, 0),
-                October = results.GetValueOrDefault(10, 0),
-                November = results.GetValueOrDefault(11, 0),
-                December = results.GetValueOrDefault(12, 0)
-            };
-            record.TotalOrAverage = record.CalculateAverageValue();
+                Dictionary<int, float> results = conn.Query(
+                    new StringBuilder()
+                    .Append("SELECT Month, Value ")
+                    .Append("FROM ")
+                    .Append("   ingBudget ")
+                    .Append("WHERE Location = @LocationId ")
+                    .Append("   AND FacilityType = @FacilityTypeCode ")
+                    .Append("   AND Year = @Year ")
+                    .Append("   AND Name = @Name ").ToString(),
+                    new { LocationId = (int)locationId, FacilityTypeCode = facilityTypeCode, Year = year, Name = name, })
+                    .ToDictionary(
+                        row => (int)row.Month,
+                        row => (float)row.Value
+                    );
+
+                record = new OccupancyRecord
+                {
+                    January = GetValue(results, 1),
+                    February = GetValue(results, 2),
+                    March = GetValue(results, 3),
+                    April = GetValue(results, 4),
+                    May = GetValue(results, 5),
+                    June = GetValue(results, 6),
+                    July = GetValue(results, 7),
+                    August = GetValue(results, 8),
+                    September = GetValue(results, 9),
+                    October = GetValue(results, 10),
+                    November = GetValue(results, 11),
+                    December = GetValue(results, 12)
+                };
+                record.TotalOrAverage = createTotal ? record.CalculateTotalValue() : record.CalculateAverageValue();
+            }
+
             return record;
         }
 

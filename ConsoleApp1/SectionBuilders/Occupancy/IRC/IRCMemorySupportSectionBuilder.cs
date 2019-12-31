@@ -34,10 +34,10 @@ namespace ReportApp
             memorySupportBudget = new IRCMemorySupportBudget
             {
                 MemorySupportActual = memorySupportActual,
-                AverageMSFFSFirst = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "MS", "Private -MC - 1st Person", 2020),
-                AverageMSFFSSecond = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "MS", "Private -MC - 2nd Person", 2020),
-                AverageMSLCFirst = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "MS", "Life Care - MC - 1st Person", 2020),
-                AverageMSLCSecond = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "MS", "Life Care - MC - 2nd Person", 2020)
+                AverageMSFFSFirst = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "MS", "Average MS FFS 1st", reportDate.Year),
+                AverageMSFFSSecond = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "MS", "Average MS FFS 2nd", reportDate.Year),
+                AverageMSLCFirst = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "MS", "Average MS LC 1st", reportDate.Year),
+                AverageMSLCSecond = OccupancyReportDAO.GetBudgetData(LocationCode.IRC, "MS", "Average MS LC 2nd", reportDate.Year)
             };
         }
 

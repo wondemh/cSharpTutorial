@@ -34,10 +34,10 @@ namespace ReportApp
             assistedLivingBudget = new IKFAssistedLivingBudget
             {
                 AssistedLivingActual = assistedLivingActual,
-                AverageLevelOne = OccupancyReportDAO.GetBudgetData(LocationCode.IKF, "AL", "Private - Level 1 - 1st Person", 2020),
-                AverageLevelTwo = OccupancyReportDAO.GetBudgetData(LocationCode.IKF, "AL", "Private - Level 2 - 1st Person", 2020),
-                AverageLevelThree = OccupancyReportDAO.GetBudgetData(LocationCode.IKF, "AL", "Private - Level 3 - 1st Person", 2020),
-                AverageSecondPerson = OccupancyReportDAO.GetBudgetData(LocationCode.IKF, "AL", "Private - Level 1 - 2nd Person", 2020),
+                AverageLevelOne = OccupancyReportDAO.GetBudgetData(LocationCode.IKF, "AL", "Avg. Level 1", reportDate.Year),
+                AverageLevelTwo = OccupancyReportDAO.GetBudgetData(LocationCode.IKF, "AL", "Avg. Level 2", reportDate.Year),
+                AverageLevelThree = OccupancyReportDAO.GetBudgetData(LocationCode.IKF, "AL", "Avg. Level 3", reportDate.Year),
+                AverageSecondPerson = OccupancyReportDAO.GetBudgetData(LocationCode.IKF, "AL", "Avg. 2nd Person", reportDate.Year)
             };
         }
 
