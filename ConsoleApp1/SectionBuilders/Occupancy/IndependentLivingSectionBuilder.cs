@@ -113,7 +113,7 @@ namespace ReportApp
             int startRowNumber = rowNumber;
             DrawRowBottomBorder(ws, rowNumber - 1);
             rowNumber = BuildGridRow(ws, apartmentsActual.UnitsAvailable, "Units Available:", rowNumber, "0");
-            rowNumber = BuildGridRow(ws, apartmentsActual.BeginningOccupancy, "Units Available:", rowNumber, "0");
+            rowNumber = BuildGridRow(ws, apartmentsActual.BeginningOccupancy, "Beginning Occupancy:", rowNumber, "0");
             rowNumber = BuildGridRow(ws, apartmentsActual.MoveIns, "Move-ins:", rowNumber, "0");
             rowNumber = BuildGridRow(ws, apartmentsActual.MoveOuts, "Move-outs:", rowNumber, "0");
             rowNumber = BuildGridRow(ws, apartmentsActual.TransferFromCottage, "Transfer From Cottage:", rowNumber, "0");
@@ -150,7 +150,7 @@ namespace ReportApp
             int startRowNumber = rowNumber;
             DrawRowBottomBorder(ws, rowNumber - 1);
             rowNumber = BuildGridRow(ws, cottagesActual.UnitsAvailable, "Units Available:", rowNumber, "0");
-            rowNumber = BuildGridRow(ws, cottagesActual.BeginningOccupancy, "Units Available:", rowNumber, "0");
+            rowNumber = BuildGridRow(ws, cottagesActual.BeginningOccupancy, "Beginning Occupancy:", rowNumber, "0");
             rowNumber = BuildGridRow(ws, cottagesActual.MoveIns, "Move-ins:", rowNumber, "0");
             rowNumber = BuildGridRow(ws, cottagesActual.MoveOuts, "Move-outs:", rowNumber, "0");
             rowNumber = BuildGridRow(ws, cottagesActual.TransferFromApt, "Transfer From Apt:", rowNumber, "0");
