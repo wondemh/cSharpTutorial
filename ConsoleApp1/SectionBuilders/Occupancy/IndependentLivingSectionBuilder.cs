@@ -32,7 +32,7 @@ namespace ReportApp
                 Transfers = IndependentLivingDAO.GetCensusCountsByAdmissionStatus(locationId, facilityTypeCodes, new List<string> { "PT" }, reportDate.Year, true)
             };
             independentLivingActual.SetEndingOccupancy(ReportDate.Month);
-            independentLivingActual.BeginningOccupancy.TotalOrAverage = independentLivingActual.BeginningOccupancy.CalculateAverageValue();
+            independentLivingActual.BeginningOccupancy.TotalOrAverage = independentLivingActual.BeginningOccupancy.CalculateAverageValueExcludeNulls();
             independentLivingActual.MoveIns.TotalOrAverage = independentLivingActual.MoveIns.CalculateTotalValue();
             independentLivingActual.MoveOuts.TotalOrAverage = independentLivingActual.MoveOuts.CalculateTotalValue();
             independentLivingActual.Transfers.TotalOrAverage = independentLivingActual.Transfers.CalculateTotalValue();
@@ -106,6 +106,14 @@ namespace ReportApp
                 TransferToCottage = IndependentLivingDAO.GetCountsOfTransfersToOtherLevelOrFacility(LocationCode.WLR, apartmentFacilityTypes, new List<string> { "CO" }, ReportDate.Year, true),
                 TransferToALHC = IndependentLivingDAO.GetCountsOfTransfersToOtherLevelOrFacility(LocationCode.WLR, apartmentFacilityTypes, new List<string> { "AL", "HC" }, ReportDate.Year, true),
             };
+
+            apartmentsActual.BeginningOccupancy.TotalOrAverage = apartmentsActual.BeginningOccupancy.CalculateAverageValueExcludeNulls();
+            apartmentsActual.MoveIns.TotalOrAverage = apartmentsActual.MoveIns.CalculateTotalValue();
+            apartmentsActual.MoveOuts.TotalOrAverage = apartmentsActual.MoveOuts.CalculateTotalValue();
+            apartmentsActual.TransferFromCottage.TotalOrAverage = apartmentsActual.TransferFromCottage.CalculateTotalValue();
+            apartmentsActual.TransferToCottage.TotalOrAverage = apartmentsActual.TransferToCottage.CalculateTotalValue();
+            apartmentsActual.TransferToALHC.TotalOrAverage = apartmentsActual.TransferToALHC.CalculateTotalValue();
+
             apartmentsActual.SetEndingOccupancy(ReportDate.Month);
             apartmentsActual.SetUnoccupiedUnits(ReportDate.Month);
 
@@ -143,6 +151,14 @@ namespace ReportApp
                 TransferToApt = IndependentLivingDAO.GetCountsOfTransfersToOtherLevelOrFacility(LocationCode.WLR, cottageFacilityTypes, new List<string> { "AP" }, ReportDate.Year, true),
                 TransferToALHC = IndependentLivingDAO.GetCountsOfTransfersToOtherLevelOrFacility(LocationCode.WLR, cottageFacilityTypes, new List<string> { "AL", "HC" }, ReportDate.Year, true),
             };
+
+            cottagesActual.BeginningOccupancy.TotalOrAverage = cottagesActual.BeginningOccupancy.CalculateAverageValueExcludeNulls();
+            cottagesActual.MoveIns.TotalOrAverage = cottagesActual.MoveIns.CalculateTotalValue();
+            cottagesActual.MoveOuts.TotalOrAverage = cottagesActual.MoveOuts.CalculateTotalValue();
+            cottagesActual.TransferFromApt.TotalOrAverage = cottagesActual.TransferFromApt.CalculateTotalValue();
+            cottagesActual.TransferToApt.TotalOrAverage = cottagesActual.TransferToApt.CalculateTotalValue();
+            cottagesActual.TransferToALHC.TotalOrAverage = cottagesActual.TransferToALHC.CalculateTotalValue();
+
             cottagesActual.SetEndingOccupancy(ReportDate.Month);
             cottagesActual.SetUnoccupiedUnits(ReportDate.Month);
 

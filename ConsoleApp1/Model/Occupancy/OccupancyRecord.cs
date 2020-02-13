@@ -62,6 +62,79 @@ namespace ReportApp.Model
             return roundedAverage;
         }
 
+        public float CalculateAverageValueExcludeNulls()
+        {
+            float sum = 0;
+            int count = 0;
+            if(January != null)
+            {
+                sum += (float)January;
+                count++;
+            }
+            if (February != null)
+            {
+                sum += (float)February;
+                count++;
+            }
+            if (March != null)
+            {
+                sum += (float)March;
+                count++;
+            }
+            if (April != null)
+            {
+                sum += (float)April;
+                count++;
+            }
+            if (May != null)
+            {
+                sum += (float)May;
+                count++;
+            }
+            if (June != null)
+            {
+                sum += (float)June;
+                count++;
+            }
+            if (July != null)
+            {
+                sum += (float)July;
+                count++;
+            }
+            if (August != null)
+            {
+                sum += (float)August;
+                count++;
+            }
+            if (September != null)
+            {
+                sum += (float)September;
+                count++;
+            }
+            if (October != null)
+            {
+                sum += (float)October;
+                count++;
+            }
+            if (November != null)
+            {
+                sum += (float)November;
+                count++;
+            }
+            if (December != null)
+            {
+                sum += (float)December;
+                count++;
+            }
+            if(count > 0)
+            {
+                float average = sum / count;
+                float roundedAverage = (float)Math.Round(average, 1);
+                return roundedAverage;
+            }
+            return 0;
+        }
+
         public float CalculateTotalValue()
         {
             return ZeroIfNull(January)

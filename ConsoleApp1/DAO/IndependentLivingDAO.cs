@@ -13,23 +13,27 @@ namespace ReportApp.DAO
 {
     internal static class IndependentLivingDAO
     {
+        private static float? NullIfZero(float? value)
+        {
+            return (value != null && value != 0) ? value : null;
+        }
 
         internal static OccupancyRecord GetBeginningOccupancyData(LocationCode locationId, List<string> facilityTypeCodes, DateTime reportDate)
         {
             OccupancyRecord record = new OccupancyRecord
             {
-                January = GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 1, 1),
-                February = GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 2, 1),
-                March = GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 3, 1),
-                April = GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 4, 1),
-                May = GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 5, 1),
-                June = GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 6, 1),
-                July = GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 7, 1),
-                August = GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 8, 1),
-                September = GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 9, 1),
-                October = GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 10, 1),
-                November = GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 11, 1),
-                December = GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 12, 1)
+                January = NullIfZero(GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 1, 1)),
+                February = NullIfZero(GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 2, 1)),
+                March = NullIfZero(GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 3, 1)),
+                April = NullIfZero(GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 4, 1)),
+                May = NullIfZero(GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 5, 1)),
+                June = NullIfZero(GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 6, 1)),
+                July = NullIfZero(GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 7, 1)),
+                August = NullIfZero(GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 8, 1)),
+                September = NullIfZero(GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 9, 1)),
+                October = NullIfZero(GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 10, 1)),
+                November = NullIfZero(GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 11, 1)),
+                December = NullIfZero(GetOccupancyCount(locationId, facilityTypeCodes, reportDate.Year, 12, 1))
             };
             return record;
         }
@@ -38,18 +42,18 @@ namespace ReportApp.DAO
         {
             OccupancyRecord record = new OccupancyRecord
             {
-                January = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 1) * (negate ? -1 : 1),
-                February = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 2) * (negate ? -1 : 1),
-                March = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 3) * (negate ? -1 : 1),
-                April = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 4) * (negate ? -1 : 1),
-                May = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 5) * (negate ? -1 : 1),
-                June = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 6) * (negate ? -1 : 1),
-                July = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 7) * (negate ? -1 : 1),
-                August = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 8) * (negate ? -1 : 1),
-                September = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 9) * (negate ? -1 : 1),
-                October = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 10) * (negate ? -1 : 1),
-                November = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 11) * (negate ? -1 : 1),
-                December = GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 12) * (negate ? -1 : 1)
+                January = NullIfZero(GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 1) * (negate ? -1 : 1)),
+                February = NullIfZero(GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 2) * (negate ? -1 : 1)),
+                March = NullIfZero(GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 3) * (negate ? -1 : 1)),
+                April = NullIfZero(GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 4) * (negate ? -1 : 1)),
+                May = NullIfZero(GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 5) * (negate ? -1 : 1)),
+                June = NullIfZero(GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 6) * (negate ? -1 : 1)),
+                July = NullIfZero(GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 7) * (negate ? -1 : 1)),
+                August = NullIfZero(GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 8) * (negate ? -1 : 1)),
+                September = NullIfZero(GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 9) * (negate ? -1 : 1)),
+                October = NullIfZero(GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 10) * (negate ? -1 : 1)),
+                November = NullIfZero(GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 11) * (negate ? -1 : 1)),
+                December = NullIfZero(GetCensusCount(locationId, facilityTypeCodes, admissionStatusCodes, year, 12) * (negate ? -1 : 1))
             };
             return record;
         }
@@ -58,18 +62,18 @@ namespace ReportApp.DAO
         {
             OccupancyRecord record = new OccupancyRecord
             {
-                January = GetMoveInsCount(locationId, facilityTypeCodes, year, 1),
-                February = GetMoveInsCount(locationId, facilityTypeCodes, year, 2),
-                March = GetMoveInsCount(locationId, facilityTypeCodes, year, 3),
-                April = GetMoveInsCount(locationId, facilityTypeCodes, year, 4),
-                May = GetMoveInsCount(locationId, facilityTypeCodes, year, 5),
-                June = GetMoveInsCount(locationId, facilityTypeCodes, year, 6),
-                July = GetMoveInsCount(locationId, facilityTypeCodes, year, 7),
-                August = GetMoveInsCount(locationId, facilityTypeCodes, year, 8),
-                September = GetMoveInsCount(locationId, facilityTypeCodes, year, 9),
-                October = GetMoveInsCount(locationId, facilityTypeCodes, year, 10),
-                November = GetMoveInsCount(locationId, facilityTypeCodes, year, 11),
-                December = GetMoveInsCount(locationId, facilityTypeCodes, year, 12)
+                January = NullIfZero(GetMoveInsCount(locationId, facilityTypeCodes, year, 1)),
+                February = NullIfZero(GetMoveInsCount(locationId, facilityTypeCodes, year, 2)),
+                March = NullIfZero(GetMoveInsCount(locationId, facilityTypeCodes, year, 3)),
+                April = NullIfZero(GetMoveInsCount(locationId, facilityTypeCodes, year, 4)),
+                May = NullIfZero(GetMoveInsCount(locationId, facilityTypeCodes, year, 5)),
+                June = NullIfZero(GetMoveInsCount(locationId, facilityTypeCodes, year, 6)),
+                July = NullIfZero(GetMoveInsCount(locationId, facilityTypeCodes, year, 7)),
+                August = NullIfZero(GetMoveInsCount(locationId, facilityTypeCodes, year, 8)),
+                September = NullIfZero(GetMoveInsCount(locationId, facilityTypeCodes, year, 9)),
+                October = NullIfZero(GetMoveInsCount(locationId, facilityTypeCodes, year, 10)),
+                November = NullIfZero(GetMoveInsCount(locationId, facilityTypeCodes, year, 11)),
+                December = NullIfZero(GetMoveInsCount(locationId, facilityTypeCodes, year, 12))
             };
             return record;
         }
@@ -78,18 +82,18 @@ namespace ReportApp.DAO
         {
             OccupancyRecord record = new OccupancyRecord
             {
-                January = GetCountOfTransfersToOtherLevelOrFacility(locationId, originalFacilityTypeCodes, transferedToFacilityTypeCodes, year, 1) * (negate ? -1 : 1),
-                February = GetCountOfTransfersToOtherLevelOrFacility(locationId, originalFacilityTypeCodes, transferedToFacilityTypeCodes, year, 2) * (negate ? -1 : 1),
-                March = GetCountOfTransfersToOtherLevelOrFacility(locationId, originalFacilityTypeCodes, transferedToFacilityTypeCodes, year, 3) * (negate ? -1 : 1),
-                April = GetCountOfTransfersToOtherLevelOrFacility(locationId, originalFacilityTypeCodes, transferedToFacilityTypeCodes, year, 4) * (negate ? -1 : 1),
-                May = GetCountOfTransfersToOtherLevelOrFacility(locationId, originalFacilityTypeCodes, transferedToFacilityTypeCodes, year, 5) * (negate ? -1 : 1),
-                June = GetCountOfTransfersToOtherLevelOrFacility(locationId, originalFacilityTypeCodes, transferedToFacilityTypeCodes, year, 6) * (negate ? -1 : 1),
-                July = GetCountOfTransfersToOtherLevelOrFacility(locationId, originalFacilityTypeCodes, transferedToFacilityTypeCodes, year, 7) * (negate ? -1 : 1),
-                August = GetCountOfTransfersToOtherLevelOrFacility(locationId, originalFacilityTypeCodes, transferedToFacilityTypeCodes, year, 8) * (negate ? -1 : 1),
-                September = GetCountOfTransfersToOtherLevelOrFacility(locationId, originalFacilityTypeCodes, transferedToFacilityTypeCodes, year, 9) * (negate ? -1 : 1),
-                October = GetCountOfTransfersToOtherLevelOrFacility(locationId, originalFacilityTypeCodes, transferedToFacilityTypeCodes, year, 10) * (negate ? -1 : 1),
-                November = GetCountOfTransfersToOtherLevelOrFacility(locationId, originalFacilityTypeCodes, transferedToFacilityTypeCodes, year, 11) * (negate ? -1 : 1),
-                December = GetCountOfTransfersToOtherLevelOrFacility(locationId, originalFacilityTypeCodes, transferedToFacilityTypeCodes, year, 12) * (negate ? -1 : 1)
+                January = NullIfZero(GetCountOfTransfersToOtherLevelOrFacility(locationId, originalFacilityTypeCodes, transferedToFacilityTypeCodes, year, 1) * (negate ? -1 : 1)),
+                February = NullIfZero(GetCountOfTransfersToOtherLevelOrFacility(locationId, originalFacilityTypeCodes, transferedToFacilityTypeCodes, year, 2) * (negate ? -1 : 1)),
+                March = NullIfZero(GetCountOfTransfersToOtherLevelOrFacility(locationId, originalFacilityTypeCodes, transferedToFacilityTypeCodes, year, 3) * (negate ? -1 : 1)),
+                April = NullIfZero(GetCountOfTransfersToOtherLevelOrFacility(locationId, originalFacilityTypeCodes, transferedToFacilityTypeCodes, year, 4) * (negate ? -1 : 1)),
+                May = NullIfZero(GetCountOfTransfersToOtherLevelOrFacility(locationId, originalFacilityTypeCodes, transferedToFacilityTypeCodes, year, 5) * (negate ? -1 : 1)),
+                June = NullIfZero(GetCountOfTransfersToOtherLevelOrFacility(locationId, originalFacilityTypeCodes, transferedToFacilityTypeCodes, year, 6) * (negate ? -1 : 1)),
+                July = NullIfZero(GetCountOfTransfersToOtherLevelOrFacility(locationId, originalFacilityTypeCodes, transferedToFacilityTypeCodes, year, 7) * (negate ? -1 : 1)),
+                August = NullIfZero(GetCountOfTransfersToOtherLevelOrFacility(locationId, originalFacilityTypeCodes, transferedToFacilityTypeCodes, year, 8) * (negate ? -1 : 1)),
+                September = NullIfZero(GetCountOfTransfersToOtherLevelOrFacility(locationId, originalFacilityTypeCodes, transferedToFacilityTypeCodes, year, 9) * (negate ? -1 : 1)),
+                October = NullIfZero(GetCountOfTransfersToOtherLevelOrFacility(locationId, originalFacilityTypeCodes, transferedToFacilityTypeCodes, year, 10) * (negate ? -1 : 1)),
+                November = NullIfZero(GetCountOfTransfersToOtherLevelOrFacility(locationId, originalFacilityTypeCodes, transferedToFacilityTypeCodes, year, 11) * (negate ? -1 : 1)),
+                December = NullIfZero(GetCountOfTransfersToOtherLevelOrFacility(locationId, originalFacilityTypeCodes, transferedToFacilityTypeCodes, year, 12) * (negate ? -1 : 1))
             };
             return record;
         }
